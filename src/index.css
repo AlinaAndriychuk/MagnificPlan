@@ -5,10 +5,10 @@ body {
 }
 
 .header {
-  background: url(backgroundImages/gradient_pink_purple_155175_2560x1600.jpg) center;
+  background: url(backgroundImages/gradient.jpg) center no-repeat;
   background-size: cover;
   color: #fff;
-  height: 300px;
+  height: 200px;
   text-align: center;
   text-shadow: 2px 1.5px 1px #8d8d8d;
 }
@@ -22,7 +22,8 @@ body {
 }
 
 .header__item {
-  margin: 40px 10px;
+  margin: 0;
+  padding: 40px 10px 20px;
 }
 
 .header__link-item {
@@ -48,11 +49,25 @@ body {
 
 .header__title {
   font-size: 30px;
+  margin: 0;
+  padding: 15px;
+}
+
+.header__autor-name {
+  margin: 0;
+  padding-bottom: 20px;
 }
 
 .planner-field {
-  border: solid 1px #000;
   min-height: 500px;
+}
+
+.advantages__line {
+  border: none;
+  background-color: #8d8d8d;
+  height: 1px;
+  margin: 0 5%;
+  width: 90%;
 }
 
 .advantages__heading {
@@ -65,7 +80,200 @@ body {
 
 .advantages__block {
   height: 300px;
+  margin: 60px 0;
 }
+
+.advantages__title {
+  font-size: 30px;
+  padding: 0 10px;
+}
+
+.advantages__text{
+  font-size: 24px;
+  padding: 0 10px;
+}
+
+.advantages__text-container {
+  float: left;
+  height: 300px;
+  margin: 0 7%;
+  width: 30%;
+}
+
+.advantages__text-container--right {
+  float: right;
+}
+
+.advantages__image {
+  float: right;
+  height: 300px;
+  position: absolute;
+  width: 50%;
+}
+
+#advantages__image-left {
+  background: url(../src/backgroundImages/list.png) center no-repeat;
+  background-size: contain;
+  margin: 0 5% 0 45%;
+}
+
+#advantages__image-right {
+  background: url(../src/backgroundImages/dragndrop.png) center no-repeat;
+  background-size: contain;
+  margin-left: 5%;
+}
+
+.quote-block {
+  background: url(../src/backgroundImages/gradient.jpg) center no-repeat;
+  background-size: cover;
+  color: #fff;
+  text-align: center;
+  text-shadow: 2px 1.5px 1px #8d8d8d;
+}
+
+.quote-block__title {
+  font-size: 30px;
+  padding: 10% 10px 0%;
+}
+
+.quote-block__autor-name {
+  padding: 5%;
+}
+
+.features {
+  content: "";
+  clear: both;
+  display: table;
+  width: 100%;
+}
+
+.features-block {
+  float: left;
+  padding-bottom: 5%;
+  text-align: center;
+  width: 33.3%;
+}
+
+.features-block__title {
+  padding: 50px 5px 20px;
+}
+
+.features-block__image {
+  width: 40%;
+}
+
+.footer {
+  background: url(../src/backgroundImages/gradient.jpg) center no-repeat;
+  height: 140px;
+  padding-top: 110px;
+  text-align: center;
+}
+
+.footer__link {
+  border: 2px dashed #fff;
+  border-radius: 10% ;
+  color: #fff;
+  font-size: 18px;
+  padding: 20px 30px 20px;
+  text-decoration: none;
+  transition-duration: 0.3s;
+}
+
+.footer__link:hover {
+  background-color: #fee7ff;
+  border-style: solid;
+  color: #000;
+  text-shadow: none;
+}
+
+
+@media screen and (max-width: 860px) {
+  .header {
+    height: 100%;
+  }
+  .header__menu {
+    display: block;
+    padding-top: 20px;
+  }
+  .header__item {
+    padding: 15px;
+  }
+  .header__link-item {
+    border-radius: 34%;
+    font-size: 16px;
+    padding: 15px 10px;
+  }
+  .header__logo {
+    width: 100px;
+  }
+  .header__title {
+    font-size: 24px;
+  }
+  .advantages__heading {
+    font-size: 38px;
+    letter-spacing: 10px;
+  }
+  .advantages__block {
+    height: 400px;
+  }
+  .advantages__text-container {
+    height: auto;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+  }
+  .advantages__title {
+    font-size: 24px;
+  }
+  .advantages__text {
+    font-size: 18px;
+  }
+  .advantages__image, #advantages__image-right, #advantages__image-left {
+    position: relative;;
+    margin: 0;
+    width: 100%;
+  }
+  .features-block__title {
+    font-size: 20px;
+    height: 50px;
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .advantages__heading {
+    font-size: 24px;
+    letter-spacing: 5px;
+    padding: 0 5px;
+  }
+  .features-block {
+    float: none;
+    width: 100%
+  }
+  .features-block__title {
+    height: auto;
+    padding-top: 20px;
+  }
+}  
+
+@media screen and (max-width: 340px) {
+  #advantages__image-left, #advantages__image-right {
+    background-size: cover;
+    height: 50%;
+  }
+  #advantages__image-right {
+    background-position-x: -15px;
+  }
+  .advantages__block {
+    height: 350px;
+  }
+}
+
+
+
+
+
+
 
 
 
