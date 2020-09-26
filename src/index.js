@@ -82,7 +82,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Blockfield></Blockfield>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('planner-field')
 );
 
 serviceWorker.unregister();
