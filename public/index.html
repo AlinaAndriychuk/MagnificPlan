@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>Planning system</title>
-    <link rel="shortcut icon" href="title-image.png" type="image/png">
+    <link rel="shortcut icon" href="img/title-image.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Quicksand:wght@300&family=Rajdhani&display=swap" rel="stylesheet">
   </head>
   <body>
@@ -28,49 +28,57 @@
     </header>
     <section class="planner-field" id="planner-field"></section>
     <section class="advantages">
+      <hr class="advantages__line">
       <h1 class="advantages__heading">Advantages</h1>
       <div class="advantages__block">
-        <h2 class="advantages__title">Endless list</h2>
-        <p class="advantages__text">
-          Add as many tasks as you want. But remember that only fewer will lead to your goals
-        </p>
-        <img class="advantages__image" src="" alt="list">
+        <div class="advantages__text-container">
+          <h2 class="advantages__title">Endless list</h2>
+          <p class="advantages__text">
+            Add as many tasks as you want. But remember that only fewer will lead to your goals
+          </p>
+        </div>
+        <div class="advantages__image" id="advantages__image-left"></div>
       </div>
       <div class="advantages__block">
-        <h2 class="advantages__title">Drag and drop</h2>
-        <p class="advantages__text">
-          Put your task to the board with according status
-        </p>
-        <img class="advantages__image" src="" alt="drag and drop">
+        <div class="advantages__text-container advantages__text-container--right">
+          <h2 class="advantages__title">Drag and drop</h2>
+          <p class="advantages__text">
+            Put your task to the board with according status and notice your progress
+          </p>
+        </div>
+        <div class="advantages__image" id="advantages__image-right"></div>
       </div>
     </section>
     <section class="quote-block">
-      <h1 class="quote-block">
+      <h1 class="quote-block__title">
         It is a bad plan that cannot be changed
       </h1>
       <p class="quote-block__autor-name">
         Publilius Syrus 
       </p>
     </section>
-    <footer class="footer">
-      <div class="footer-block">
-        <h2 class="footer-block__title">
+    <section class="features">
+      <div class="features-block">
+        <h2 class="features-block__title">
           Create your tasks
         </h2>
-        <img class="footer-block__image" src="" alt="tasks" >
+        <img class="features-block__image" src="img/testing.png" alt="tasks" >
       </div>
-      <div class="footer-block">
-        <h2 class="footer-block__title">
+      <div class="features-block">
+        <h2 class="features-block__title">
           Plan your day
         </h2>
-        <img class="footer-block__image" src="" alt="planner" >
+        <img class="features-block__image" src="img/sketchbook.png" alt="planner" >
       </div>
-      <div class="footer-block">
-        <h2 class="footer-block__title">
+      <div class="features-block">
+        <h2 class="features-block__title">
           Develop yourself
         </h2>
-        <img class="footer-block__image" src="" alt="Development" >
+        <img class="features-block__image" src="img/presentation.png" alt="Development" >
       </div>
+    </section>
+    <footer class="footer">
+      <a class="footer__link" href="#">Start planning</a>
     </footer>
   </body>
 </html>
