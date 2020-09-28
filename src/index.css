@@ -4,13 +4,15 @@ body {
   margin: 0;
 }
 
+*::selection {
+  background: #edf5ff;
+}
+
 .header {
-  background: url(backgroundImages/gradient.jpg) center no-repeat;
+  background: url(backgroundImages/gradientlight.jpg) top no-repeat fixed;
   background-size: cover;
-  color: #fff;
   height: 200px;
   text-align: center;
-  text-shadow: 2px 1.5px 1px #8d8d8d;
 }
 
 .header__menu {
@@ -27,9 +29,10 @@ body {
 }
 
 .header__link-item {
-  border: 2px dashed #fff;
+  background-color: #fcfafb83;
+  border: 2px dashed #a7a7a7;
   border-radius: 10% 10% 50% 50%;
-  color: #fff;
+  color: #000000;
   font-size: 18px;
   padding: 15px 10px 20px;
   text-decoration: none;
@@ -37,7 +40,7 @@ body {
 }
 
 .header__link-item:hover {
-  background-color: #fee7ff;
+  background-color: #faf0f6;
   border-style: solid;
   color: #000;
   text-shadow: none;
@@ -49,6 +52,7 @@ body {
 
 .header__title {
   font-size: 30px;
+  font-weight: 400;
   margin: 0;
   padding: 15px;
 }
@@ -58,8 +62,138 @@ body {
   padding-bottom: 20px;
 }
 
-.planner-field {
+.planner {
+  display: flex;
+  justify-content: space-around;
   min-height: 500px;
+}
+
+.planner__board {
+  background-color: #faf0f6;
+  height: 100%;
+  margin: 2%;
+  padding: 0.4%;
+  width: 33%;
+}
+
+.planner__title {
+  background-color: #faf0f6;
+  border: none;
+  font-size: 20px;
+  letter-spacing: 5px;
+  padding: 3% 1%;
+  text-align: center;
+  text-transform: uppercase;
+  width: 98%;
+}
+
+.planner__task {
+  background-color: #fcfafb;
+  display: inline-block;
+  min-height: 36px;
+  width: 100%;
+}
+
+.planner__button {
+  border: none;
+  background-color: #faf0f6;
+  cursor: pointer;
+  font-weight: 0;
+  font-size: 18px;
+  font-family: 'Quicksand', sans-serif;
+  margin: 2% 0 1% 0;
+  padding: 2% 6%;
+  text-align: left;
+  transition-duration: 0.3s;
+  width: 100%;
+}
+
+.planner__task-button {
+  border: none;
+  background-color: #faf0f6;
+  cursor: pointer;
+  font-weight: 0;
+  font-size: 18px;
+  font-family: 'Quicksand', sans-serif;
+  height: 36px;
+  margin: 1%;
+  padding: 0.5px 0;
+  transition-duration: 0.3s;
+  width: 8%;
+}
+
+.planner__button:hover, .planner__task-button:hover {
+  background-color: #fcfafb;
+}
+
+.planner__task-button--absolute {
+  position: absolute;
+  border: none;
+  background-color: #faf0f6;
+  cursor: pointer;
+  font-weight: 0;
+  font-size: 18px;
+  font-family: 'Quicksand', sans-serif;
+  height: 36px;
+  margin: 0.27%;
+  padding: 3px 0 0;
+  transition-duration: 0.3s;
+  width: 2.1%;
+}
+
+.planner__palette-button {
+  border: none;
+  background-color: #754567;
+  height: 5%;
+  margin: 0.25% 0 0 -3.1%;
+  max-width: 60px;
+  position: absolute;
+  padding: 0.08% 0.08%;
+  width: 54px;
+}
+
+.planner__palette {
+  border-radius: 50%;
+  cursor: pointer;
+  float: left;
+  height: 15px;
+  margin: 2% 2.1% 2%;
+  width: 15px;
+}
+
+.planner__task-text {
+  float: left;
+  min-height: 32px;
+  margin: 1%;
+  padding: 0.5%;
+  text-align: center;
+  width: 67%;
+}
+
+.planner__large-element {
+  font-size: 26px;
+  vertical-align: baseline;
+}
+
+.planner__textarea {
+  border: none;
+  font-size: 16px;
+  font-family: 'Quicksand', sans-serif;
+  height: 32px;
+  letter-spacing: 2px;
+  margin: 1%;
+  padding: 0.5%;
+  resize: none;
+  vertical-align: top;
+  width: 87%;
+}
+
+.planner__textarea:focus, .planner__button:focus, .planner__task-button:focus, .planner__task-button--absolute:focus {
+  outline: solid 1px #8d8d8d;
+}
+
+.planner__image {
+  width: 100%;
 }
 
 .advantages__line {
@@ -111,28 +245,33 @@ body {
   width: 50%;
 }
 
-#advantages__image-left {
+#advantages__image-first {
   background: url(../src/backgroundImages/list.png) center no-repeat;
   background-size: contain;
-  margin: 0 5% 0 45%;
+  margin: 0 0% 0 45%;
 }
 
-#advantages__image-right {
-  background: url(../src/backgroundImages/dragndrop.png) center no-repeat;
+#advantages__image-second {
+  background: url(../src/backgroundImages/dragndrop.png) center left no-repeat;
   background-size: contain;
   margin-left: 5%;
 }
 
+#advantages__image-third {
+  background: url(../src/backgroundImages/palette.png) center no-repeat;
+  background-size: contain;
+  margin: 0 0% 0 45%;
+}
+
 .quote-block {
-  background: url(../src/backgroundImages/gradient.jpg) center no-repeat;
+  background: url(../src/backgroundImages/gradientlight.jpg) center no-repeat fixed;
   background-size: cover;
-  color: #fff;
   text-align: center;
-  text-shadow: 2px 1.5px 1px #8d8d8d;
 }
 
 .quote-block__title {
   font-size: 30px;
+  font-weight: 400;
   padding: 10% 10px 0%;
 }
 
@@ -163,26 +302,28 @@ body {
 }
 
 .footer {
-  background: url(../src/backgroundImages/gradient.jpg) center no-repeat;
+  background: url(../src/backgroundImages/gradientlight.jpg) center no-repeat fixed;
+  background-size: cover;
   height: 140px;
   padding-top: 110px;
   text-align: center;
 }
 
 .footer__link {
-  border: 2px dashed #fff;
+  background-color: #fcfafb83;
+  border: 2px dashed #a7a7a7;
   border-radius: 10% ;
-  color: #fff;
-  font-size: 18px;
+  color: #000000;
+  font-size: 20px;
   padding: 20px 30px 20px;
   text-decoration: none;
   transition-duration: 0.3s;
+  text-transform: uppercase;
 }
 
 .footer__link:hover {
-  background-color: #fee7ff;
+  background-color: #faf0f6;
   border-style: solid;
-  color: #000;
   text-shadow: none;
 }
 
@@ -209,6 +350,23 @@ body {
   .header__title {
     font-size: 24px;
   }
+  .planner {
+    display: block;
+  }
+  .planner__board {
+    margin: 2% auto;
+    width: 370px;
+  }
+  .planner__task-button--absolute {
+    margin: 4px 2px;
+    width: 31.5px;
+  }
+  .planner__palette-button {
+    height: 36.5px;
+    margin: 3.5px 2px 4px -34px;
+    padding: 0 4px;
+    width: 74px;
+  }
   .advantages__heading {
     font-size: 38px;
     letter-spacing: 10px;
@@ -233,6 +391,9 @@ body {
     margin: 0;
     width: 100%;
   }
+  #advantages__image-second {
+    background-position: center;
+  }
   .features-block__title {
     font-size: 20px;
     height: 50px;
@@ -241,6 +402,25 @@ body {
 }
 
 @media screen and (max-width: 400px) {
+  .planner__board {
+    margin: 0 0 30px;
+    width: 99.3%;
+  }
+  .planner__task-button--absolute {
+    margin: 1%;
+    width: 8.1%;
+  }
+  .planner__palette-button {
+    margin: 1% 0 0 -19%;
+    max-width: 70px;
+    width: 28%;
+  }
+  .planner__palette {
+    height: 39%;
+    margin: 2% 3.5%;
+    max-width: 20px;
+    width: 26%;
+  }
   .advantages__heading {
     font-size: 24px;
     letter-spacing: 5px;
@@ -257,16 +437,16 @@ body {
 }  
 
 @media screen and (max-width: 340px) {
-  #advantages__image-left, #advantages__image-right {
+  #advantages__image-first, #advantages__image-second  #advantages__image-third  {
     background-size: cover;
     height: 50%;
-  }
-  #advantages__image-right {
-    background-position-x: -15px;
   }
   .advantages__block {
     height: 350px;
   }
+  .advantages {
+    height: 1550px;
+  }
 }
 
 
@@ -280,21 +460,5 @@ body {
 
 
 
-.btn {
-  margin: 10px;
-  padding: 10px 20px;
-}
-
-.wrapper {
-  border: 1px solid black;
-  padding: 20px 100px;
-  margin: 10px auto;
-  text-align: center;
-  width: 600px;
-}
 
 
-
-textarea {
-  resize: none;
-}
