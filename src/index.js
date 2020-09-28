@@ -3,6 +3,52 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
+function Colorpalette(props) {
+  const color = useRef(null)
+  const colorIndexes = [0, 1, 2, 3, 4, 5];
+  const [colored, setColored] = useState(true);
+  function showPalette(){
+    setColored(false)
+  }
+  let styleForColor = {}
+  let arrayOfColors = ["#ffffff", "#d6ebff", "#ecccff", "#ffaec2", "#d6fff6", "#fbffc7"];
+  for (let i = 0; i < 6; i++){
+    styleForColor[i] = {
+      backgroundColor: arrayOfColors[i],
+    }
+  }
+
+  function changeBackground(index) {
+    props.colorFunction(props.blockfieldContext, arrayOfColors[index], props.BlockfieldIndex)
+    setColored(true)
+  }
+  
+  function renderPaletteBlock (){
+    return (
+      <button className="planner__palette-button">
+        {
+          colorIndexes.map ((item) => {
+            return (<div onClick={()=> changeBackground(item)} ref={color} style={styleForColor[item]} className='planner__palette' key = {item} index={item}></div>)
+          })
+        }
+      </button>
+    )
+  }
+  function renderBrushBlock (){
+    return (
+      <button onClick={showPalette} className=" planner__task-button--absolute">
+        <img className="planner__image" src="img/brush.png" alt="color pallet"/>
+      </button>
+    )
+  }
+
+  if (colored){
+    return renderBrushBlock();
+  } else {
+    return renderPaletteBlock();
+  }
+}
+
 function Block(props) {
   
   const [edited, setEdited] = useState(false);
@@ -19,37 +65,6 @@ function Block(props) {
     setEdited(true)
     props.updateFunction(props.context, newValue, props.index)
   }
-  function changeBackground(event){
-    let colors = ["#ffffff", "#ffaec2", "#ecccff", "#d6ebff", "#b5fff3", "#fffd95", "#fcfafb"]
-    let target = event.target.closest(".planner__task")
-    target.style.backgroundColor = colors[+event.target.getAttribute("dataIndex")];
-    let button = event.target.closest(".planner__pallete-button");
-    button.className = "planner__task-button";
-    button.innerHTML = '<img class="planner__image" src="img/brush.png" alt="color pallet"/>';
-  }
-  function changeColor(event){
-    let target = event.target.closest(".planner__task-button") || event.target.closest(".planner__pallete-button") 
-    target.className = "planner__pallete-button";
-    target.innerHTML = `<div class='planner__palette planner__palette--white' dataIndex="0"></div> 
-                        <div class='planner__palette planner__palette--purple' dataIndex="1"></div>
-                        <div class='planner__palette planner__palette--red' dataIndex="2"></div>
-                        <div class='planner__palette planner__palette--blue' dataIndex="3"></div>
-                        <div class='planner__palette planner__palette--green' dataIndex="4"></div>
-                        <div class='planner__palette planner__palette--yellow' dataIndex="5"></div>`;
-    let arrayOfColors = target.querySelectorAll(".planner__palette");
-    let i = 0;
-    let colors = ["#ffffff", "#ffaec2", "#ecccff", "#d6ebff", "#b5fff3", "#fffd95", "#fcfafb"]
-    for(let every of arrayOfColors) {
-      every.addEventListener("click", changeBackground)
-      every.style.backgroundColor = colors[i]
-      i++
-    }
-    return(
-      <div>
-        oifjeeeeroeri erfijroie
-      </div>
-    )
-  }
   function renderNormalBlock (){
     return (
       <div className="planner__task">
@@ -58,13 +73,16 @@ function Block(props) {
       </div>
     )
   }
+   let styleOfBlock = {
+    backgroundColor: props.backColor,
+  }
   function renderEditBlock (){
     return (
       <div className="planner__task">
-        <p className="planner__task-text">{props.taskName}</p>
+        <p style={styleOfBlock} className="planner__task-text">{props.taskName}</p>
         <button onClick={edit} className="planner__task-button"><img className="planner__image" src="img/pencil.png" alt="edit"/></button>
-        <button onClick={changeColor} className="planner__task-button"><img className="planner__image" src="img/brush.png" alt="color pallet"/></button>
         <button onClick={remove} className="planner__task-button"><img className="planner__image" src="img/garbage.png" alt="delete"/></button>
+        <Colorpalette BlockfieldIndex={props.index} colorFunction={props.colorFunction} blockfieldContext={props.context}/>
       </div>
     )
   }
@@ -79,23 +97,35 @@ class Blockfield extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      tasks: []
+      tasks: [],
+      colors: [],
     }
   }
-  addBlock (context, text) {
+  addBlock (context, text, color) {
     var arreyOfTasks = context.state.tasks;
+    var arreyOfColors = context.state.colors;
     arreyOfTasks.push(text);
-    context.setState ({tasks: arreyOfTasks})
+    arreyOfColors.push(color);
+    context.setState ({tasks: arreyOfTasks, colors: arreyOfColors})
+  }
+  changeColorOfBlock(context, color, index){
+    var arreyOfTasks = context.state.tasks;
+    var arreyOfColors = context.state.colors;
+    arreyOfColors[index] = color;
+    context.setState ({tasks: arreyOfTasks, colors: arreyOfColors})
   }
   deleteBlock(context, index) {
-    let arreyOfTasks = context.state.tasks;
+    var arreyOfTasks = context.state.tasks;
+    var arreyOfColors = context.state.colors;
     arreyOfTasks.splice(index, 1);
-    context.setState ({arreyOfTasks})
+    arreyOfColors.splice(index, 1);
+    context.setState ({arreyOfTasks, colors: arreyOfColors})
   }
   updateTextInBlock(context, text, index) {
-    let arreyOfTasks = context.state.tasks;
+    var arreyOfTasks = context.state.tasks;
+    var arreyOfColors = context.state.colors;
     arreyOfTasks[index] = text;
-    context.setState ({arreyOfTasks})
+    context.setState ({arreyOfTasks, colors: arreyOfColors})
   }
   handleKeyPress(event) {
     if (event.key === 'Enter') {
@@ -108,10 +138,10 @@ class Blockfield extends React.Component {
         <div className="planner__title" contentEditable="" onKeyPress={this.handleKeyPress}>{this.props.titleName}</div>
         {
           this.state.tasks.map ((item,id) => {
-            return (<Block key = {id} context={this} deleteFunction={this.deleteBlock} updateFunction={this.updateTextInBlock} index= {id} taskName= {item}></Block>)
+            return (<Block backColor={this.state.colors[id]} key = {id} context={this} colorFunction={this.changeColorOfBlock} deleteFunction={this.deleteBlock} updateFunction={this.updateTextInBlock} index= {id} taskName= {item}></Block>)
           })
         }
-        <button onClick={this.addBlock.bind(null, this, "Task name")} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
+        <button onClick={this.addBlock.bind(null, this, "Task name", "#fcfafb")} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
       </div>
     )
   }
