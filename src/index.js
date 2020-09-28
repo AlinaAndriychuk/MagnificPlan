@@ -169,9 +169,36 @@ plannerContainer.addEventListener('mousedown', function(event) {
   function onMouseUp(event) {
     finishDrag();
   };
+  let currentDroppable = null;
+  function enterDroppable(elem) {
+    elem.style.background = 'pink';
+  }
+
+  function leaveDroppable(elem) {
+    elem.style.background = '';
+  }
+
 
   function onMouseMove(event) {
     moveAt(event.clientX, event.clientY);
+
+    dragElement.hidden = true;
+    let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+    dragElement.hidden = false;
+    
+    if (!elemBelow) return;
+    let droppableBelow = elemBelow.closest('.planner__board');
+
+    if (currentDroppable != droppableBelow) {
+
+      if (currentDroppable) {
+        leaveDroppable(currentDroppable);
+      }
+      currentDroppable = droppableBelow;
+      if (currentDroppable) {
+        enterDroppable(currentDroppable);
+      }
+    }
   }
 
   function startDrag(element, clientX, clientY) {
