@@ -64,16 +64,15 @@ body {
 
 .planner {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   min-height: 500px;
 }
 
 .planner__board {
   background-color: #faf0f6;
   height: 100%;
-  margin: 2%;
-  padding: 0.4%;
-  width: 33%;
+  padding: 4px;
+  width: 350px;
 }
 
 .planner__title {
@@ -91,7 +90,7 @@ body {
   background-color: #fcfafb;
   display: inline-block;
   min-height: 36px;
-  width: 100%;
+  width: 350px;
 }
 
 .planner__button {
@@ -116,10 +115,10 @@ body {
   font-size: 18px;
   font-family: 'Quicksand', sans-serif;
   height: 36px;
-  margin: 1%;
+  margin: 4px 2.5px;
   padding: 0.5px 0;
   transition-duration: 0.3s;
-  width: 8%;
+  width: 30px;
 }
 
 .planner__button:hover, .planner__task-button:hover {
@@ -135,21 +134,21 @@ body {
   font-size: 18px;
   font-family: 'Quicksand', sans-serif;
   height: 36px;
-  margin: 0.27%;
+  margin: 4px 2.5px;
   padding: 3px 0 0;
   transition-duration: 0.3s;
-  width: 2.1%;
+  width: 30px;
 }
 
 .planner__palette-button {
-  border: none;
+  border: solid 1px #8d8d8d;
+  border-radius: 10%;
   background-color: #754567;
-  height: 5%;
-  margin: 0.25% 0 0 -3.1%;
-  max-width: 60px;
+  height: 36px;
+  margin: 4px 0 0 -32px;
   position: absolute;
-  padding: 0.08% 0.08%;
-  width: 54px;
+  padding: 0px 0px 0 2px;
+  width: 66px;
 }
 
 .planner__palette {
@@ -157,17 +156,17 @@ body {
   cursor: pointer;
   float: left;
   height: 15px;
-  margin: 2% 2.1% 2%;
+  margin: 0px 2.5px 3px;
   width: 15px;
 }
 
 .planner__task-text {
   float: left;
   min-height: 32px;
-  margin: 1%;
-  padding: 0.5%;
+  margin: 4px;
+  padding: 2px;
   text-align: center;
-  width: 67%;
+  width: 230px;
 }
 
 .planner__large-element {
@@ -181,15 +180,19 @@ body {
   font-family: 'Quicksand', sans-serif;
   height: 32px;
   letter-spacing: 2px;
-  margin: 1%;
-  padding: 0.5%;
+  margin: 4px 3px 4px 4px;
+  padding: 1px 2px;
   resize: none;
   vertical-align: top;
-  width: 87%;
+  width: 301px;
 }
 
 .planner__textarea:focus, .planner__button:focus, .planner__task-button:focus, .planner__task-button--absolute:focus {
   outline: solid 1px #8d8d8d;
+}
+
+.planner__palette-button:focus {
+  outline: none;
 }
 
 .planner__image {
@@ -327,6 +330,33 @@ body {
   text-shadow: none;
 }
 
+@media screen and (max-width: 1100px) {
+  .planner__board {
+    width: 272px;
+  }
+  .planner__task {
+    width: 272px;
+  }
+  .planner__task-text {
+    width: 172px;
+  }
+  .planner__textarea {
+    height: 33px;
+    width: 231px
+  }
+  .planner__task-button, .planner__task-button--absolute {
+    height: 36px;
+    width: 24px;
+  }
+  .planner__palette-button {
+    margin: 4px 0 0 -27px;
+    padding: 0 0 0 0.2px;
+    width: 54px;
+  }
+  .planner__palette {
+    margin: 1px 1.1px;
+  }
+}
 
 @media screen and (max-width: 860px) {
   .header {
@@ -354,18 +384,30 @@ body {
     display: block;
   }
   .planner__board {
-    margin: 2% auto;
+    margin: 0 auto 10px;
     width: 370px;
   }
-  .planner__task-button--absolute {
-    margin: 4px 2px;
-    width: 31.5px;
+  .planner__task {
+    width: 370px;
+  }
+  .planner__task-text {
+    width: 257px;
+  }
+  .planner__textarea {
+    height: 32px;
+    width: 324px
+  }
+  .planner__task-button, .planner__task-button--absolute {
+    height: 36px;
+    width: 28px;
   }
   .planner__palette-button {
-    height: 36.5px;
-    margin: 3.5px 2px 4px -34px;
-    padding: 0 4px;
-    width: 74px;
+    margin: 4px 0 0 -30px;
+    padding: 0px 1px;
+    width: 61px;
+  }
+  .planner__palette {
+    margin: 0.6px 1.8px 2px;
   }
   .advantages__heading {
     font-size: 38px;
@@ -404,22 +446,38 @@ body {
 @media screen and (max-width: 400px) {
   .planner__board {
     margin: 0 0 30px;
-    width: 99.3%;
+    padding: 1% 0%;
+    width: 100%;
   }
-  .planner__task-button--absolute {
-    margin: 1%;
-    width: 8.1%;
+  .planner__task {
+    width: 100%;
+  }  
+  .planner__task-text {
+    height: 33px;
+    margin: 2% 1%;
+    padding: 1%;
+    width: 50%;
+  }
+  .planner__textarea{
+    height: 40px;
+    margin: 2% 1%;
+    padding: 0;
+    width: 83%;
+  }
+  .planner__task-button, .planner__task-button--absolute {
+    height: 40px;
+    margin: 2% 1%;
+    padding: 0;
+    width: 13%;
+  }
+  .planner__image {
+    max-width: 36px;
+    margin: 2% auto;
+    width: 80%;
   }
   .planner__palette-button {
-    margin: 1% 0 0 -19%;
-    max-width: 70px;
-    width: 28%;
-  }
-  .planner__palette {
-    height: 39%;
-    margin: 2% 3.5%;
-    max-width: 20px;
-    width: 26%;
+    margin: 2% 0 0 -14%;
+    height: 40px;
   }
   .advantages__heading {
     font-size: 24px;
@@ -433,6 +491,10 @@ body {
   .features-block__title {
     height: auto;
     padding-top: 20px;
+  }
+  .footer__link {
+    font-size: 16px;
+    padding: 15px;
   }
 }  
 
