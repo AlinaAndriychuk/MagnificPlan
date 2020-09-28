@@ -147,6 +147,79 @@ class Blockfield extends React.Component {
   }
 }
 
+let plannerContainer = document.getElementsByClassName("planner")[0];
+let isDragging = false;
+
+plannerContainer.addEventListener('mousedown', function(event) {
+
+  let dragElement = event.target.closest('.planner__task');
+  let clickElement = event.target.closest('.planner__task-text');
+  if (!clickElement) return;
+
+  event.preventDefault();
+
+  dragElement.ondragstart = function() {
+      return false;
+  };
+
+  let  shiftX, shiftY;
+
+  startDrag(dragElement, event.clientX, event.clientY);
+
+  function onMouseUp(event) {
+    finishDrag();
+  };
+
+  function onMouseMove(event) {
+    moveAt(event.clientX, event.clientY);
+  }
+
+  function startDrag(element, clientX, clientY) {
+    if(isDragging) {
+      return;
+    }
+
+    isDragging = true;
+
+    plannerContainer.addEventListener('mousemove', onMouseMove);
+    element.addEventListener('mouseup', onMouseUp);
+
+    shiftX = clientX - element.getBoundingClientRect().left;
+    shiftY = clientY - element.getBoundingClientRect().top;
+
+    element.style.position = 'fixed';
+
+    moveAt(clientX, clientY);
+  };
+
+  function finishDrag() {
+    if(!isDragging) {
+      return;
+    }
+
+    isDragging = false;
+
+    dragElement.style.top = parseInt(dragElement.style.top) + window.pageYOffset + 'px';
+    dragElement.style.position = 'absolute';
+
+    plannerContainer.removeEventListener('mousemove', onMouseMove);
+    dragElement.removeEventListener('mouseup', onMouseUp);
+  }
+
+  function moveAt(clientX, clientY) {
+    let newX = clientX - shiftX;
+    let newY = clientY - shiftY;
+
+    if (newX > document.documentElement.clientWidth - dragElement.offsetWidth) {
+      newX = document.documentElement.clientWidth - dragElement.offsetWidth;
+    }
+
+    dragElement.style.left = newX + 'px';
+    dragElement.style.top = newY + 'px';
+  }
+
+});
+
 ReactDOM.render(
   <React.StrictMode>
     <Blockfield titleName="Todo list"></Blockfield>
