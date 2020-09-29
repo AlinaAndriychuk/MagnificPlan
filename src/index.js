@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
+import gsap from 'gsap'
 
 function Colorpalette(props) {
   const color = useRef(null)
@@ -134,7 +135,7 @@ class Blockfield extends React.Component {
   }
   render(){
     return (
-      <div className="planner__board">
+      <div id={this.props.idName} className={"planner__board " + this.props.classList}>
         <div className="planner__title" contentEditable="" onKeyPress={this.handleKeyPress}>{this.props.titleName}</div>
         {
           this.state.tasks.map ((item,id) => {
@@ -249,11 +250,42 @@ plannerContainer.addEventListener('mousedown', function(event) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Blockfield titleName="Todo list"></Blockfield>
-    <Blockfield titleName="In the process"></Blockfield>
-    <Blockfield titleName="Done"></Blockfield>
+    <Blockfield idName="firstBoard" titleName="Todo list"></Blockfield>
+    <Blockfield idName="secondBoard" classList = "planner__board-noAddition" titleName="In progress"></Blockfield>
+    <Blockfield idName="thirdBoard" classList = "planner__board-noAddition" titleName="Done"></Blockfield>
   </React.StrictMode>,
   document.getElementById('planner-field')
 );
 
 serviceWorker.unregister();
+gsap.from(".header__logo", {duration: 2, y: 270});
+gsap.from(".header__title", {duration: 2, x: -300, opacity:0});
+
+if(document.documentElement.clientWidth >= 845) {
+  gsap.from(".header__item:first-child", {duration: 2, y: -100});
+  gsap.from(".header__item:last-child", {duration: 2, delay: 1, y: -100});
+
+  gsap.from("#firstBoard", {duration: 2, marginTop: 380, opacity: 0});
+  gsap.from(" #firstBoard .planner__title, #firstBoard .planner__button", {duration: 1, delay: 2, opacity: 0});
+  gsap.from("#secondBoard", {duration: 2, delay: 1, marginTop: 380, opacity: 0});
+  gsap.from(" #secondBoard .planner__title, #secondBoard .planner__button", {duration: 1, delay: 3, opacity: 0});
+  gsap.from("#thirdBoard", {duration: 2, delay: 2, marginTop: 380, opacity: 0});
+  gsap.from(" #thirdBoard .planner__title, #thirdBoard .planner__button", {duration: 1, delay: 4, opacity: 0});
+} else {
+  gsap.from(".header__item:first-child", {duration: 2, y: 200});
+  gsap.from(".header__item:last-child", {duration: 2, y: -200});
+
+  gsap.from("#firstBoard", {duration: 2, opacity: 0});
+  gsap.from(" #firstBoard .planner__title, #firstBoard .planner__button", {duration: 1, delay: 2, opacity: 0});
+  gsap.from("#secondBoard", {duration: 2, delay: 1, opacity: 0});
+  gsap.from(" #secondBoard .planner__title, #secondBoard .planner__button", {duration: 1, delay: 3, opacity: 0});
+  gsap.from("#thirdBoard", {duration: 2, delay: 2, opacity: 0});
+  gsap.from(" #thirdBoard .planner__title, #thirdBoard .planner__button", {duration: 1, delay: 4, opacity: 0});
+}
+
+
+
+
+
+
+
