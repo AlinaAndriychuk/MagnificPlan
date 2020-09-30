@@ -4,6 +4,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import gsap from 'gsap'
 
+
 function Colorpalette(props) {
   const color = useRef(null)
   const colorIndexes = [0, 1, 2, 3, 4, 5];
@@ -135,7 +136,7 @@ class Blockfield extends React.Component {
   }
   render(){
     return (
-      <div id={this.props.idName} className={"planner__board " + this.props.classList}>
+      <div id={this.props.idName} className="planner__board">
         <div className="planner__title" contentEditable="" onKeyPress={this.handleKeyPress}>{this.props.titleName}</div>
         {
           this.state.tasks.map ((item,id) => {
@@ -251,15 +252,15 @@ plannerContainer.addEventListener('mousedown', function(event) {
 ReactDOM.render(
   <React.StrictMode>
     <Blockfield idName="firstBoard" titleName="Todo list"></Blockfield>
-    <Blockfield idName="secondBoard" classList = "planner__board-noAddition" titleName="In progress"></Blockfield>
-    <Blockfield idName="thirdBoard" classList = "planner__board-noAddition" titleName="Done"></Blockfield>
+    <Blockfield idName="secondBoard"  titleName="In progress"></Blockfield>
+    <Blockfield idName="thirdBoard" titleName="Done"></Blockfield>
   </React.StrictMode>,
   document.getElementById('planner-field')
 );
 
 serviceWorker.unregister();
 gsap.from(".header__logo", {duration: 2, y: 270});
-gsap.from(".header__title", {duration: 2, x: -300, opacity:0});
+gsap.from(".header__title", {duration: 2, rotationY: 90, opacity:0});
 
 if(document.documentElement.clientWidth >= 845) {
   gsap.from(".header__item:first-child", {duration: 2, y: -100});
@@ -283,9 +284,13 @@ if(document.documentElement.clientWidth >= 845) {
   gsap.from(" #thirdBoard .planner__title, #thirdBoard .planner__button", {duration: 1, delay: 4, opacity: 0});
 }
 
+window.addEventListener("scroll", function(event) {
+  if(document.documentElement.clientWidth >= 845) {
+    if (document.documentElement.scrollTop > 200 && document.documentElement.scrollTop < 1200) {
+      gsap.to(" .advantages__heading", {duration: 2, delay: 1, opacity: 1, marginTop: 50, rotationX: 0});
+      gsap.to(" .advantages__line", {duration: 1,  ease: "expo.in", rotationY: 0});
+      gsap.to(" .advantages__image", {duration: 2, rotationY: 0});
 
-
-
-
-
-
+    }  
+  }  
+})
