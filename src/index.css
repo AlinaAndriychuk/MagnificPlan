@@ -25,7 +25,7 @@ body {
 
 .header__item {
   margin: 0;
-  padding: 40px 10px 20px;
+  padding: 30px 10px 0px;
 }
 
 .header__link-item {
@@ -33,20 +33,22 @@ body {
   border: 2px dashed #a7a7a7;
   border-radius: 10% 10% 50% 50%;
   color: #000000;
+  display: inline-block;
   font-size: 18px;
   padding: 15px 10px 20px;
   text-decoration: none;
   transition-duration: 0.3s;
+  width: 150px;
 }
 
 .header__link-item:hover {
   background-color: #faf0f6;
   border-style: solid;
   color: #000;
-  text-shadow: none;
 }
 
 .header__logo {
+  margin-top: 16px;
   width:180px;
 }
 
@@ -55,6 +57,7 @@ body {
   font-weight: 400;
   margin: 0;
   padding: 15px;
+  transform: rotateY(0deg);
 }
 
 .header__autor-name {
@@ -69,7 +72,7 @@ body {
 }
 
 .planner__board {
-  background-color: #faf0f6;
+  background-color: #f9f0fa;
   height: 100%;
   padding: 4px;
   width: 350px;
@@ -205,14 +208,17 @@ body {
   height: 1px;
   margin: 0 5%;
   width: 90%;
+  transform: rotateY(90deg);
 }
 
 .advantages__heading {
   font-size: 40px;
   letter-spacing: 20px;
   margin: 50px 0;
+  opacity: 0;
   text-align: center;
   text-transform: uppercase;
+  transform: rotateX(90deg);
 }
 
 .advantages__block {
@@ -245,6 +251,7 @@ body {
   float: right;
   height: 300px;
   position: absolute;
+  transform: rotateY(90deg);
   width: 50%;
 }
 
@@ -375,7 +382,7 @@ body {
     padding: 15px 10px;
   }
   .header__logo {
-    width: 100px;
+    width: 174px;
   }
   .header__title {
     font-size: 24px;
