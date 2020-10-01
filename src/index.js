@@ -169,7 +169,7 @@ plannerContainer.addEventListener('mousedown', function(event) {
   startDrag(dragElement, event.clientX, event.clientY);
 
   function onMouseUp(event) {
-    finishDrag();
+    finishDrag(event);
   };
   let currentDroppable = null;
   function enterDroppable(elem) {
@@ -180,18 +180,17 @@ plannerContainer.addEventListener('mousedown', function(event) {
     elem.style.background = '';
   }
 
-
   function onMouseMove(event) {
     moveAt(event.clientX, event.clientY);
 
-    dragElement.hidden = true;
+    dragElement.style.display = "none";
     let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
-    dragElement.hidden = false;
+    dragElement.style.display = "inline-block"
     
     if (!elemBelow) return;
     let droppableBelow = elemBelow.closest('.planner__board');
 
-    if (currentDroppable != droppableBelow) {
+    if (currentDroppable !== droppableBelow) {
 
       if (currentDroppable) {
         leaveDroppable(currentDroppable);
@@ -217,19 +216,40 @@ plannerContainer.addEventListener('mousedown', function(event) {
     shiftY = clientY - element.getBoundingClientRect().top;
 
     element.style.position = 'fixed';
-
+    element.style.zIndex = 10;
     moveAt(clientX, clientY);
   };
 
-  function finishDrag() {
+  function finishDrag(event) {
     if(!isDragging) {
       return;
     }
 
-    isDragging = false;
+    dragElement.style.display = "none"
+    let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+    dragElement.style.display = "inline-block"
+    if (!elemBelow) return;
+    let droppableBelow = elemBelow.closest('.planner__board');
 
-    dragElement.style.top = parseInt(dragElement.style.top) + window.pageYOffset + 'px';
-    dragElement.style.position = 'absolute';
+    isDragging = false;
+    if (droppableBelow){
+      let nearestTask = elemBelow.closest('.planner__task');
+      
+      if(nearestTask){
+        nearestTask.after(dragElement)
+      } else {
+        let bottom = droppableBelow.getElementsByClassName("planner__button")[0];
+        if(bottom) {
+          bottom.before(dragElement);
+        }
+      }
+      droppableBelow.style.backgroundColor = "#f9f0fa";
+    }
+    
+    dragElement.style.top = 0;
+    dragElement.style.left = 0;
+    dragElement.style.zIndex = "auto";
+    dragElement.style.position = 'relative';
 
     plannerContainer.removeEventListener('mousemove', onMouseMove);
     dragElement.removeEventListener('mouseup', onMouseUp);
