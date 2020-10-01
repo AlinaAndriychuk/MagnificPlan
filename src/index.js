@@ -266,31 +266,132 @@ if(document.documentElement.clientWidth >= 845) {
   gsap.from(".header__item:first-child", {duration: 2, y: -100});
   gsap.from(".header__item:last-child", {duration: 2, delay: 1, y: -100});
 
-  gsap.from("#firstBoard", {duration: 2, marginTop: 380, opacity: 0});
-  gsap.from(" #firstBoard .planner__title, #firstBoard .planner__button", {duration: 1, delay: 2, opacity: 0});
-  gsap.from("#secondBoard", {duration: 2, delay: 1, marginTop: 380, opacity: 0});
-  gsap.from(" #secondBoard .planner__title, #secondBoard .planner__button", {duration: 1, delay: 3, opacity: 0});
-  gsap.from("#thirdBoard", {duration: 2, delay: 2, marginTop: 380, opacity: 0});
-  gsap.from(" #thirdBoard .planner__title, #thirdBoard .planner__button", {duration: 1, delay: 4, opacity: 0});
+  gsap.from("#firstBoard", {duration: 1, marginTop: 380, opacity: 0});
+  gsap.from(" #firstBoard .planner__title, #firstBoard .planner__button", {duration: 1, delay: 1, opacity: 0});
+  gsap.from("#secondBoard", {duration: 1, delay: 1, marginTop: 380, opacity: 0});
+  gsap.from(" #secondBoard .planner__title, #secondBoard .planner__button", {duration: 1, delay: 2, opacity: 0});
+  gsap.from("#thirdBoard", {duration: 1, delay: 2, marginTop: 380, opacity: 0});
+  gsap.from(" #thirdBoard .planner__title, #thirdBoard .planner__button", {duration: 1, delay: 3, opacity: 0});
 } else {
   gsap.from(".header__item:first-child", {duration: 2, y: 200});
   gsap.from(".header__item:last-child", {duration: 2, y: -200});
 
-  gsap.from("#firstBoard", {duration: 2, opacity: 0});
-  gsap.from(" #firstBoard .planner__title, #firstBoard .planner__button", {duration: 1, delay: 2, opacity: 0});
-  gsap.from("#secondBoard", {duration: 2, delay: 1, opacity: 0});
-  gsap.from(" #secondBoard .planner__title, #secondBoard .planner__button", {duration: 1, delay: 3, opacity: 0});
-  gsap.from("#thirdBoard", {duration: 2, delay: 2, opacity: 0});
-  gsap.from(" #thirdBoard .planner__title, #thirdBoard .planner__button", {duration: 1, delay: 4, opacity: 0});
+  gsap.from("#firstBoard", {duration: 1, opacity: 0});
+  gsap.from(" #firstBoard .planner__title, #firstBoard .planner__button", {duration: 1, delay: 1.5, opacity: 0});
+  gsap.from("#secondBoard", {duration: 1, delay: 1, opacity: 0});
+  gsap.from(" #secondBoard .planner__title, #secondBoard .planner__button", {duration: 1, delay: 2.5, opacity: 0});
+  gsap.from("#thirdBoard", {duration: 1, delay: 2, opacity: 0});
+  gsap.from(" #thirdBoard .planner__title, #thirdBoard .planner__button", {duration: 1, delay: 3.5, opacity: 0});
 }
 
 window.addEventListener("scroll", function(event) {
   if(document.documentElement.clientWidth >= 845) {
-    if (document.documentElement.scrollTop > 200 && document.documentElement.scrollTop < 1200) {
-      gsap.to(" .advantages__heading", {duration: 2, delay: 1, opacity: 1, marginTop: 50, rotationX: 0});
-      gsap.to(" .advantages__line", {duration: 1,  ease: "expo.in", rotationY: 0});
-      gsap.to(" .advantages__image", {duration: 2, rotationY: 0});
-
+    if (document.documentElement.scrollTop > 200 && document.documentElement.scrollTop < 750) {
+      gsap.to(" .advantages__heading", {duration: 2, opacity: 1, rotationX: 0});
+      gsap.to(" .advantages__line", {duration: 1, rotationY: 0});
     }  
+    if (document.documentElement.scrollTop > 400 && document.documentElement.scrollTop < 950) {
+      gsap.to(" #advantages__image--first", {duration: 2, rotationY: 0, opacity: 1});
+      gsap.to(".advantages-block--first .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
+      gsap.to(".advantages-block--first .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
+    } 
+    if (document.documentElement.scrollTop > 700 && document.documentElement.scrollTop < 1300) {
+      gsap.to(" #advantages__image--second", {duration: 2, rotationY: 0, opacity: 1});
+      gsap.to(".advantages-block--middle .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
+      gsap.to(".advantages-block--middle .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
+    } 
+    if (document.documentElement.scrollTop > 1000 && document.documentElement.scrollTop < 1700) {
+      gsap.to(" #advantages__image--third", {duration: 2, rotationY: 0, opacity: 1});
+      gsap.to(".advantages-block--last .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
+      gsap.to(".advantages-block--last .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
+    } 
+    if (document.documentElement.scrollTop > 1450 && document.documentElement.scrollTop < 2200) {
+      gsap.to(".quote-block__title", {duration: 2, opacity: 1, rotateX: 0});
+    } 
+    if (document.documentElement.scrollTop > 1900) {
+      gsap.to(".features-block:first-child .features-block__image", {duration: 2, opacity: 1, rotateY: -0, rotateX: 180});
+      gsap.to(".features-block:first-child .features-block__title", {duration: 2, opacity: 1, rotateY: 0});
+      gsap.to(".features-block--middle .features-block__image", {duration: 2, opacity: 1, delay: 0.5, rotateY: -180, rotateX: -180});
+      gsap.to(".features-block--middle .features-block__title", {duration: 2, opacity: 1, delay: 0.5, rotateY: 0});
+      gsap.to(".features-block:last-child .features-block__image", {duration: 2, opacity: 1, delay: 1, rotateY: 360, rotateX: -180});
+      gsap.to(".features-block:last-child .features-block__title", {duration: 2, opacity: 1, delay: 1, rotateY: 0});
+    }
+    if (document.documentElement.scrollTop > 2200) {
+      gsap.to(".footer__link", {duration: 1, backgroundColor: "#fcfafb83"});
+    }
+  }
+  if(document.documentElement.clientWidth < 845 && document.documentElement.clientWidth >= 384 ) {
+    if (document.documentElement.scrollTop > 400 && document.documentElement.scrollTop < 900) {
+      gsap.to(" .advantages__heading", {duration: 2, opacity: 1, rotationX: 0});
+      gsap.to(" .advantages__line", {duration: 1, rotationY: 0});
+    }  
+    if (document.documentElement.scrollTop > 700 && document.documentElement.scrollTop < 1250) {
+      gsap.to(" #advantages__image--first", {duration: 2, rotationY: 0, opacity: 1});
+      gsap.to(".advantages-block--first .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
+      gsap.to(".advantages-block--first .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
+    } 
+    if (document.documentElement.scrollTop > 1100 && document.documentElement.scrollTop < 1700) {
+      gsap.to(" #advantages__image--second", {duration: 2, rotationY: 0, opacity: 1});
+      gsap.to(".advantages-block--middle .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
+      gsap.to(".advantages-block--middle .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
+    } 
+    if (document.documentElement.scrollTop > 1500 && document.documentElement.scrollTop < 2150) {
+      gsap.to(" #advantages__image--third", {duration: 2, rotationY: 0, opacity: 1});
+      gsap.to(".advantages-block--last .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
+      gsap.to(".advantages-block--last .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
+    } 
+    if (document.documentElement.scrollTop > 1900 && document.documentElement.scrollTop < 2450) {
+      gsap.to(".quote-block__title", {duration: 2, opacity: 1, rotateX: 0});
+    } 
+    if (document.documentElement.scrollTop > 2400) {
+      gsap.to(".features-block:first-child .features-block__image", {duration: 2, opacity: 1, rotateY: -0, rotateX: 180});
+      gsap.to(".features-block:first-child .features-block__title", {duration: 2, opacity: 1, rotateY: 0});
+      gsap.to(".features-block--middle .features-block__image", {duration: 2, opacity: 1, delay: 0.5, rotateY: -180, rotateX: -180});
+      gsap.to(".features-block--middle .features-block__title", {duration: 2, opacity: 1, delay: 0.5, rotateY: 0});
+      gsap.to(".features-block:last-child .features-block__image", {duration: 2, opacity: 1, delay: 1, rotateY: 360, rotateX: -180});
+      gsap.to(".features-block:last-child .features-block__title", {duration: 2, opacity: 1, delay: 1, rotateY: 0});
+    }
+    if (document.documentElement.scrollTop > 2400) {
+      gsap.to(".footer__link", {duration: 1, backgroundColor: "#fcfafb83"});
+    }
+  }  
+  if(document.documentElement.clientWidth < 384) {
+    if (document.documentElement.scrollTop > 600 && document.documentElement.scrollTop < 1000) {
+      gsap.to(" .advantages__heading", {duration: 2, opacity: 1, rotationX: 0});
+      gsap.to(" .advantages__line", {duration: 1, rotationY: 0});
+    }  
+    if (document.documentElement.scrollTop > 800 && document.documentElement.scrollTop < 1450) {
+      gsap.to(" #advantages__image--first", {duration: 2, rotationY: 0, opacity: 1});
+      gsap.to(".advantages-block--first .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
+      gsap.to(".advantages-block--first .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
+    } 
+    if (document.documentElement.scrollTop > 1350 && document.documentElement.scrollTop < 1950) {
+      gsap.to(" #advantages__image--second", {duration: 2, rotationY: 0, opacity: 1});
+      gsap.to(".advantages-block--middle .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
+      gsap.to(".advantages-block--middle .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
+    } 
+    if (document.documentElement.scrollTop > 1850 && document.documentElement.scrollTop < 2450) {
+      gsap.to(" #advantages__image--third", {duration: 2, rotationY: 0, opacity: 1});
+      gsap.to(".advantages-block--last .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
+      gsap.to(".advantages-block--last .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
+    } 
+    if (document.documentElement.scrollTop > 2100 && document.documentElement.scrollTop < 2700) {
+      gsap.to(".quote-block__title", {duration: 2, opacity: 1, rotateX: 0});
+    } 
+    if (document.documentElement.scrollTop > 2500 && document.documentElement.scrollTop < 3000) {
+      gsap.to(".features-block:first-child .features-block__image", {duration: 2, opacity: 1, rotateY: -0, rotateX: 180});
+      gsap.to(".features-block:first-child .features-block__title", {duration: 2, opacity: 1, rotateY: 0});
+    }  
+    if (document.documentElement.scrollTop > 2650 && document.documentElement.scrollTop < 3150) {
+      gsap.to(".features-block--middle .features-block__image", {duration: 2, opacity: 1, rotateY: -180, rotateX: -180});
+      gsap.to(".features-block--middle .features-block__title", {duration: 2, opacity: 1, rotateY: 0});
+    }
+    if (document.documentElement.scrollTop > 2870) {  
+      gsap.to(".features-block:last-child .features-block__image", {duration: 2, opacity: 1, rotateY: 360, rotateX: -180});
+      gsap.to(".features-block:last-child .features-block__title", {duration: 2, opacity: 1, rotateY: 0});
+    }
+    if (document.documentElement.scrollTop > 2800) {
+      gsap.to(".footer__link", {duration: 1, backgroundColor: "#fcfafb83"});
+    }
   }  
 })
