@@ -173,11 +173,11 @@ plannerContainer.addEventListener('mousedown', function(event) {
   };
   let currentDroppable = null;
   function enterDroppable(elem) {
-    elem.style.background = 'pink';
+    gsap.to(elem, { boxShadow: " 7px 7px 5px #f0ddfc"})
   }
 
   function leaveDroppable(elem) {
-    elem.style.background = '';
+    gsap.to(elem, { backgroundColor: "#f9f0fa", boxShadow: "none"})
   }
 
   function onMouseMove(event) {
@@ -243,13 +243,10 @@ plannerContainer.addEventListener('mousedown', function(event) {
           bottom.before(dragElement);
         }
       }
-      droppableBelow.style.backgroundColor = "#f9f0fa";
+      gsap.to(droppableBelow, { backgroundColor: "#f9f0fa", boxShadow: "none"})
     }
-    
-    dragElement.style.top = 0;
-    dragElement.style.left = 0;
-    dragElement.style.zIndex = "auto";
-    dragElement.style.position = 'relative';
+
+    gsap.to(dragElement, {duration: 0, top: 0, left: 0, zIndex: "auto", position: "relative"})
 
     plannerContainer.removeEventListener('mousemove', onMouseMove);
     dragElement.removeEventListener('mouseup', onMouseUp);
