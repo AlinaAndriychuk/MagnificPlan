@@ -129,18 +129,12 @@ body {
 }
 
 .planner__task-button--absolute {
-  position: absolute;
-  border: none;
+  border: 1px rgb(118, 118, 118) solid;
   background-color: #faf0f6;
   cursor: pointer;
-  font-weight: 0;
-  font-size: 18px;
-  font-family: 'Quicksand', sans-serif;
-  height: 36px;
-  margin: 4px 2.5px;
-  padding: 3px 0 0;
-  transition-duration: 0.3s;
-  width: 30px;
+  height: 45px;
+  margin: 20px 0 0 10px;
+  width: 50px;
 }
 
 .planner__palette-button {
@@ -148,7 +142,6 @@ body {
   border-radius: 10%;
   background-color: #754567;
   height: 36px;
-  margin: 4px 0 0 -32px;
   position: absolute;
   padding: 0px 0px 0 2px;
   width: 66px;
@@ -190,7 +183,7 @@ body {
   width: 301px;
 }
 
-.planner__textarea:focus, .planner__button:focus, .planner__task-button:focus, .planner__task-button--absolute:focus {
+.planner__textarea:focus, .planner__button:focus, .planner__task-button:focus, .planner__task-button--absolute:focus, .popup__button:focus, .popup__description:focus, .popup__file:focus, .popup__task:focus, .popup__time:focus {
   outline: solid 1px #8d8d8d;
 }
 
@@ -199,7 +192,8 @@ body {
 }
 
 .planner__image {
-  width: 100%;
+  max-height: 99%;
+  max-width: 100%;
 }
 
 .popup-wrapper {
@@ -266,14 +260,15 @@ body {
 }
 
 .popup__button {
-  border: none;
+  border: 1px rgb(118, 118, 118) solid;
   background-color: #faf0f6;
   cursor: pointer;
+  float: left;
   font-weight: 0;
   font-size: 18px;
   font-family: 'Quicksand', sans-serif;
   margin-top: 20px;
-  padding: 2% 6%;
+  padding: 10px 30px;
   text-align: left;
   transition-duration: 0.3s;
   width: 100px;
@@ -439,7 +434,7 @@ body {
     height: 33px;
     width: 231px
   }
-  .planner__task-button, .planner__task-button--absolute {
+  .planner__task-button {
     height: 36px;
     width: 24px;
   }
@@ -492,7 +487,7 @@ body {
     height: 32px;
     width: 324px
   }
-  .planner__task-button, .planner__task-button--absolute {
+  .planner__task-button{
     height: 36px;
     width: 28px;
   }
@@ -563,7 +558,7 @@ body {
     padding: 0;
     width: 83%;
   }
-  .planner__task-button, .planner__task-button--absolute {
+  .planner__task-button {
     height: 40px;
     margin: 2% 1%;
     padding: 0;
