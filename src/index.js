@@ -10,29 +10,31 @@ function PopupBlock(props) {
   function showPopup(){
     setFloated(false)
   }
-
-  function hidePopup(){
-    setFloated(true);
-    addFile = (input.current.value)
-  }
   
   function renderPopup (){
     return (
-      <div className="planner__popup">
-        <p style={props.styleTask} className="planner__task-text">{props.taskName}</p>
-        <textarea ></textarea>
-        <input ref={input} type="file"></input>
-        <button onClick={hidePopup} className=" planner__task-button">
-          Save
-        </button>
+      <div className='popup-wrapper'>
+        <div className="popup">
+          <textarea style={props.styleTask} className="popup__task" defaultValue={props.taskName}></textarea>
+          <p className="popup__prompt">Deskription</p>
+          <textarea className="popup__description"></textarea>
+          <p className="popup__prompt">Time</p>
+          <textarea className="popup__time"></textarea> 
+          <p className="popup__marker">h</p>
+          <textarea className="popup__time"></textarea>
+          <p className="popup__marker">m</p>
+          <p className="popup__prompt">Attachments</p>
+          <input className="popup__file" ref={input} type="file" multiple/>
+          <button className=" popup__button">
+            Save
+          </button>
+        </div>
       </div>
     )
   }
-  let addFile
   function renderButton (){
     return (
       <button onClick={showPopup} className=" planner__task-button">
-        <img className="planner__image" src={addFile} alt="more option"/>
         <img className="planner__image" src="img/options.png" alt="more option"/>
       </button>
     )
