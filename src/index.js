@@ -2,7 +2,48 @@ import React, { useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import gsap from 'gsap'
+import gsap from 'gsap';
+
+function PopupBlock(props) {
+  const input = useRef(null)
+   const [floated, setFloated] = useState(true);
+  function showPopup(){
+    setFloated(false)
+  }
+
+  function hidePopup(){
+    setFloated(true);
+    addFile = (input.current.value)
+  }
+  
+  function renderPopup (){
+    return (
+      <div className="planner__popup">
+        <p style={props.styleTask} className="planner__task-text">{props.taskName}</p>
+        <textarea ></textarea>
+        <input ref={input} type="file"></input>
+        <button onClick={hidePopup} className=" planner__task-button">
+          Save
+        </button>
+      </div>
+    )
+  }
+  let addFile
+  function renderButton (){
+    return (
+      <button onClick={showPopup} className=" planner__task-button">
+        <img className="planner__image" src={addFile} alt="more option"/>
+        <img className="planner__image" src="img/options.png" alt="more option"/>
+      </button>
+    )
+  }
+
+  if (floated){
+    return renderButton();
+  } else {
+    return renderPopup();
+  }
+}
 
 
 function Colorpalette(props) {
@@ -84,7 +125,8 @@ function Block(props) {
         <p style={styleOfBlock} className="planner__task-text">{props.taskName}</p>
         <button onClick={edit} className="planner__task-button"><img className="planner__image" src="img/pencil.png" alt="edit"/></button>
         <button onClick={remove} className="planner__task-button"><img className="planner__image" src="img/garbage.png" alt="delete"/></button>
-        <Colorpalette BlockfieldIndex={props.index} colorFunction={props.colorFunction} blockfieldContext={props.context}/>
+        <PopupBlock styleTask={styleOfBlock} taskName={props.taskName}></PopupBlock>
+        {/* <Colorpalette BlockfieldIndex={props.index} colorFunction={props.colorFunction} blockfieldContext={props.context}/> */}
       </div>
     )
   }
