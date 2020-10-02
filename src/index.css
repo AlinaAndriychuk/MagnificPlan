@@ -202,6 +202,11 @@ body {
   width: 100%;
 }
 
+.planner__popup {
+  background-color: aliceblue;
+  min-height: 200px;
+}
+
 .advantages__line {
   border: none;
   background-color: #8d8d8d;
