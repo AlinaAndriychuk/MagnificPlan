@@ -10,24 +10,29 @@ function PopupBlock(props) {
   function showPopup(){
     setFloated(false)
   }
+
+  function hidePopup(){
+    setFloated(true)
+  }
   
   function renderPopup (){
     return (
       <div className='popup-wrapper'>
         <div className="popup">
           <textarea style={props.styleTask} className="popup__task" defaultValue={props.taskName}></textarea>
-          <p className="popup__prompt">Deskription</p>
+          <p className="popup__prompt">Description</p>
           <textarea className="popup__description"></textarea>
           <p className="popup__prompt">Time</p>
           <textarea className="popup__time"></textarea> 
           <p className="popup__marker">h</p>
           <textarea className="popup__time"></textarea>
           <p className="popup__marker">m</p>
-          <p className="popup__prompt">Attachments</p>
+          <p className="popup__prompt">Attachment</p>
           <input className="popup__file" ref={input} type="file" multiple/>
-          <button className=" popup__button">
+          <button onClick={hidePopup} className=" popup__button">
             Save
           </button>
+          <Colorpalette BlockfieldIndex={props.BlockfieldIndex} colorFunction={props.colorFunction} blockfieldContext={props.blockfieldContext}></Colorpalette>
         </div>
       </div>
     )
@@ -127,7 +132,7 @@ function Block(props) {
         <p style={styleOfBlock} className="planner__task-text">{props.taskName}</p>
         <button onClick={edit} className="planner__task-button"><img className="planner__image" src="img/pencil.png" alt="edit"/></button>
         <button onClick={remove} className="planner__task-button"><img className="planner__image" src="img/garbage.png" alt="delete"/></button>
-        <PopupBlock styleTask={styleOfBlock} taskName={props.taskName}></PopupBlock>
+        <PopupBlock BlockfieldIndex={props.index} colorFunction={props.colorFunction} blockfieldContext={props.context} styleTask={styleOfBlock} taskName={props.taskName}></PopupBlock>
         {/* <Colorpalette BlockfieldIndex={props.index} colorFunction={props.colorFunction} blockfieldContext={props.context}/> */}
       </div>
     )
