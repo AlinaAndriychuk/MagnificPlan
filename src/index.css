@@ -5,7 +5,8 @@ body {
 }
 
 *::selection {
-  background: #edf5ff;
+  background: #68546b;
+  color: #ffffff;
 }
 
 .header {
@@ -128,22 +129,13 @@ body {
   background-color: #fcfafb;
 }
 
-.planner__task-button--absolute {
-  border: 1px rgb(118, 118, 118) solid;
-  background-color: #faf0f6;
-  cursor: pointer;
-  height: 45px;
-  margin: 20px 0 0 10px;
-  width: 50px;
-}
-
 .planner__palette-button {
   border: solid 1px #8d8d8d;
   border-radius: 10%;
-  background-color: #754567;
-  height: 36px;
-  position: absolute;
-  padding: 0px 0px 0 2px;
+  background-color: #6b4172;
+  height: 40px;
+  margin-top: 22px;
+  padding: 0 0px 0px 2px;
   width: 66px;
 }
 
@@ -152,7 +144,7 @@ body {
   cursor: pointer;
   float: left;
   height: 15px;
-  margin: 0px 2.5px 3px;
+  margin: 2px 2.5px 2px;
   width: 15px;
 }
 
@@ -177,13 +169,13 @@ body {
   height: 32px;
   letter-spacing: 2px;
   margin: 4px 3px 4px 4px;
-  padding: 1px 2px;
+  padding: 2px 5px;
   resize: none;
   vertical-align: top;
-  width: 301px;
+  width: 295px;
 }
 
-.planner__textarea:focus, .planner__button:focus, .planner__task-button:focus, .planner__task-button--absolute:focus, .popup__button:focus, .popup__description:focus, .popup__file:focus, .popup__task:focus, .popup__time:focus {
+.planner__textarea:focus, .planner__button:focus, .planner__task-button:focus, .popup__button-change:focus, .popup__button:focus, .popup__description:focus, .popup__file:focus, .popup__task:focus, .popup__time:focus {
   outline: solid 1px #8d8d8d;
 }
 
@@ -194,10 +186,11 @@ body {
 .planner__image {
   max-height: 99%;
   max-width: 100%;
+  padding-top: 5%;
 }
 
 .popup-wrapper {
-  background-color: rgba(0, 0, 0, 0.534);
+  background-color: rgba(42, 11, 49, 0.63);
   display: flex;
   justify-content: center;
   height: 100%;
@@ -211,30 +204,47 @@ body {
 }
 
 .popup {
-  background-color: #beb7ca;
+  background: url(../src/backgroundImages/gradientdark.jpg) right bottom;
+  background-size: cover;
   height: min-content;
   margin: auto;
   padding: 10px;
   width: 500px;
 }
 
-.popup__task {
+.popup__task {    
   box-sizing: border-box;
   font-size: 26px;
   font-family: 'Quicksand', sans-serif;
-  height: 50px;
+  min-height: 44px;
   margin: 0;
   padding: 5px;
   resize: none;
   text-align: center;
-  width: 100%;
+  vertical-align: middle;
+  width: 90%;
+}
+
+.popup__cancel {
+  cursor: pointer;
+  float: right;
+  margin-left: 2%;
+  max-width: 25px;
+  padding: 0px;
+  transition-duration: 0.3s;
+  width: 8%;
+}
+
+.popup__cancel:hover {
+  transform: rotateZ(90deg);
 }
 
 .popup__description {
   box-sizing: border-box;
-  font-size: 20px;
+  font-size: 18px;
   font-family: 'Quicksand', sans-serif;
   min-height: 200px;
+  padding: 5px;
   resize: none;
   width: 100%;
 }
@@ -261,17 +271,50 @@ body {
 
 .popup__button {
   border: 1px rgb(118, 118, 118) solid;
-  background-color: #faf0f6;
+  background-color: #68546b;
   cursor: pointer;
-  float: left;
+  color: white;
+  float: right;
   font-weight: 0;
   font-size: 18px;
   font-family: 'Quicksand', sans-serif;
-  margin-top: 20px;
-  padding: 10px 30px;
+  letter-spacing: 3px;
+  margin: 20px 0 0;
+  padding: 10px 24px;
   text-align: left;
   transition-duration: 0.3s;
   width: 100px;
+}
+
+.popup__button:hover {
+  border: 1px transparent solid;
+  background-color: transparent;
+  color: #000000;
+}
+
+.popup__button-change {
+  border: 1px rgb(118, 118, 118) solid;
+  background-color: #e6e4e4;
+  cursor: pointer;
+  float: left;;
+  height: 45px;
+  margin: 20px 3% 0 0;
+  transition-duration: 0.3s;
+  width: 50px;
+}
+
+.popup__button-change:hover {
+  background-color: #68546b;
+}
+
+.popup__prompt {
+  font-size: 18px;
+  vertical-align: top;
+} 
+
+.popup__prompt-image {
+  height: 14px;
+  margin-right: 5px;
 }
 
 .advantages__line {
@@ -431,20 +474,12 @@ body {
     width: 172px;
   }
   .planner__textarea {
-    height: 33px;
-    width: 231px
+    height: 32px;
+    width: 225px
   }
   .planner__task-button {
     height: 36px;
     width: 24px;
-  }
-  .planner__palette-button {
-    margin: 4px 0 0 -27px;
-    padding: 0 0 0 0.2px;
-    width: 54px;
-  }
-  .planner__palette {
-    margin: 1px 1.1px;
   }
 }
 
@@ -485,19 +520,11 @@ body {
   }
   .planner__textarea {
     height: 32px;
-    width: 324px
+    width: 318px
   }
   .planner__task-button{
     height: 36px;
     width: 28px;
-  }
-  .planner__palette-button {
-    margin: 4px 0 0 -30px;
-    padding: 0px 1px;
-    width: 61px;
-  }
-  .planner__palette {
-    margin: 0.6px 1.8px 2px;
   }
   .advantages {
     height: 1500px;
@@ -547,19 +574,19 @@ body {
     width: 100%;
   }  
   .planner__task-text {
-    height: 33px;
+    min-height: 41px;
     margin: 2% 1%;
-    padding: 1%;
+    padding: 3px;
     width: 50%;
   }
   .planner__textarea{
-    height: 40px;
+    height: 47px;
     margin: 2% 1%;
-    padding: 0;
-    width: 83%;
+    padding: 0 1%;
+    width: 80%;
   }
   .planner__task-button {
-    height: 40px;
+    height: 47px;
     margin: 2% 1%;
     padding: 0;
     width: 13%;
@@ -569,9 +596,20 @@ body {
     margin: 2% auto;
     width: 80%;
   }
-  .planner__palette-button {
-    margin: 2% 0 0 -14%;
-    height: 40px;
+  .popup__task {
+    font-size: 20px;
+    padding-top: 10px;
+  }
+  .popup__button {
+    padding: 10px 15px;
+    width: 80px;
+  }
+  .popup__button-change {
+    padding: 1px;
+    width: 40px;
+  }
+  .popup__button-change .planner__image {
+    width: 100%;
   }
   .advantages__heading {
     font-size: 24px;
