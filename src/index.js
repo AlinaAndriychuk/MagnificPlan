@@ -9,31 +9,62 @@ function PopupBlock(props) {
   const description = useRef(null);
   const hours = useRef(null);
   const minutes = useRef(null);
-   const [floated, setFloated] = useState(true);
+  const files = useRef(null);
+  const [floated, setFloated] = useState(true);
   function showPopup(){
     setFloated(false)
   }
 
   function hidePopup(){
-    props.saveFunction(props.taskContext, taskName.current.innerText, props.taskIndex, description.current.value, hours.current.value, minutes.current.value)
+    props.saveFunction(props.taskContext, taskName.current.innerText, props.taskIndex, description.current.value, hours.current.value, minutes.current.value, files.current.innerHTML)
     setFloated(true)
   }
+
+  function changeFiles (event) {
+    let listOfFiles = event.target.files,
+      len = listOfFiles.length,
+      previousText = files.current.innerHTML;
+    for (let i = 0; i < len; i++) {
+      previousText += listOfFiles[i].name +"<br>"
+    }
+    files.current.innerHTML = previousText;
+
+  }
+
   
   function renderPopup (){
     return (
       <div className='popup-wrapper'>
         <div className="popup">
           <img onClick={()=> setFloated(true)} className="popup__cancel" src="img/cancel.png" alt="cancel"/>
-          <div contentEditable="" ref={taskName} style={props.styleOfBlock} className="popup__task">{props.taskName}</div>
+          <div contentEditable="" onKeyPress={props.onKey} ref={taskName} style={props.styleOfBlock} className="popup__task">{props.taskName}</div>
           <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Description</p>
-          <textarea className="popup__description" ref={description} defaultValue={props.descValue}></textarea>
-          <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Time</p>
+          <textarea className="popup__description" placeholder="Write description to your task" ref={description} defaultValue={props.descValue}></textarea>
+          <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Time estimation</p>
           <textarea className="popup__time" ref={hours} defaultValue={props.hoursValue}></textarea> 
           <p className="popup__marker">h</p>
           <textarea className="popup__time" ref={minutes} defaultValue={props.minutesValue}></textarea>
           <p className="popup__marker">m</p>
-          <p className="popup__prompt"><img className="popup__prompt-image" src="img/attachment.png" alt="attachment"/>Attachment</p>
-          <input className="popup__file" type="file" multiple/>
+          <p className="popup__prompt"><img className="popup__prompt-image" src="img/attachment.png" alt="attachment"/>Attachments</p>
+          <input className="popup__file" onChange={changeFiles} type="file" multiple/>
+          <p ref={files}>{
+            props.filesValue.split("<br>").map((item)=>{
+              if(item === ""){
+                return (
+                <React.Fragment>
+                  {item}
+                </React.Fragment>
+                )
+              }
+              return (
+                <React.Fragment>
+                  {item} 
+                  
+                  <br/>
+                </React.Fragment>
+              )  
+            })
+          }</p>
           <button onClick={() =>{
             props.deleteFunction();
             setFloated(true)
@@ -55,10 +86,15 @@ function PopupBlock(props) {
   }
 
   if (floated){
+    document.body.style.overflow = "";
+    document.body.style.paddingRight = "0px";
     return renderButton();
   } else {
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = "16px";
     return renderPopup();
   }
+
 }
 
 
@@ -141,7 +177,7 @@ function Block(props) {
         <p style={styleOfBlock} className="planner__task-text">{props.taskName}</p>
         <button onClick={edit} className="planner__task-button"><img className="planner__image" src="img/pencil.png" alt="edit"/></button>
         <button onClick={remove} className="planner__task-button"><img className="planner__image" src="img/garbage.png" alt="delete"/></button>
-        <PopupBlock taskIndex={props.index} hoursValue={props.hours} minutesValue={props.minutes} descValue={props.descriptionValue} taskContext = {props.context} saveFunction={props.updateFunction} styleOfBlock={styleOfBlock} deleteFunction={remove} blockfieldIndex={props.index} colorFunction={props.colorFunction} blockfieldContext={props.context} styleTask={styleOfBlock} taskName={props.taskName}></PopupBlock>
+        <PopupBlock taskIndex={props.index} filesValue={props.files} hoursValue={props.hours} minutesValue={props.minutes} onKey={props.onKeyPressFunction} descValue={props.descriptionValue} taskContext = {props.context} saveFunction={props.updateFunction} styleOfBlock={styleOfBlock} deleteFunction={remove} blockfieldIndex={props.index} colorFunction={props.colorFunction} blockfieldContext={props.context} styleTask={styleOfBlock} taskName={props.taskName}></PopupBlock>
       </div>
     )
   }
@@ -161,45 +197,50 @@ class Blockfield extends React.Component {
       description: [],
       hours: [], 
       minutes: [],
+      files: [],
     }
   }
-  addBlock (context, text, color, desc, hours, minutes) {
-    var arreyOfTasks = context.state.tasks;
-    var arreyOfColors = context.state.colors;
-    var arreyOfDescriptions = context.state.description;
-    var arreyOfHours = context.state.hours;
-    var arreyOfMinutes = context.state.minutes;
-    arreyOfTasks.push(text);
-    arreyOfColors.push(color);
-    arreyOfDescriptions.push(desc);
-    arreyOfHours.push(hours);
-    arreyOfMinutes.push(minutes);
-    context.setState ({tasks: arreyOfTasks, colors: arreyOfColors, description: arreyOfDescriptions, hours: arreyOfHours, minutes: arreyOfMinutes})
+  addBlock (context, text, color, desc, hours, minutes, files) {
+    let arrayOfTasks = context.state.tasks;
+    let arrayOfColors = context.state.colors;
+    let arrayOfDescriptions = context.state.description;
+    let arrayOfHours = context.state.hours;
+    let arrayOfMinutes = context.state.minutes;
+    let arrayOfFiles = context.state.files;
+    arrayOfTasks.push(text);
+    arrayOfColors.push(color);
+    arrayOfDescriptions.push(desc);
+    arrayOfHours.push(hours);
+    arrayOfMinutes.push(minutes);
+    arrayOfFiles.push(files);
+    context.setState ({tasks: arrayOfTasks, colors: arrayOfColors, description: arrayOfDescriptions, hours: arrayOfHours, minutes: arrayOfMinutes, files: arrayOfFiles})
   }
   changeColorOfBlock(context, color, index){
-    var arreyOfTasks = context.state.tasks;
-    var arreyOfColors = context.state.colors;
-    arreyOfColors[index] = color;
-    context.setState ({tasks: arreyOfTasks, colors: arreyOfColors})
+    let arrayOfTasks = context.state.tasks;
+    let arrayOfColors = context.state.colors;
+    arrayOfColors[index] = color;
+    context.setState ({tasks: arrayOfTasks, colors: arrayOfColors})
   }
   deleteBlock(context, index) {
-    var arreyOfTasks = context.state.tasks;
-    var arreyOfColors = context.state.colors;
-    arreyOfTasks.splice(index, 1);
-    arreyOfColors.splice(index, 1);
-    context.setState ({arreyOfTasks, colors: arreyOfColors})
+    let arrayOfTasks = context.state.tasks;
+    let arrayOfColors = context.state.colors;
+    arrayOfTasks.splice(index, 1);
+    arrayOfColors.splice(index, 1);
+    context.setState ({arrayOfTasks, colors: arrayOfColors})
   }
-  updateTextInBlock(context, text, index, desc, hours, minutes) {
-    var arreyOfTasks = context.state.tasks;
-    var arreyOfColors = context.state.colors;
-    var arreyOfDescriptions = context.state.description;
-    var arreyOfHours = context.state.hours;
-    var arreyOfMinutes = context.state.minutes;
-    arreyOfTasks[index] = text;
-    if(desc === "" || desc) arreyOfDescriptions[index] = desc; 
-    if(hours === "" || hours) arreyOfHours[index] = hours; 
-    if(minutes === "" || minutes) arreyOfMinutes[index] = minutes; 
-    context.setState ({task: arreyOfTasks, colors: arreyOfColors, description: arreyOfDescriptions, hours: arreyOfHours, minutes: arreyOfMinutes})
+  updateTextInBlock(context, text, index, desc, hours, minutes, files) {
+    let arrayOfTasks = context.state.tasks;
+    let arrayOfColors = context.state.colors;
+    let arrayOfDescriptions = context.state.description;
+    let arrayOfHours = context.state.hours;
+    let arrayOfMinutes = context.state.minutes;
+    let arrayOfFiles = context.state.files;
+    arrayOfTasks[index] = text;
+    if(desc === "" || desc) arrayOfDescriptions[index] = desc; 
+    if(hours === "" || hours) arrayOfHours[index] = hours; 
+    if(minutes === "" || minutes) arrayOfMinutes[index] = minutes; 
+    if(files === "" || files) arrayOfFiles[index] = files; 
+    context.setState ({task: arrayOfTasks, colors: arrayOfColors, description: arrayOfDescriptions, hours: arrayOfHours, minutes: arrayOfMinutes, files: arrayOfFiles})
   }
   handleKeyPress(event) {
     if (event.key === 'Enter') {
@@ -212,10 +253,10 @@ class Blockfield extends React.Component {
         <div className="planner__title" contentEditable="" onKeyPress={this.handleKeyPress}>{this.props.titleName}</div>
         {
           this.state.tasks.map ((item,id) => {
-            return (<Block backColor={this.state.colors[id]} descriptionValue={this.state.description[id]} hours={this.state.hours[id]} minutes={this.state.minutes[id]} key = {id} context={this} colorFunction={this.changeColorOfBlock} deleteFunction={this.deleteBlock} updateFunction={this.updateTextInBlock} index= {id} taskName= {item}></Block>)
+            return (<Block backColor={this.state.colors[id]} onKeyPressFunction={this.handleKeyPress} files={this.state.files[id]} descriptionValue={this.state.description[id]} hours={this.state.hours[id]} minutes={this.state.minutes[id]} key = {id} context={this} colorFunction={this.changeColorOfBlock} deleteFunction={this.deleteBlock} updateFunction={this.updateTextInBlock} index= {id} taskName= {item}></Block>)
           })
         }
-        <button onClick={this.addBlock.bind(null, this, "Task name", "transparent", "", "", "")} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
+        <button onClick={this.addBlock.bind(null, this, "Task name", "transparent", "", "", "", "")} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
       </div>
     )
   }
@@ -371,6 +412,21 @@ if(document.documentElement.clientWidth >= 845) {
   gsap.from(" #secondBoard .planner__title, #secondBoard .planner__button", {duration: 1, delay: 2.5, opacity: 0});
   gsap.from("#thirdBoard", {duration: 1, delay: 2, opacity: 0});
   gsap.from(" #thirdBoard .planner__title, #thirdBoard .planner__button", {duration: 1, delay: 3.5, opacity: 0});
+}
+
+const anchors = document.querySelectorAll('a[href*="#"]')
+
+for (let anchor of anchors) {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault()
+    
+    const blockID = anchor.getAttribute('href').substr(1)
+    
+    document.getElementById(blockID).scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    })
+  })
 }
 
 window.addEventListener("scroll", function(event) {
