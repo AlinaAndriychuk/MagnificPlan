@@ -47,7 +47,7 @@ function PopupBlock(props) {
           <p className="popup__marker">m</p>
           <p className="popup__prompt"><img className="popup__prompt-image" src="img/attachment.png" alt="attachment"/>Attachments</p>
           <input className="popup__file" onChange={changeFiles} type="file" multiple/>
-          <p ref={files}>{
+          <p ref={files} onKeyPress={props.onKey} contentEditable="">{
             props.filesValue.split("<br>").map((item)=>{
               if(item === ""){
                 return (
@@ -106,7 +106,7 @@ function Colorpalette(props) {
     setColored(false)
   }
   let styleForColor = {}
-  let arrayOfColors = ["#ffffff", "#d6ebff", "#ecccff", "#ffaec2", "#d6fff6", "#fbffc7"];
+  let arrayOfColors = ["#ffffff","#d6ebff","#ecccff","#ff919e","#91ffbb","#fbffc7"];
   for (let i = 0; i < 6; i++){
     styleForColor[i] = {
       backgroundColor: arrayOfColors[i],
@@ -256,7 +256,7 @@ class Blockfield extends React.Component {
             return (<Block backColor={this.state.colors[id]} onKeyPressFunction={this.handleKeyPress} files={this.state.files[id]} descriptionValue={this.state.description[id]} hours={this.state.hours[id]} minutes={this.state.minutes[id]} key = {id} context={this} colorFunction={this.changeColorOfBlock} deleteFunction={this.deleteBlock} updateFunction={this.updateTextInBlock} index= {id} taskName= {item}></Block>)
           })
         }
-        <button onClick={this.addBlock.bind(null, this, "Task name", "transparent", "", "", "", "")} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
+        <button onClick={this.addBlock.bind(null, this, "Task name", "transparent", "", "0", "0", "")} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
       </div>
     )
   }

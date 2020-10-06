@@ -130,22 +130,23 @@ body {
 }
 
 .planner__palette-button {
-  border: solid 1px #8d8d8d;
-  border-radius: 10%;
-  background-color: #4d4674;
-  height: 40px;
-  margin-top: 12px;
-  padding: 0 0px 0px 2px;
-  width: 66px;
+  border: solid 1px #474747;
+  background-color: #4a4268;
+  height: 45px;
+  margin-left: 70px;
+  margin-top: 10px;
+  padding: 0 10px 0px 10px;
+  position:absolute;
+  width:240px;
 }
 
 .planner__palette {
   border-radius: 50%;
   cursor: pointer;
   float: left;
-  height: 15px;
-  margin: 2px 2.5px 2px;
-  width: 15px;
+  height: 30px;
+  margin: 2px 3px;
+  width: 30px;
 }
 
 .planner__task-text {
@@ -207,13 +208,12 @@ body {
 
 .popup {
   background: url(../src/backgroundImages/gradientdark.jpg) left top;
-  box-shadow: 7px 7px 5px #4d4674;
-  filter: grayscale(50%);
+  box-shadow: 7px 7px 5px #4d4961;
   background-size: cover;
   height: min-content;
   margin: auto;
   padding: 10px;
-  width: 400px;
+  width: 700px;
 }
 
 .popup__task {    
@@ -278,8 +278,8 @@ body {
 }
 
 .popup__button {
-  border: 1px #4d4674 solid;
-  background-color: #4d4674;
+  border: 1px #5f5979 solid;
+  background-color:#5f5979;
   cursor: pointer;
   color: white;
   float: right;
@@ -288,10 +288,10 @@ body {
   font-family: 'Quicksand', sans-serif;
   letter-spacing: 3px;
   margin: 10px 0 0;
-  padding: 10px 24px;
+  min-width:100px;
+  padding: 10px 17%;
   text-align: left;
   transition-duration: 0.3s;
-  width: 100px;
 }
 
 .popup__button:hover {
@@ -301,18 +301,17 @@ body {
 }
 
 .popup__button-change {
-  border: 1px #4d4674 solid;
+  border: 1px #5f5979 solid;
   background-color: #ffffffb7;
   cursor: pointer;
   float: left;;
   height: 45px;
   margin: 10px 3% 0 0;
-  transition-duration: 0.3s;
   width: 50px;
 }
 
 .popup__button-change:hover {
-  background-color: #4d4674;
+  background-color: #5f5979;
 }
 
 .popup__prompt {
@@ -322,7 +321,7 @@ body {
   margin: 10px 0;
   padding: 10px;
   vertical-align: top;
-  width: 180px;
+  width: 270px;
 } 
 
 .popup__prompt-image {
@@ -535,9 +534,28 @@ body {
     height: 32px;
     width: 318px
   }
-  .planner__task-button{
+  .planner__task-button {
     height: 36px;
     width: 28px;
+  }
+  .popup {
+    max-width: 400px;
+  }
+  .popup__prompt{
+    width:180px
+  }
+  .planner__palette-button{
+    border-radius: 10%;
+    height: 64px;
+    margin-left: 60px;
+    margin-top:-5px;
+    padding:0 0 0 3px;
+    width:100px
+  }
+  .planner__palette{
+    height:26px;
+    margin:2px 2.5px;
+    width:26px
   }
   .advantages {
     height: 1500px;
@@ -609,12 +627,15 @@ body {
     margin: 2% auto;
     width: 80%;
   }
+  .planner__palette-button{
+    margin-left:0px;
+  }
   .popup__task {
     font-size: 20px;
     padding-top: 10px;
   }
   .popup__button {
-    padding: 10px 15px;
+    padding: 10px 24px;
     width: 80px;
   }
   .popup__button-change {
