@@ -25,7 +25,7 @@ function PopupBlock(props) {
       len = listOfFiles.length,
       previousText = files.current.innerHTML;
     for (let i = 0; i < len; i++) {
-      previousText += listOfFiles[i].name +"<br>"
+      previousText += listOfFiles[i].name +"\n"
     }
     files.current.innerHTML = previousText;
 
@@ -47,24 +47,7 @@ function PopupBlock(props) {
           <p className="popup__marker">m</p>
           <p className="popup__prompt"><img className="popup__prompt-image" src="img/attachment.png" alt="attachment"/>Attachments</p>
           <input className="popup__file" onChange={changeFiles} type="file" multiple/>
-          <p ref={files} onKeyPress={props.onKey} contentEditable="">{
-            props.filesValue.split("<br>").map((item)=>{
-              if(item === ""){
-                return (
-                <React.Fragment>
-                  {item}
-                </React.Fragment>
-                )
-              }
-              return (
-                <React.Fragment>
-                  {item} 
-                  
-                  <br/>
-                </React.Fragment>
-              )  
-            })
-          }</p>
+          <pre className="popup__file-text" ref={files} onKeyPress={props.onKey} contentEditable="">{props.filesValue}</pre>
           <button onClick={() =>{
             props.deleteFunction();
             setFloated(true)
@@ -79,7 +62,7 @@ function PopupBlock(props) {
   }
   function renderButton (){
     return (
-      <button onClick={showPopup} className=" planner__task-button">
+      <button onClick={showPopup} className="planner__task-button">
         <img className="planner__image" src="img/options.png" alt="more option"/>
       </button>
     )
@@ -114,6 +97,7 @@ function Colorpalette(props) {
   }
 
   function changeBackground(index) {
+    document.body.style.overflow = "hidden";
     props.colorFunction(props.blockfieldContext, arrayOfColors[index], props.blockfieldIndex)
     setColored(true)
   }
@@ -160,10 +144,15 @@ function Block(props) {
     setEdited(true)
     props.updateFunction(props.context, newValue, props.index)
   }
+  function textareaKeyPress(event) {
+    if (event.key === 'Enter') {
+      save()
+    }
+  }
   function renderEditBlock (){
     return (
       <div className="planner__task">
-        <textarea autoFocus ref={textarea} placeholder={props.taskName} className="planner__textarea"></textarea>
+        <textarea autoFocus onKeyPress={textareaKeyPress} ref={textarea} placeholder={props.taskName} className="planner__textarea"></textarea>
         <button onClick={save} className="planner__task-button"><img className="planner__image" src="img/ribbon.png" alt="save"/></button>
       </div>
     )
@@ -171,12 +160,26 @@ function Block(props) {
    let styleOfBlock = {
     backgroundColor: props.backColor,
   }
+  function showBasket(event){
+    if(document.documentElement.clientWidth >= 845){
+      let basket = document.getElementsByClassName("planner__delete-button")[0];
+      gsap.to(basket, {left: 100, display: "inline-block"})
+    }
+  }
+  function hideBasket(event){
+    let basket = document.getElementsByClassName("planner__delete-button")[0];
+    gsap.to(basket, {left: -100, rotateZ: 0, display: "none"})
+
+    if(deleteTask){
+      remove()
+      deleteTask = false;
+    }
+  }
   function renderNormalBlock (){
     return (
       <div className="planner__task">
-        <p style={styleOfBlock} className="planner__task-text">{props.taskName}</p>
-        <button onClick={edit} className="planner__task-button"><img className="planner__image" src="img/pencil.png" alt="edit"/></button>
-        <button onClick={remove} className="planner__task-button"><img className="planner__image" src="img/garbage.png" alt="delete"/></button>
+        <p style={styleOfBlock} onMouseUp={hideBasket} onMouseDown={showBasket} className="planner__task-text">{props.taskName}</p>
+        <button onClick={edit} className="planner__task-button--edit"><img className="planner__image" src="img/pencil.png" alt="edit"/></button>
         <PopupBlock taskIndex={props.index} filesValue={props.files} hoursValue={props.hours} minutesValue={props.minutes} onKey={props.onKeyPressFunction} descValue={props.descriptionValue} taskContext = {props.context} saveFunction={props.updateFunction} styleOfBlock={styleOfBlock} deleteFunction={remove} blockfieldIndex={props.index} colorFunction={props.colorFunction} blockfieldContext={props.context} styleTask={styleOfBlock} taskName={props.taskName}></PopupBlock>
       </div>
     )
@@ -224,9 +227,17 @@ class Blockfield extends React.Component {
   deleteBlock(context, index) {
     let arrayOfTasks = context.state.tasks;
     let arrayOfColors = context.state.colors;
+    let arrayOfDescriptions = context.state.description;
+    let arrayOfHours = context.state.hours;
+    let arrayOfMinutes = context.state.minutes;
+    let arrayOfFiles = context.state.files;
     arrayOfTasks.splice(index, 1);
     arrayOfColors.splice(index, 1);
-    context.setState ({arrayOfTasks, colors: arrayOfColors})
+    arrayOfDescriptions.splice(index, 1);
+    arrayOfHours.splice(index, 1);
+    arrayOfMinutes.splice(index, 1);
+    arrayOfFiles.splice(index, 1);
+    context.setState ({task: arrayOfTasks, colors: arrayOfColors, description: arrayOfDescriptions, hours: arrayOfHours, minutes: arrayOfMinutes, files: arrayOfFiles})
   }
   updateTextInBlock(context, text, index, desc, hours, minutes, files) {
     let arrayOfTasks = context.state.tasks;
@@ -264,7 +275,7 @@ class Blockfield extends React.Component {
 
 let plannerContainer = document.getElementsByClassName("planner")[0];
 let isDragging = false;
-
+let deleteTask = false;
 plannerContainer.addEventListener('mousedown', function(event) {
 
   let dragElement = event.target.closest('.planner__task');
@@ -285,12 +296,22 @@ plannerContainer.addEventListener('mousedown', function(event) {
     finishDrag(event);
   };
   let currentDroppable = null;
+  let currentBucket = null;
+
   function enterDroppable(elem) {
     gsap.to(elem, { boxShadow: " 7px 7px 5px #f0ddfc"})
   }
 
   function leaveDroppable(elem) {
     gsap.to(elem, { backgroundColor: "#f9f0fa", boxShadow: "none"})
+  }
+
+  function enterBucket(elem) {
+    gsap.to(elem, {duration: 0.5, rotateZ: -30})
+  }
+
+  function leaveBucket(elem) {
+    gsap.to(elem, { duration: 0.5, rotateZ: 0})
   }
 
   function onMouseMove(event) {
@@ -313,6 +334,22 @@ plannerContainer.addEventListener('mousedown', function(event) {
         enterDroppable(currentDroppable);
       }
     }
+
+    let droppableBucket = document.getElementsByClassName("planner__delete-button")[0];
+    let droppableBucketImage = document.getElementsByClassName("planner__delete-image")[0];
+
+    if (elemBelow === droppableBucket || elemBelow === droppableBucketImage) {
+      currentBucket = droppableBucket;
+      if (currentBucket) {
+        enterBucket(currentBucket);
+      }
+      
+    } else {
+      if (currentBucket) {
+        leaveBucket(currentBucket);
+        currentBucket = null;
+      }
+    }
   }
 
   function startDrag(element, clientX, clientY) {
@@ -328,6 +365,8 @@ plannerContainer.addEventListener('mousedown', function(event) {
     shiftX = clientX - element.getBoundingClientRect().left;
     shiftY = clientY - element.getBoundingClientRect().top;
 
+
+
     element.style.position = 'fixed';
     element.style.zIndex = 10;
     moveAt(clientX, clientY);
@@ -342,6 +381,13 @@ plannerContainer.addEventListener('mousedown', function(event) {
     let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
     dragElement.style.display = "inline-block"
     if (!elemBelow) return;
+
+    let droppableBucket = document.getElementsByClassName("planner__delete-button")[0];
+    let droppableBucketImage = document.getElementsByClassName("planner__delete-image")[0];
+
+    if (elemBelow === droppableBucket || elemBelow === droppableBucketImage){
+      deleteTask = true;
+    }
     let droppableBelow = elemBelow.closest('.planner__board');
 
     isDragging = false;
@@ -373,8 +419,7 @@ plannerContainer.addEventListener('mousedown', function(event) {
       newX = document.documentElement.clientWidth - dragElement.offsetWidth;
     }
 
-    dragElement.style.left = newX + 'px';
-    dragElement.style.top = newY + 'px';
+    gsap.to(dragElement, {duration: 0, left: newX, top: newY})
   }
 
 });
@@ -384,6 +429,7 @@ ReactDOM.render(
     <Blockfield idName="firstBoard" titleName="Todo list"></Blockfield>
     <Blockfield idName="secondBoard"  titleName="In progress"></Blockfield>
     <Blockfield idName="thirdBoard" titleName="Done"></Blockfield>
+    <button className="planner__delete-button"><img className="planner__delete-image" alt="waste basket" src="../img/basket.png"/></button>
   </React.StrictMode>,
   document.getElementById('planner-field')
 );
@@ -540,3 +586,4 @@ window.addEventListener("scroll", function(event) {
     }
   }  
 })
+
