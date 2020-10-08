@@ -69,11 +69,11 @@ function PopupBlock(props) {
   }
 
   if (floated){
-    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
     document.body.style.paddingRight = "0px";
     return renderButton();
   } else {
-    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
     document.body.style.paddingRight = "16px";
     return renderPopup();
   }
@@ -97,9 +97,9 @@ function Colorpalette(props) {
   }
 
   function changeBackground(index) {
-    document.body.style.overflow = "hidden";
     props.colorFunction(props.blockfieldContext, arrayOfColors[index], props.blockfieldIndex)
-    setColored(true)
+    setColored(true);
+    document.documentElement.style.overflow = "hidden";
   }
   
   function renderPaletteBlock (){
@@ -273,6 +273,100 @@ class Blockfield extends React.Component {
   }
 }
 
+class PLannerFullBoard extends React.Component {
+  render(){
+    return (
+      <div className= "planner-full-board">
+        <Blockfield idName="firstBoard" titleName="Todo list"></Blockfield>
+        <Blockfield idName="secondBoard"  titleName="In progress"></Blockfield>
+        <Blockfield idName="thirdBoard" titleName="Done"></Blockfield>
+      </div>
+    )
+  }
+}
+
+function ChooseBar() {
+  const [addBoardName, setAddBoardName] = useState(["New desk"]);
+  const [addDesk, setAddDesk] = useState(false);
+
+ 
+  function KeyPressEnter(event) {
+    if (event.key === 'Enter') {
+      event.target.blur()
+    }
+  }
+  function addFullBoard(event){
+    let arrayOfFullBoards = document.documentElement.getElementsByClassName("planner-full-board");
+    arrayOfFullBoards = Array.from(arrayOfFullBoards)
+    for(let everyBoard of arrayOfFullBoards ){
+      everyBoard.style.display = "none"
+    }
+    setAddDesk(true)
+  }
+
+  function showPlannerBar(){
+    return (
+      <div className= "planner-bar">
+        {
+          addBoardName.map ((item,id) => {
+            return (
+              <div key={id} className="planner-bar__desk" contentEditable="" onKeyPress={KeyPressEnter}>
+                <p className="planner-bar__name">{item}</p>
+                <button className="planner-bar__delete"><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
+              </div>
+            )
+          })
+        }
+        <button className="planner-bar__add-button" onClick={addFullBoard}>+</button>
+      </div>
+    )
+  }  
+  function deskPopup(){ 
+    return (
+      <div className="popup-wrapper desk-popup">
+        <div className="popup">
+          <img className="popup__cancel" src="img/cancel.png" alt="cancel"/>
+          <textarea autoFocus placeholder="Board name" onKeyPress={KeyPressEnter} className="popup__textarea-board"></textarea>
+          <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Number of columns</p>
+          <div className="popup-radio">
+            <input className="popup__input" type="radio" id="oneColumn" name="column"/>
+            <label className="popup__label" htmlFor="oneColumn">1</label>
+          </div>
+          <div className="popup-radio">
+            <input className="popup__input" type="radio" id="twoColumn" name="column"/>
+            <label className="popup__label" htmlFor="twoColumn">2</label>
+          </div>
+          <div className="popup-radio">
+            <input className="popup__input" type="radio" id="threeColumn" name="column" defaultChecked />
+            <label className="popup__label" htmlFor="threeColumn">3</label>
+          </div>  
+          <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Color of board</p>
+          <button className="popup__button">
+            Create
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  if(addDesk){
+    return deskPopup()
+  }else {
+    return showPlannerBar()
+  }
+}
+
+
+ReactDOM.render(
+  <React.Fragment>
+    <ChooseBar></ChooseBar>
+    <PLannerFullBoard></PLannerFullBoard>
+    <button className="planner__delete-button"><img className="planner__delete-image" alt="waste basket" src="../img/basket.png"/></button>
+  </React.Fragment>,
+  document.getElementById('planner-field')
+);
+
+
 let plannerContainer = document.getElementsByClassName("planner")[0];
 let isDragging = false;
 let deleteTask = false;
@@ -423,16 +517,6 @@ plannerContainer.addEventListener('mousedown', function(event) {
   }
 
 });
-
-ReactDOM.render(
-  <React.StrictMode>
-    <Blockfield idName="firstBoard" titleName="Todo list"></Blockfield>
-    <Blockfield idName="secondBoard"  titleName="In progress"></Blockfield>
-    <Blockfield idName="thirdBoard" titleName="Done"></Blockfield>
-    <button className="planner__delete-button"><img className="planner__delete-image" alt="waste basket" src="../img/basket.png"/></button>
-  </React.StrictMode>,
-  document.getElementById('planner-field')
-);
 
 serviceWorker.unregister();
 gsap.from(".header__logo", {duration: 2, y: 270});
