@@ -67,8 +67,6 @@ body {
 }
 
 .planner {
-  display: flex;
-  justify-content: space-evenly;
   min-height: 500px;
 }
 
@@ -98,7 +96,7 @@ body {
 }
 
 .planner__task:hover {
-  background-color: #e3e2fd;
+  background-color: #eeeeff;
 }
 
 .planner__task:hover .planner__task-button, .planner__task:hover .planner__task-button--edit {
@@ -136,7 +134,7 @@ body {
   z-index: 5;
 }
 
-.planner__task-button:hover, .planner__task-button--edit:hover {
+.planner__task-button:hover .planner__image, .planner__task-button--edit:hover .planner__image{
   transform: rotateZ(-90deg);
 }
 
@@ -199,6 +197,7 @@ body {
 .planner__textarea {
   border: none;
   background-color: #fefeff;
+  float: left;
   font-size: 16px;
   font-family: 'Quicksand', sans-serif;
   height: 32px;
@@ -208,6 +207,10 @@ body {
   resize: none;
   vertical-align: top;
   width: 332px;
+}
+.planner__textarea:hover {
+  background-color: #f8f9ff;
+  transition-duration: 0.3s;
 }
 
 .planner__textarea:focus, .planner__button:focus, .popup__button-change:focus, .popup__button:focus, .popup__description:focus, .popup__file:focus, .popup__task:focus, .popup__time:focus {
@@ -223,6 +226,7 @@ body {
   max-height: 99%;
   max-width: 100%;
   padding-top: 5%;
+  transition-duration: 0.3s;
 }
 
 .planner__delete-button {
@@ -243,6 +247,113 @@ body {
 .planner__delete-image {
   width: 100%;
 }
+
+.planner-full-board {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.planner-bar__desk {
+  border: 1px solid transparent;
+  border-right: solid 1px #ccbed6;
+  float: left;
+  display: block;
+  padding: 10px 0;
+  transition-duration: 0.3s;
+  width: 200px;
+}
+
+.planner-bar__desk:hover, .planner-bar__add-button:hover {
+  background-clip: border-box;
+  background-color: #f7effc;
+}
+
+.planner-bar__desk:focus, .planner-bar__add-button:focus, .planner-bar__delete {
+  border: 1px solid #ccbed6;
+  background-color: #fcf8ff;
+  outline: none;
+}
+
+.planner-bar__name {
+  float: left;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.planner-bar__delete {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  height: 20px;
+  margin-left: -24px;
+  padding: 4px;
+  position: absolute;
+  width: 20px;
+}
+
+.planner-bar__delete:hover .planner-bar__image {
+  transform: rotateZ(-90deg);
+}
+
+.planner-bar__image {
+  transition-duration: 0.3s;
+  width: 100%;
+}
+
+.planner-bar__add-button {
+  background-color: transparent;
+  border-top-right-radius: 20%;
+  border-bottom-right-radius: 20%;
+  border: none;
+  cursor: pointer;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 26px;
+  height: 42px;
+  padding-bottom: 15px;
+  transition-duration: 0.3s;
+  width: 40px;
+}
+
+.popup__input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.popup__input + .popup__label {
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+}
+
+.popup__input + .popup__label::before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  flex-grow: 0;
+  border: 1px solid #adb5bd;
+  border-radius: 50%;
+  margin-right: 0.5em;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50% 50%;
+}
+
+.popup__input:not(:disabled):not(:checked) + .popup__label:hover::before {
+  border-color: #ffffff;
+}
+ 
+
+.popup__input:checked + .popup__label::before {
+  border-color: #807a9e;
+  background-color: #807a9e;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}
+
 
 .popup-wrapper {
   background-color: rgba(42, 11, 49, 0.63);
@@ -268,6 +379,36 @@ body {
   margin: auto;
   padding: 10px;
   width: 700px;
+}
+
+.popup__textarea-board {
+  border-color: transparent;
+  box-sizing: border-box;
+  background-color: transparent;
+  font-size: 26px;
+  font-family: 'Quicksand', sans-serif;
+  height: 46px;
+  margin: 0;
+  padding: 5px;
+  resize: none;
+  text-align: center;
+  vertical-align: middle;
+  width: 90%;
+}
+
+.desk-popup .popup {
+  width: 400px;
+}
+
+.desk-popup .popup__button {
+  padding: 10px 0;
+  text-align: center;
+  width: 100%;
+}
+
+.popup__textarea-board:focus {
+  outline: none;
+  border: 1px solid #807a9e;
 }
 
 .popup__task {    
@@ -367,6 +508,10 @@ body {
   height: 45px;
   margin: 10px 3% 0 0;
   width: 50px;
+}
+
+.popup__button-change:hover .planner__image {
+  transform: rotateY(180deg);
 }
 
 .popup__button-change:hover {
@@ -576,7 +721,7 @@ body {
   .header__title {
     font-size: 24px;
   }
-  .planner {
+  .planner-full-board {
     display: block;
   }
   .planner__board {
@@ -599,6 +744,10 @@ body {
     opacity: 1;
     position: relative;
     width: 28px;
+  }
+  .desk-popup .popup__prompt{
+    font-size: 16px;
+    width: 220px
   }
   .popup {
     max-width: 400px;
@@ -691,6 +840,10 @@ body {
   }
   .planner__palette-button{
     margin-left:0px;
+  }
+  .desk-popup .popup__prompt{
+    font-size: 14px;
+    width: 180px
   }
   .popup__task {
     font-size: 20px;
