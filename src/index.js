@@ -99,7 +99,6 @@ function Colorpalette(props) {
   function changeBackground(index) {
     props.colorFunction(props.blockfieldContext, arrayOfColors[index], props.blockfieldIndex)
     setColored(true);
-    document.documentElement.style.overflow = "hidden";
   }
   
   function renderPaletteBlock (){
@@ -288,6 +287,7 @@ class PLannerFullBoard extends React.Component {
 function ChooseBar() {
   const [addBoardName, setAddBoardName] = useState(["New desk"]);
   const [addDesk, setAddDesk] = useState(false);
+  const textareaNameOfBoard = useRef(null)
 
  
   function KeyPressEnter(event) {
@@ -302,6 +302,25 @@ function ChooseBar() {
       everyBoard.style.display = "none"
     }
     setAddDesk(true)
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.paddingRight = "16px";
+  }
+
+  function createNewBoard(event){
+    let target = event.target.closest(".popup").getElementsByClassName("popup__input")
+    let boardNames = addBoardName;
+    if(textareaNameOfBoard.current.value){
+      boardNames.push(textareaNameOfBoard.current.value);
+      document.body.style.paddingRight = "0px";
+      document.documentElement.style.overflow = "";
+      setAddBoardName(boardNames)
+      setAddDesk(false);
+    }else {
+      alert("Fill the board name field");
+      textareaNameOfBoard.current.style.borderColor ="#ff4036";
+      textareaNameOfBoard.current.autofocus = "true"
+    }
+    
   }
 
   function showPlannerBar(){
@@ -310,8 +329,10 @@ function ChooseBar() {
         {
           addBoardName.map ((item,id) => {
             return (
-              <div key={id} className="planner-bar__desk" contentEditable="" onKeyPress={KeyPressEnter}>
-                <p className="planner-bar__name">{item}</p>
+              <div key={id} className="planner-bar__desk">
+                <div className="planner-bar__name">
+                  <p title={item} className="planner-bar__text">{item}</p>
+                </div>
                 <button className="planner-bar__delete"><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
               </div>
             )
@@ -326,7 +347,7 @@ function ChooseBar() {
       <div className="popup-wrapper desk-popup">
         <div className="popup">
           <img className="popup__cancel" src="img/cancel.png" alt="cancel"/>
-          <textarea autoFocus placeholder="Board name" onKeyPress={KeyPressEnter} className="popup__textarea-board"></textarea>
+          <textarea autoFocus maxLength="17" ref={textareaNameOfBoard} placeholder="Board name" onKeyPress={KeyPressEnter} className="popup__textarea-board"></textarea>
           <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Number of columns</p>
           <div className="popup-radio">
             <input className="popup__input" type="radio" id="oneColumn" name="column"/>
@@ -341,7 +362,7 @@ function ChooseBar() {
             <label className="popup__label" htmlFor="threeColumn">3</label>
           </div>  
           <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Color of board</p>
-          <button className="popup__button">
+          <button onClick={createNewBoard} className="popup__button">
             Create
           </button>
         </div>
