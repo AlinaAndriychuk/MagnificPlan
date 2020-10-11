@@ -213,9 +213,14 @@ body {
   transition-duration: 0.3s;
 }
 
-.planner__textarea:focus, .planner__button:focus, .popup__button-change:focus, .popup__button:focus, .popup__description:focus, .popup__file:focus, .popup__task:focus, .popup__time:focus {
+.planner__textarea:focus, .planner__button:focus, .popup__button-change:focus, .popup__description:focus, .popup__file:focus, .popup__task:focus, .popup__time:focus {
   border: none;
   outline: solid 1px #ccbed6;
+}
+
+.popup__button:focus {
+  border-color: transparent;
+  outline: none;
 }
 
 .planner__task-button:focus, .planner__task-button--edit:focus, .planner__palette-button:focus {
@@ -255,13 +260,14 @@ body {
 }
 
 .planner-bar__desk {
-  border: 1px solid transparent;
-  border-right: solid 1px #ccbed6;
+  box-sizing: border-box;
+  border-right: 1px solid #ccbed6;
   float: left;
-  display: block;
-  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  min-width: 168.7px;
   transition-duration: 0.3s;
-  width: 200px;
+  width: 20%;
 }
 
 .planner-bar__desk:hover, .planner-bar__add-button:hover {
@@ -276,21 +282,30 @@ body {
 }
 
 .planner-bar__name {
-  float: left;
+  box-sizing: border-box;
+  margin-right: 1px;
+  line-height: 40px;
+  min-width: 129px;
+  max-height: 40px;
+  overflow: hidden;
+  padding-left: 8%;
+  width: 89%;
+}
+
+.planner-bar__text {
   margin: 0;
-  text-align: center;
-  width: 100%;
+  max-height: 40px;
+  width: max-content;
 }
 
 .planner-bar__delete {
   background-color: transparent;
-  border: none;
+  border:none;
   cursor: pointer;
-  height: 20px;
-  margin-left: -24px;
-  padding: 4px;
-  position: absolute;
-  width: 20px;
+  height: 40px;
+  min-width: 20px;
+  padding: 14px 2%;
+  width: 10%;
 }
 
 .planner-bar__delete:hover .planner-bar__image {
@@ -299,7 +314,7 @@ body {
 
 .planner-bar__image {
   transition-duration: 0.3s;
-  width: 100%;
+  width: 12px;
 }
 
 .planner-bar__add-button {
@@ -310,7 +325,7 @@ body {
   cursor: pointer;
   font-family: 'Quicksand', sans-serif;
   font-size: 26px;
-  height: 42px;
+  height: 40px;
   padding-bottom: 15px;
   transition-duration: 0.3s;
   width: 40px;
@@ -340,7 +355,7 @@ body {
   margin-right: 0.5em;
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 50% 50%;
+  background-size: 50%;
 }
 
 .popup__input:not(:disabled):not(:checked) + .popup__label:hover::before {
