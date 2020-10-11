@@ -74,7 +74,9 @@ function PopupBlock(props) {
     return renderButton();
   } else {
     document.documentElement.style.overflow = "hidden";
-    document.body.style.paddingRight = "16px";
+    if(document.documentElement.clientWidth >= 861){
+      document.body.style.paddingRight = "16px";
+    }
     return renderPopup();
   }
 
@@ -160,16 +162,18 @@ function Block(props) {
     backgroundColor: props.backColor,
   }
   function showBasket(event){
-    if(document.documentElement.clientWidth >= 845){
+    if(document.documentElement.clientWidth >= 861){
       let basket = document.getElementsByClassName("planner__delete-button")[0];
       gsap.to(basket, {left: 100, display: "inline-block"})
     }
   }
   function hideBasket(event){
     let basket = document.getElementsByClassName("planner__delete-button")[0];
-    gsap.to(basket, {left: -100, rotateZ: 0, display: "none"})
-
+    gsap.to(basket, {left: -100, rotateZ: 0, display: "none"});
+    
     if(deleteTask){
+      let parentOfTask = document.getElementById(props.realParent).querySelector(".planner__button")
+      parentOfTask.before(event.target.closest(".planner__task"));
       remove()
       deleteTask = false;
     }
@@ -263,7 +267,7 @@ class Blockfield extends React.Component {
         <div className="planner__title" contentEditable="" onKeyPress={this.handleKeyPress}>{this.props.titleName}</div>
         {
           this.state.tasks.map ((item,id) => {
-            return (<Block backColor={this.state.colors[id]} onKeyPressFunction={this.handleKeyPress} files={this.state.files[id]} descriptionValue={this.state.description[id]} hours={this.state.hours[id]} minutes={this.state.minutes[id]} key = {id} context={this} colorFunction={this.changeColorOfBlock} deleteFunction={this.deleteBlock} updateFunction={this.updateTextInBlock} index= {id} taskName= {item}></Block>)
+            return (<Block realParent={this.props.idName} backColor={this.state.colors[id]} onKeyPressFunction={this.handleKeyPress} files={this.state.files[id]} descriptionValue={this.state.description[id]} hours={this.state.hours[id]} minutes={this.state.minutes[id]} key = {id} context={this} colorFunction={this.changeColorOfBlock} deleteFunction={this.deleteBlock} updateFunction={this.updateTextInBlock} index= {id} taskName= {item}></Block>)
           })
         }
         <button onClick={this.addBlock.bind(null, this, "Task name", "transparent", "", "0", "0", "")} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
@@ -284,65 +288,37 @@ class PLannerFullBoard extends React.Component {
   }
 }
 
-function ChooseBar() {
-  const [addBoardName, setAddBoardName] = useState(["New desk"]);
-  const [addDesk, setAddDesk] = useState(false);
-  const textareaNameOfBoard = useRef(null)
 
- 
+function DeskPopup(props){ 
+  const [showBoardsField, setShowBoardsField] = useState(false);
+  const textareaNameOfBoard = useRef(null)
+  
   function KeyPressEnter(event) {
     if (event.key === 'Enter') {
       event.target.blur()
     }
   }
-  function addFullBoard(event){
-    let arrayOfFullBoards = document.documentElement.getElementsByClassName("planner-full-board");
-    arrayOfFullBoards = Array.from(arrayOfFullBoards)
-    for(let everyBoard of arrayOfFullBoards ){
-      everyBoard.style.display = "none"
-    }
-    setAddDesk(true)
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.paddingRight = "16px";
-  }
 
-  function createNewBoard(event){
-    let target = event.target.closest(".popup").getElementsByClassName("popup__input")
-    let boardNames = addBoardName;
+  function createBoard(){
     if(textareaNameOfBoard.current.value){
-      boardNames.push(textareaNameOfBoard.current.value);
-      document.body.style.paddingRight = "0px";
-      document.documentElement.style.overflow = "";
-      setAddBoardName(boardNames)
-      setAddDesk(false);
+      setShowBoardsField(true);
     }else {
       alert("Fill the board name field");
       textareaNameOfBoard.current.style.borderColor ="#ff4036";
-      textareaNameOfBoard.current.autofocus = "true"
     }
     
   }
 
-  function showPlannerBar(){
+  function showBoards(){
     return (
-      <div className= "planner-bar">
-        {
-          addBoardName.map ((item,id) => {
-            return (
-              <div key={id} className="planner-bar__desk">
-                <div className="planner-bar__name">
-                  <p title={item} className="planner-bar__text">{item}</p>
-                </div>
-                <button className="planner-bar__delete"><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
-              </div>
-            )
-          })
-        }
-        <button className="planner-bar__add-button" onClick={addFullBoard}>+</button>
-      </div>
+    <div className= "planner-full-board">
+        <Blockfield idName="forthBoard" titleName="Column name"></Blockfield>
+        <Blockfield idName="fifthBoard"  titleName="Column name"></Blockfield>
+        <Blockfield idName="sixBoard" titleName="Column name"></Blockfield>
+    </div>
     )
-  }  
-  function deskPopup(){ 
+  }
+  function showPopup(){
     return (
       <div className="popup-wrapper desk-popup">
         <div className="popup">
@@ -362,19 +338,82 @@ function ChooseBar() {
             <label className="popup__label" htmlFor="threeColumn">3</label>
           </div>  
           <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Color of board</p>
-          <button onClick={createNewBoard} className="popup__button">
+          <button onClick={createBoard} className="popup__button">
             Create
           </button>
         </div>
       </div>
     )
   }
-
-  if(addDesk){
-    return deskPopup()
+  if(showBoardsField){
+    return showBoards()
   }else {
-    return showPlannerBar()
+    return showPopup()
   }
+}  
+
+function CreateDeskButton(props){
+  
+  function addFullBoard(event){
+    props.setRender()
+    if(document.documentElement.clientWidth >= 845){
+      document.body.style.paddingRight = "16px";
+    }
+    document.documentElement.style.overflow = "hidden";
+  }
+
+  function showButton(){
+    return <button className="planner-bar__add-button" onClick={addFullBoard}>+</button>
+  }
+  function showDesks(){
+    return <DeskPopup returnButton={props.setRender} createNewBoard={props.createNewBoard}/>
+  }
+
+  if(props.renderFunction){
+    return showDesks()
+  }else {
+    return showButton()
+  }
+}
+
+function ChooseBar() {
+  const [addBoardName, setAddBoardName] = useState(["New desk"]);
+  const [addDesk, setAddDesk] = useState(false);
+
+  
+  function createNewBoard(boardFullName){
+    let boardNames = addBoardName;
+    boardNames.push(boardFullName.value);
+    document.body.style.paddingRight = "0px";
+    document.documentElement.style.overflow = "";
+    setAddBoardName(boardNames)
+    setAddDesk(false);
+    
+  }
+
+  function setRender() {
+    setAddDesk(true)
+  }
+  
+  return (
+    <div className= "planner-bar">
+      {
+        addBoardName.map ((item,id) => {
+          return (
+            <div key={id} className="planner-bar__desk">
+              <div className="planner-bar__name">
+                <p title={item} className="planner-bar__text">{item}</p>
+              </div>
+              <button className="planner-bar__delete"><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
+            </div>
+          )
+        })
+      }
+      <CreateDeskButton setRender={setRender} renderFunction={addDesk} createNewBoard={createNewBoard}/>
+    </div>
+  ) 
+
+  
 }
 
 
