@@ -213,7 +213,7 @@ body {
   transition-duration: 0.3s;
 }
 
-.planner__textarea:focus, .planner__button:focus, .popup__button-change:focus, .popup__description:focus, .popup__file:focus, .popup__task:focus, .popup__time:focus {
+.planner__textarea:focus, .planner__title:focus, .planner__button:focus, .popup__button-change:focus, .popup__description:focus, .popup__file:focus, .popup__task:focus, .popup__time:focus {
   border: none;
   outline: solid 1px #ccbed6;
 }
@@ -367,7 +367,7 @@ body {
   border-color: #807a9e;
   background-color: #807a9e;
   background-image: url(backgroundImages/check.png);
-  background-size: 70%;
+  background-size: 65%;
 }
 
 
