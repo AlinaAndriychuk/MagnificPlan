@@ -289,116 +289,127 @@ class PLannerFullBoard extends React.Component {
 }
 
 
-function DeskPopup(props){ 
-  const [showBoardsField, setShowBoardsField] = useState(false);
-  const textareaNameOfBoard = useRef(null)
+// function DeskPopup(props){ 
   
+//   function KeyPressEnter(event) {
+//     if (event.key === 'Enter') {
+//       event.target.blur()
+//     }
+//   }
+
+//   function createBoard(){
+//     if(textareaNameOfBoard.current.value){
+//       props.returnButton()
+//     }else {
+//       alert("Fill the board name field");
+//       textareaNameOfBoard.current.style.borderColor ="#ff4036";
+//     }
+    
+//   }
+
+//   function showBoards(){
+//     return (
+//     <div className= "planner-full-board">
+//         <Blockfield idName="forthBoard" titleName="Column name"></Blockfield>
+//         <Blockfield idName="fifthBoard"  titleName="Column name"></Blockfield>
+//         <Blockfield idName="sixBoard" titleName="Column name"></Blockfield>
+//     </div>
+//     )
+//   }
+//   function showPopup(){
+//     return (
+//       <div className="popup-wrapper desk-popup">
+//         <div className="popup">
+//           <img className="popup__cancel" src="img/cancel.png" alt="cancel"/>
+//           <textarea autoFocus maxLength="17" ref={textareaNameOfBoard} placeholder="Board name" onKeyPress={KeyPressEnter} className="popup__textarea-board"></textarea>
+//           <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Number of columns</p>
+//           <div className="popup-radio">
+//             <input className="popup__input" type="radio" id="oneColumn" name="column"/>
+//             <label className="popup__label" htmlFor="oneColumn">1</label>
+//           </div>
+//           <div className="popup-radio">
+//             <input className="popup__input" type="radio" id="twoColumn" name="column"/>
+//             <label className="popup__label" htmlFor="twoColumn">2</label>
+//           </div>
+//           <div className="popup-radio">
+//             <input className="popup__input" type="radio" id="threeColumn" name="column" defaultChecked />
+//             <label className="popup__label" htmlFor="threeColumn">3</label>
+//           </div>  
+//           <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Color of board</p>
+//           <button onClick={createBoard} className="popup__button">
+//             Create
+//           </button>
+//         </div>
+//       </div>
+//     )
+//   }
+//   if(showBoardsField){
+//     return showBoards()
+//   }else {
+//     return showPopup()
+//   }
+// }  
+
+// function CreateDeskButton(props){
+  
+//   function addFullBoard(event){
+//     props.setRender()
+//     if(document.documentElement.clientWidth >= 845){
+//       document.body.style.paddingRight = "16px";
+//     }
+//     document.documentElement.style.overflow = "hidden";
+//   }
+
+//   function showButton(){
+//     return <button className="planner-bar__add-button" onClick={addFullBoard}>+</button>
+//   }
+//   function showDesks(){
+//     return <DeskPopup returnButton={props.setRender} createNewBoard={props.createNewBoard}/>
+//   }
+
+//   if(props.renderFunction){
+//     return showDesks()
+//   }else {
+//     return showButton()
+//   }
+// }
+
+function ChooseBar() {
+  const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: []});
+  const textareaNameOfBoard = useRef(null)
+
   function KeyPressEnter(event) {
     if (event.key === 'Enter') {
-      event.target.blur()
+       event.target.blur()
     }
   }
 
-  function createBoard(){
+  
+  function showPopup(){
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true]})
+     document.body.style.paddingRight = "16px";
+     document.documentElement.style.overflow = "hidden"; 
+  }
+
+  function hidePopup() {
+    document.body.style.paddingRight = "0px";
+    document.documentElement.style.overflow = ""; 
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: []})
+  }
+
+  function desideToHidePopup(){
     if(textareaNameOfBoard.current.value){
-      setShowBoardsField(true);
+      hidePopup()
     }else {
       alert("Fill the board name field");
       textareaNameOfBoard.current.style.borderColor ="#ff4036";
     }
-    
-  }
-
-  function showBoards(){
-    return (
-    <div className= "planner-full-board">
-        <Blockfield idName="forthBoard" titleName="Column name"></Blockfield>
-        <Blockfield idName="fifthBoard"  titleName="Column name"></Blockfield>
-        <Blockfield idName="sixBoard" titleName="Column name"></Blockfield>
-    </div>
-    )
-  }
-  function showPopup(){
-    return (
-      <div className="popup-wrapper desk-popup">
-        <div className="popup">
-          <img className="popup__cancel" src="img/cancel.png" alt="cancel"/>
-          <textarea autoFocus maxLength="17" ref={textareaNameOfBoard} placeholder="Board name" onKeyPress={KeyPressEnter} className="popup__textarea-board"></textarea>
-          <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Number of columns</p>
-          <div className="popup-radio">
-            <input className="popup__input" type="radio" id="oneColumn" name="column"/>
-            <label className="popup__label" htmlFor="oneColumn">1</label>
-          </div>
-          <div className="popup-radio">
-            <input className="popup__input" type="radio" id="twoColumn" name="column"/>
-            <label className="popup__label" htmlFor="twoColumn">2</label>
-          </div>
-          <div className="popup-radio">
-            <input className="popup__input" type="radio" id="threeColumn" name="column" defaultChecked />
-            <label className="popup__label" htmlFor="threeColumn">3</label>
-          </div>  
-          <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Color of board</p>
-          <button onClick={createBoard} className="popup__button">
-            Create
-          </button>
-        </div>
-      </div>
-    )
-  }
-  if(showBoardsField){
-    return showBoards()
-  }else {
-    return showPopup()
-  }
-}  
-
-function CreateDeskButton(props){
-  
-  function addFullBoard(event){
-    props.setRender()
-    if(document.documentElement.clientWidth >= 845){
-      document.body.style.paddingRight = "16px";
-    }
-    document.documentElement.style.overflow = "hidden";
-  }
-
-  function showButton(){
-    return <button className="planner-bar__add-button" onClick={addFullBoard}>+</button>
-  }
-  function showDesks(){
-    return <DeskPopup returnButton={props.setRender} createNewBoard={props.createNewBoard}/>
-  }
-
-  if(props.renderFunction){
-    return showDesks()
-  }else {
-    return showButton()
-  }
-}
-
-function ChooseBar() {
-  const [addBoardName, setAddBoardName] = useState(["New desk"]);
-  const [addDesk, setAddDesk] = useState(false);
-
-  
-  function createNewBoard(boardFullName){
-    let boardNames = addBoardName;
-    boardNames.push(boardFullName.value);
-    document.body.style.paddingRight = "0px";
-    document.documentElement.style.overflow = "";
-    setAddBoardName(boardNames)
-    setAddDesk(false);
-    
-  }
-
-  function setRender() {
-    setAddDesk(true)
   }
   
   return (
     <div className= "planner-bar">
       {
-        addBoardName.map ((item,id) => {
+        boardDetails.boardFullNames.map ((item,id) => {
           return (
             <div key={id} className="planner-bar__desk">
               <div className="planner-bar__name">
@@ -409,7 +420,37 @@ function ChooseBar() {
           )
         })
       }
-      <CreateDeskButton setRender={setRender} renderFunction={addDesk} createNewBoard={createNewBoard}/>
+      {
+        boardDetails.showPopup.map ((item, id) => {
+          return (
+            <div key= {id} className="popup-wrapper desk-popup">
+              <div className="popup">
+                <img className="popup__cancel" onClick={hidePopup} src="img/cancel.png" alt="cancel"/>
+                <textarea autoFocus maxLength="17" ref={textareaNameOfBoard} placeholder="Board name" onKeyPress={KeyPressEnter} className="popup__textarea-board"></textarea>
+                <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Number of columns</p>
+                <div className="popup-radio">
+                  <input className="popup__input" type="radio" id="oneColumn" name="column"/>
+                  <label className="popup__label" htmlFor="oneColumn">1</label>
+                </div>
+                <div className="popup-radio">
+                  <input className="popup__input" type="radio" id="twoColumn" name="column"/>
+                  <label className="popup__label" htmlFor="twoColumn">2</label>
+                </div>
+                <div className="popup-radio">
+                  <input className="popup__input" type="radio" id="threeColumn" name="column" defaultChecked />
+                  <label className="popup__label" htmlFor="threeColumn">3</label>
+                </div>  
+                <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Color of board</p>
+                <button onClick={desideToHidePopup} className="popup__button">
+                  Create
+                </button>
+              </div>
+            </div>
+          )
+        })
+      }
+      <button className="planner-bar__add-button" onClick={showPopup}>+</button>
+
     </div>
   ) 
 
