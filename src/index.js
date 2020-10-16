@@ -11,7 +11,8 @@ function PopupBlock(props) {
   const minutes = useRef(null);
   const files = useRef(null);
   const [floated, setFloated] = useState(true);
-  function showPopup(){
+
+  function showPopup(event){
     setFloated(false)
   }
 
@@ -41,9 +42,9 @@ function PopupBlock(props) {
           <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Description</p>
           <textarea className="popup__description" placeholder="Write description to your task" ref={description} defaultValue={props.descValue}></textarea>
           <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Time estimation</p>
-          <textarea className="popup__time" ref={hours} defaultValue={props.hoursValue}></textarea> 
+          <textarea className="popup__time" ref={hours} maxLength="3" defaultValue={props.hoursValue}></textarea> 
           <p className="popup__marker">h</p>
-          <textarea className="popup__time" ref={minutes} defaultValue={props.minutesValue}></textarea>
+          <textarea className="popup__time" ref={minutes} maxLength="2" defaultValue={props.minutesValue}></textarea>
           <p className="popup__marker">m</p>
           <p className="popup__prompt"><img className="popup__prompt-image" src="img/attachment.png" alt="attachment"/>Attachments</p>
           <input className="popup__file" onChange={changeFiles} type="file" multiple/>
@@ -132,7 +133,7 @@ function Colorpalette(props) {
 function Block(props) {
   
   const [edited, setEdited] = useState(false);
-  const textarea = useRef(null)
+  const textarea = useRef(null);
 
   function edit() {
     setEdited(false)
@@ -142,7 +143,8 @@ function Block(props) {
   }
   function save(){
     let newValue = textarea.current.value;
-    setEdited(true)
+    setEdited(true) 
+    if(!newValue) newValue = textarea.current.placeholder
     props.updateFunction(props.context, newValue, props.index)
   }
   function textareaKeyPress(event) {
@@ -180,8 +182,8 @@ function Block(props) {
   }
   function renderNormalBlock (){
     return (
-      <div className="planner__task">
-        <p style={styleOfBlock} onMouseUp={hideBasket} onMouseDown={showBasket} className="planner__task-text">{props.taskName}</p>
+      <div style={styleOfBlock} className="planner__task">
+        <p onMouseUp={hideBasket} onMouseDown={showBasket} className="planner__task-text">{props.taskName}</p>
         <button onClick={edit} className="planner__task-button--edit"><img className="planner__image" src="img/pencil.png" alt="edit"/></button>
         <PopupBlock taskIndex={props.index} filesValue={props.files} hoursValue={props.hours} minutesValue={props.minutes} onKey={props.onKeyPressFunction} descValue={props.descriptionValue} taskContext = {props.context} saveFunction={props.updateFunction} styleOfBlock={styleOfBlock} deleteFunction={remove} blockfieldIndex={props.index} colorFunction={props.colorFunction} blockfieldContext={props.context} styleTask={styleOfBlock} taskName={props.taskName}></PopupBlock>
       </div>
@@ -317,7 +319,7 @@ class Blockfield extends React.Component {
             return (<Block realParent={this.props.idName} backColor={this.state.colors[id]} onKeyPressFunction={this.handleKeyPress} files={this.state.files[id]} descriptionValue={this.state.description[id]} hours={this.state.hours[id]} minutes={this.state.minutes[id]} key = {id} context={this} colorFunction={this.changeColorOfBlock} deleteFunction={this.deleteBlock} updateFunction={this.updateTextInBlock} index= {id} taskName= {item}></Block>)
           })
         }
-        <button onClick={this.addBlock.bind(null, this, "Task name", "transparent", "", "0", "0", "")} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
+        <button onClick={this.addBlock.bind(null, this, "Task name", "#fcfafbda", "", "0", "0", "")} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
       </div>
     )
   }
@@ -709,7 +711,7 @@ if(document.documentElement.clientWidth >= 845) {
   gsap.from("#board2", {duration: 0.8, delay: 0.7, marginTop: 340, opacity: 0});
   gsap.from(" #board2 .planner__title, #board2 .planner__button", {duration: 0.8, delay: 1.5, opacity: 0});
   gsap.from("#board3", {duration: 0.8, delay: 1.5, marginTop: 340, opacity: 0});
-  gsap.from(" #board3 .planner__title, #board3 .planner__button", {duration: 0.8, delay: 2.3, opacity: 0});
+  gsap.from(" #board3 .planner__title, #board3 .planner__button", {duration: 0.8, delay: 2.2, opacity: 0});
 } else {
   gsap.from(".header__item:first-child", {duration: 2, y: 200});
   gsap.from(".header__item:last-child", {duration: 2, y: -200});
@@ -719,7 +721,7 @@ if(document.documentElement.clientWidth >= 845) {
   gsap.from("#board2", {duration: 0.8, delay: 0.7, opacity: 0});
   gsap.from(" #board2 .planner__title, #board2 .planner__button", {duration: 0.8, delay: 1.5, opacity: 0});
   gsap.from("#board3", {duration: 0.8, delay: 1.5, opacity: 0});
-  gsap.from(" #board3 .planner__title, #board3 .planner__button", {duration: 0.8, delay: 2.3, opacity: 0});
+  gsap.from(" #board3 .planner__title, #board3 .planner__button", {duration: 0.8, delay: 2.2, opacity: 0});
 }
 
 const anchors = document.querySelectorAll('a[href*="#"]')
@@ -769,9 +771,6 @@ window.addEventListener("scroll", function(event) {
       gsap.to(".features-block:last-child .features-block__image", {duration: 2, opacity: 1, delay: 1, rotateY: 360, rotateX: -180});
       gsap.to(".features-block:last-child .features-block__title", {duration: 2, opacity: 1, delay: 1, rotateY: 0});
     }
-    if (document.documentElement.scrollTop > 2200) {
-      gsap.to(".footer__link", {duration: 1, backgroundColor: "#fcfafb83"});
-    }
   }
   if(document.documentElement.clientWidth < 845 && document.documentElement.clientWidth >= 384 ) {
     if (document.documentElement.scrollTop > 400 && document.documentElement.scrollTop < 900) {
@@ -803,9 +802,6 @@ window.addEventListener("scroll", function(event) {
       gsap.to(".features-block--middle .features-block__title", {duration: 2, opacity: 1, delay: 0.5, rotateY: 0});
       gsap.to(".features-block:last-child .features-block__image", {duration: 2, opacity: 1, delay: 1, rotateY: 360, rotateX: -180});
       gsap.to(".features-block:last-child .features-block__title", {duration: 2, opacity: 1, delay: 1, rotateY: 0});
-    }
-    if (document.documentElement.scrollTop > 2400) {
-      gsap.to(".footer__link", {duration: 1, backgroundColor: "#fcfafb83"});
     }
   }  
   if(document.documentElement.clientWidth < 384) {
@@ -842,9 +838,6 @@ window.addEventListener("scroll", function(event) {
     if (document.documentElement.scrollTop > 2870) {  
       gsap.to(".features-block:last-child .features-block__image", {duration: 2, opacity: 1, rotateY: 360, rotateX: -180});
       gsap.to(".features-block:last-child .features-block__title", {duration: 2, opacity: 1, rotateY: 0});
-    }
-    if (document.documentElement.scrollTop > 2800) {
-      gsap.to(".footer__link", {duration: 1, backgroundColor: "#fcfafb83"});
     }
   }  
 })

@@ -92,14 +92,13 @@ body {
 }
 
 .planner__task {
-  background-color: #fcfafb;
   display: inline-block;
   min-height: 36px;
   width: 350px;
 }
 
 .planner__task:hover {
-  background-color: #eeeeff;
+  box-shadow: 3px 3px 5px #a98ebb;
 }
 
 .planner__task:hover .planner__task-button, .planner__task:hover .planner__task-button--edit, .planner__title-container:hover .planner__task-button--edit {
@@ -203,9 +202,9 @@ body {
 .planner__task-text {
   cursor: pointer;
   float: left;
-  min-height: 32px;
+  min-height: 22px;
   margin: 0px;
-  padding: 6px;
+  padding: 11px 6px;
   text-align: center;
   width: 338px;
 }
@@ -294,13 +293,17 @@ body {
 
 .planner-bar__desk:hover, .planner-bar__add-button:hover {
   background-clip: border-box;
-  background-color: #f7effc;
+  background-color: #f6eefc;
 }
 
 .planner-bar__desk:focus, .planner-bar__add-button:focus, .planner-bar__delete,  .popup__description:focus, .popup__file:focus, .popup__task:focus, .popup__time:focus {
   border: 1px solid #ccbed6;
-  background-color: #f6eefc;
+  background-color: #faf4fc;
   outline: none;
+}
+
+.popup__task:focus {
+  box-shadow: -3px 3px 4px #807a9e;
 }
 
 .planner-bar__name {
@@ -451,6 +454,7 @@ body {
 
 .popup__task {    
   box-sizing: border-box;
+  border: 1px solid transparent;
   font-size: 26px;
   font-family: 'Quicksand', sans-serif;
   min-height: 44px;
@@ -700,7 +704,7 @@ body {
 }
 
 .footer__link {
-  background-color: #ffffff;
+  background-color: #fcfafb83;
   border: 2px dashed #a7a7a7;
   border-radius: 10% ;
   color: #000000;
@@ -712,7 +716,7 @@ body {
 }
 
 .footer__link:hover {
-  background-color: #faf0f6;
+  background-color: #fcfafb;
   border-style: solid;
   text-shadow: none;
 }
@@ -884,9 +888,9 @@ body {
     margin-bottom: 1px;
   }
   .planner__task-text {
-    min-height: 41px;
+    min-height: 22px;
     margin: 0%;
-    padding: 9.5px 2.85%;
+    padding: 18px 2.85%;
     width: 64%;
   }
   .planner__textarea{
