@@ -194,6 +194,50 @@ function Block(props) {
     return renderEditBlock();
   }
 }
+
+function BlockTitle(props) {
+  
+  const [edited, setEdited] = useState(false);
+  const textarea = useRef(null)
+
+  function edit() {
+    setEdited(true)
+  }
+  function save(){
+    let newValue = textarea.current.value;
+    if(!textarea.current.value) newValue = props.titleName
+    setEdited(false)
+    props.changeTitle(props.context, newValue, props.index)
+  }
+  function textareaKeyPress(event) {
+    if (event.key === 'Enter') {
+      save()
+    }
+  }
+  function renderEditBlock (){
+    return (
+      <div className="planner__textarea-container planner__task">
+        <textarea autoFocus maxLength="17" onKeyPress={textareaKeyPress} ref={textarea} placeholder={props.titleName} className="planner__textarea"></textarea>
+        <button onClick={save} className="planner__task-button"><img className="planner__image" src="img/ribbon.png" alt="save"/></button>
+      </div>
+    )
+  }
+  function renderNormalBlock (){
+    return (
+      <div className="planner__title-container">
+          <div className="planner__title" title={props.titleName} onKeyPress={textareaKeyPress}>{props.titleName}</div>
+          <button onClick={edit} className="planner__task-button--edit"><img className="planner__image" src="img/pencil.png" alt="edit"/></button>
+      </div>
+    )
+  }
+
+  if (!edited){
+    return renderNormalBlock();
+  } else {
+    return renderEditBlock();
+  }
+}
+
 class Blockfield extends React.Component {
   constructor(props){
     super(props);
@@ -256,6 +300,9 @@ class Blockfield extends React.Component {
     if(files === "" || files) arrayOfFiles[index] = files; 
     context.setState ({task: arrayOfTasks, colors: arrayOfColors, description: arrayOfDescriptions, hours: arrayOfHours, minutes: arrayOfMinutes, files: arrayOfFiles})
   }
+  saveTitleOfList(context, title, index){
+    context.props.changeTitle(title, index);
+  }
   handleKeyPress(event) {
     if (event.key === 'Enter') {
       event.target.blur()
@@ -264,7 +311,7 @@ class Blockfield extends React.Component {
   render(){
     return (
       <div id={this.props.idName} className="planner__board">
-        <div className="planner__title" contentEditable="" onKeyPress={this.handleKeyPress}>{this.props.titleName}</div>
+        <BlockTitle context={this} index={this.props.index} changeTitle={this.saveTitleOfList} titleName= {this.props.titleName}></BlockTitle>
         {
           this.state.tasks.map ((item,id) => {
             return (<Block realParent={this.props.idName} backColor={this.state.colors[id]} onKeyPressFunction={this.handleKeyPress} files={this.state.files[id]} descriptionValue={this.state.description[id]} hours={this.state.hours[id]} minutes={this.state.minutes[id]} key = {id} context={this} colorFunction={this.changeColorOfBlock} deleteFunction={this.deleteBlock} updateFunction={this.updateTextInBlock} index= {id} taskName= {item}></Block>)
@@ -276,17 +323,6 @@ class Blockfield extends React.Component {
   }
 }
 
-class PLannerFullBoard extends React.Component {
-  render(){
-    return (
-      <div className= "planner-full-board">
-        <Blockfield idName="firstBoard" titleName="Todo list"></Blockfield>
-        <Blockfield idName="secondBoard"  titleName="In progress"></Blockfield>
-        <Blockfield idName="thirdBoard" titleName="Done"></Blockfield>
-      </div>
-    )
-  }
-}
 
 
 // function DeskPopup(props){ 
@@ -375,8 +411,9 @@ class PLannerFullBoard extends React.Component {
 // }
 
 function ChooseBar() {
-  const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: []});
-  const textareaNameOfBoard = useRef(null)
+  const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: [], titlesOfMiniBoards: ["Todo list", "In progress", "Done"]});
+  const textareaNameOfBoard = useRef(null);
+  let numberOfNewMiniBoards = 0;
 
   function KeyPressEnter(event) {
     if (event.key === 'Enter') {
@@ -386,19 +423,50 @@ function ChooseBar() {
 
   
   function showPopup(){
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true]})
-     document.body.style.paddingRight = "16px";
-     document.documentElement.style.overflow = "hidden"; 
+    if(document.documentElement.clientWidth >= 845){
+      document.body.style.paddingRight = "16px";
+    }
+    document.documentElement.style.overflow = "hidden"; 
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards})
+  }
+  function changeTitleOfList(title, index){
+    let titlesOfBoards = boardDetails.titlesOfMiniBoards;
+    titlesOfBoards[index] = title;
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards});
   }
 
-  function hidePopup() {
+  function hidePopup(event) {
+    let namesOfBoards = boardDetails.boardFullNames;
+    let titlesOfBoards = boardDetails.titlesOfMiniBoards;
+
+    if(!event){
+      namesOfBoards.push(textareaNameOfBoard.current.value);
+      for (let every of Array.from(document.getElementsByClassName("planner__board"))) {
+        every.style.display = "none";
+      }
+      for(let i = 0; i < numberOfNewMiniBoards; i++) {
+        titlesOfBoards.push("List name");
+      }
+      if(document.documentElement.clientWidth >= 861){
+        gsap.from(document.getElementsByClassName("planner-full-board")[0], {duration: 0.8, opacity: 0, marginTop: 340})
+      }else {
+        gsap.from(document.getElementsByClassName("planner-full-board")[0], {duration: 1, opacity: 0})
+      }  
+    }
     document.body.style.paddingRight = "0px";
     document.documentElement.style.overflow = ""; 
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: []})
+    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards})
   }
 
   function desideToHidePopup(){
     if(textareaNameOfBoard.current.value){
+      if(document.getElementById("threeColumn").checked) {
+        numberOfNewMiniBoards = 3
+      }else if(document.getElementById("twoColumn").checked) {
+        numberOfNewMiniBoards = 2
+      }else {
+        numberOfNewMiniBoards = 1;
+      }
       hidePopup()
     }else {
       alert("Fill the board name field");
@@ -407,51 +475,61 @@ function ChooseBar() {
   }
   
   return (
-    <div className= "planner-bar">
-      {
-        boardDetails.boardFullNames.map ((item,id) => {
-          return (
-            <div key={id} className="planner-bar__desk">
-              <div className="planner-bar__name">
-                <p title={item} className="planner-bar__text">{item}</p>
-              </div>
-              <button className="planner-bar__delete"><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
-            </div>
-          )
-        })
-      }
-      {
-        boardDetails.showPopup.map ((item, id) => {
-          return (
-            <div key= {id} className="popup-wrapper desk-popup">
-              <div className="popup">
-                <img className="popup__cancel" onClick={hidePopup} src="img/cancel.png" alt="cancel"/>
-                <textarea autoFocus maxLength="17" ref={textareaNameOfBoard} placeholder="Board name" onKeyPress={KeyPressEnter} className="popup__textarea-board"></textarea>
-                <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Number of columns</p>
-                <div className="popup-radio">
-                  <input className="popup__input" type="radio" id="oneColumn" name="column"/>
-                  <label className="popup__label" htmlFor="oneColumn">1</label>
+    <React.Fragment>
+      <div className= "planner-bar">
+        {
+          boardDetails.boardFullNames.map ((item,id) => {
+            return (
+              <div key={id} className="planner-bar__desk">
+                <div className="planner-bar__name">
+                  <p title={item} className="planner-bar__text">{item}</p>
                 </div>
-                <div className="popup-radio">
-                  <input className="popup__input" type="radio" id="twoColumn" name="column"/>
-                  <label className="popup__label" htmlFor="twoColumn">2</label>
-                </div>
-                <div className="popup-radio">
-                  <input className="popup__input" type="radio" id="threeColumn" name="column" defaultChecked />
-                  <label className="popup__label" htmlFor="threeColumn">3</label>
-                </div>  
-                <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Color of board</p>
-                <button onClick={desideToHidePopup} className="popup__button">
-                  Create
-                </button>
+                <button className="planner-bar__delete"><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
               </div>
-            </div>
-          )
-        })
-      }
-      <button className="planner-bar__add-button" onClick={showPopup}>+</button>
-
-    </div>
+            )
+          })
+        }
+        {
+          boardDetails.showPopup.map ((item, id) => {
+            return (
+              <div key= {id} className="popup-wrapper desk-popup">
+                <div className="popup">
+                  <img className="popup__cancel" onClick={hidePopup} src="img/cancel.png" alt="cancel"/>
+                  <textarea autoFocus maxLength="17" ref={textareaNameOfBoard} placeholder="Board name" onKeyPress={KeyPressEnter} className="popup__textarea-board"></textarea>
+                  <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Number of columns</p>
+                  <div className="popup-radio">
+                    <input className="popup__input" type="radio" id="oneColumn" name="column"/>
+                    <label className="popup__label" htmlFor="oneColumn">1</label>
+                  </div>
+                  <div className="popup-radio">
+                    <input className="popup__input" type="radio" id="twoColumn" name="column"/>
+                    <label className="popup__label" htmlFor="twoColumn">2</label>
+                  </div>
+                  <div className="popup-radio">
+                    <input className="popup__input" type="radio" id="threeColumn" name="column" defaultChecked />
+                    <label className="popup__label" htmlFor="threeColumn">3</label>
+                  </div>  
+                  <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Color of board</p>
+                  <button onClick={desideToHidePopup} className="popup__button">
+                    Create
+                  </button>
+                </div>
+              </div>
+            )
+          })
+        }
+        <button className="planner-bar__add-button" onClick={showPopup}>+</button>
+      </div>
+      <div className= "planner-full-board">
+        {
+          boardDetails.titlesOfMiniBoards.map ((item, id) => {
+            return (
+              <Blockfield key = {id} index={id} idName={"board" + ++id} changeTitle={changeTitleOfList} titleName={item}></Blockfield>
+            )
+          })
+        }
+      </div>
+    </React.Fragment>
   ) 
 
   
@@ -461,7 +539,6 @@ function ChooseBar() {
 ReactDOM.render(
   <React.Fragment>
     <ChooseBar></ChooseBar>
-    <PLannerFullBoard></PLannerFullBoard>
     <button className="planner__delete-button"><img className="planner__delete-image" alt="waste basket" src="../img/basket.png"/></button>
   </React.Fragment>,
   document.getElementById('planner-field')
@@ -627,22 +704,22 @@ if(document.documentElement.clientWidth >= 845) {
   gsap.from(".header__item:first-child", {duration: 2, y: -100});
   gsap.from(".header__item:last-child", {duration: 2, delay: 1, y: -100});
 
-  gsap.from("#firstBoard", {duration: 1, marginTop: 380, opacity: 0});
-  gsap.from(" #firstBoard .planner__title, #firstBoard .planner__button", {duration: 1, delay: 1, opacity: 0});
-  gsap.from("#secondBoard", {duration: 1, delay: 1, marginTop: 380, opacity: 0});
-  gsap.from(" #secondBoard .planner__title, #secondBoard .planner__button", {duration: 1, delay: 2, opacity: 0});
-  gsap.from("#thirdBoard", {duration: 1, delay: 2, marginTop: 380, opacity: 0});
-  gsap.from(" #thirdBoard .planner__title, #thirdBoard .planner__button", {duration: 1, delay: 3, opacity: 0});
+  gsap.from("#board1", {duration: 0.8, marginTop: 340, opacity: 0});
+  gsap.from(" #board1 .planner__title, #board1 .planner__button", {duration: 0.8, delay: 0.8, opacity: 0});
+  gsap.from("#board2", {duration: 0.8, delay: 0.7, marginTop: 340, opacity: 0});
+  gsap.from(" #board2 .planner__title, #board2 .planner__button", {duration: 0.8, delay: 1.5, opacity: 0});
+  gsap.from("#board3", {duration: 0.8, delay: 1.5, marginTop: 340, opacity: 0});
+  gsap.from(" #board3 .planner__title, #board3 .planner__button", {duration: 0.8, delay: 2.3, opacity: 0});
 } else {
   gsap.from(".header__item:first-child", {duration: 2, y: 200});
   gsap.from(".header__item:last-child", {duration: 2, y: -200});
 
-  gsap.from("#firstBoard", {duration: 1, opacity: 0});
-  gsap.from(" #firstBoard .planner__title, #firstBoard .planner__button", {duration: 1, delay: 1.5, opacity: 0});
-  gsap.from("#secondBoard", {duration: 1, delay: 1, opacity: 0});
-  gsap.from(" #secondBoard .planner__title, #secondBoard .planner__button", {duration: 1, delay: 2.5, opacity: 0});
-  gsap.from("#thirdBoard", {duration: 1, delay: 2, opacity: 0});
-  gsap.from(" #thirdBoard .planner__title, #thirdBoard .planner__button", {duration: 1, delay: 3.5, opacity: 0});
+  gsap.from("#board1", {duration: 0.8, opacity: 0});
+  gsap.from(" #board1 .planner__title, #board1 .planner__button", {duration: 0.8, delay: 0.8, opacity: 0});
+  gsap.from("#board2", {duration: 0.8, delay: 0.7, opacity: 0});
+  gsap.from(" #board2 .planner__title, #board2 .planner__button", {duration: 0.8, delay: 1.5, opacity: 0});
+  gsap.from("#board3", {duration: 0.8, delay: 1.5, opacity: 0});
+  gsap.from(" #board3 .planner__title, #board3 .planner__button", {duration: 0.8, delay: 2.3, opacity: 0});
 }
 
 const anchors = document.querySelectorAll('a[href*="#"]')
@@ -676,7 +753,7 @@ window.addEventListener("scroll", function(event) {
       gsap.to(".advantages-block--middle .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--middle .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
     } 
-    if (document.documentElement.scrollTop > 1000 && document.documentElement.scrollTop < 1700) {
+    if (document.documentElement.scrollTop > 1100 && document.documentElement.scrollTop < 1700) {
       gsap.to(" #advantages__image--third", {duration: 2, rotationY: 0, opacity: 1});
       gsap.to(".advantages-block--last .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--last .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
