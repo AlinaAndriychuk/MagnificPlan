@@ -43,7 +43,7 @@ body {
 }
 
 .header__link-item:hover {
-  background-color: #faf0f6;
+  background-color: #fcfafb;
   border-style: solid;
   color: #000;
 }
@@ -277,6 +277,8 @@ body {
 .planner-full-board {
   display: flex;
   justify-content: space-evenly;
+  min-height: 500px;
+  padding: 40px 0;
   width: 100%;
 }
 
