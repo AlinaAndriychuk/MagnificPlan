@@ -11,7 +11,8 @@ function PopupBlock(props) {
   const minutes = useRef(null);
   const files = useRef(null);
   const [floated, setFloated] = useState(true);
-  function showPopup(){
+
+  function showPopup(event){
     setFloated(false)
   }
 
@@ -41,9 +42,9 @@ function PopupBlock(props) {
           <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Description</p>
           <textarea className="popup__description" placeholder="Write description to your task" ref={description} defaultValue={props.descValue}></textarea>
           <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Time estimation</p>
-          <textarea className="popup__time" ref={hours} defaultValue={props.hoursValue}></textarea> 
+          <textarea className="popup__time" ref={hours} maxLength="3" defaultValue={props.hoursValue}></textarea> 
           <p className="popup__marker">h</p>
-          <textarea className="popup__time" ref={minutes} defaultValue={props.minutesValue}></textarea>
+          <textarea className="popup__time" ref={minutes} maxLength="2" defaultValue={props.minutesValue}></textarea>
           <p className="popup__marker">m</p>
           <p className="popup__prompt"><img className="popup__prompt-image" src="img/attachment.png" alt="attachment"/>Attachments</p>
           <input className="popup__file" onChange={changeFiles} type="file" multiple/>
@@ -81,7 +82,6 @@ function PopupBlock(props) {
   }
 
 }
-
 
 function Colorpalette(props) {
   const color = useRef(null)
@@ -128,11 +128,10 @@ function Colorpalette(props) {
     return renderPaletteBlock();
   }
 }
-
 function Block(props) {
   
   const [edited, setEdited] = useState(false);
-  const textarea = useRef(null)
+  const textarea = useRef(null);
 
   function edit() {
     setEdited(false)
@@ -142,7 +141,8 @@ function Block(props) {
   }
   function save(){
     let newValue = textarea.current.value;
-    setEdited(true)
+    setEdited(true) 
+    if(!newValue) newValue = textarea.current.placeholder
     props.updateFunction(props.context, newValue, props.index)
   }
   function textareaKeyPress(event) {
@@ -180,8 +180,8 @@ function Block(props) {
   }
   function renderNormalBlock (){
     return (
-      <div className="planner__task">
-        <p style={styleOfBlock} onMouseUp={hideBasket} onMouseDown={showBasket} className="planner__task-text">{props.taskName}</p>
+      <div style={styleOfBlock} className="planner__task">
+        <p onMouseUp={hideBasket} onMouseDown={showBasket} className="planner__task-text">{props.taskName}</p>
         <button onClick={edit} className="planner__task-button--edit"><img className="planner__image" src="img/pencil.png" alt="edit"/></button>
         <PopupBlock taskIndex={props.index} filesValue={props.files} hoursValue={props.hours} minutesValue={props.minutes} onKey={props.onKeyPressFunction} descValue={props.descriptionValue} taskContext = {props.context} saveFunction={props.updateFunction} styleOfBlock={styleOfBlock} deleteFunction={remove} blockfieldIndex={props.index} colorFunction={props.colorFunction} blockfieldContext={props.context} styleTask={styleOfBlock} taskName={props.taskName}></PopupBlock>
       </div>
@@ -194,6 +194,7 @@ function Block(props) {
     return renderEditBlock();
   }
 }
+
 
 function BlockTitle(props) {
   
@@ -237,6 +238,7 @@ function BlockTitle(props) {
     return renderEditBlock();
   }
 }
+
 
 class Blockfield extends React.Component {
   constructor(props){
@@ -310,110 +312,53 @@ class Blockfield extends React.Component {
   }
   render(){
     return (
-      <div id={this.props.idName} className="planner__board">
+      <div style={this.props.style} id={this.props.idName} className="planner__board">
         <BlockTitle context={this} index={this.props.index} changeTitle={this.saveTitleOfList} titleName= {this.props.titleName}></BlockTitle>
         {
           this.state.tasks.map ((item,id) => {
             return (<Block realParent={this.props.idName} backColor={this.state.colors[id]} onKeyPressFunction={this.handleKeyPress} files={this.state.files[id]} descriptionValue={this.state.description[id]} hours={this.state.hours[id]} minutes={this.state.minutes[id]} key = {id} context={this} colorFunction={this.changeColorOfBlock} deleteFunction={this.deleteBlock} updateFunction={this.updateTextInBlock} index= {id} taskName= {item}></Block>)
           })
         }
-        <button onClick={this.addBlock.bind(null, this, "Task name", "transparent", "", "0", "0", "")} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
+        <button onClick={this.addBlock.bind(null, this, "Task name", "#fcfafbda", "", "0", "0", "")} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
       </div>
     )
   }
 }
 
 
-
-// function DeskPopup(props){ 
-  
-//   function KeyPressEnter(event) {
-//     if (event.key === 'Enter') {
-//       event.target.blur()
-//     }
-//   }
-
-//   function createBoard(){
-//     if(textareaNameOfBoard.current.value){
-//       props.returnButton()
-//     }else {
-//       alert("Fill the board name field");
-//       textareaNameOfBoard.current.style.borderColor ="#ff4036";
-//     }
-    
-//   }
-
-//   function showBoards(){
-//     return (
-//     <div className= "planner-full-board">
-//         <Blockfield idName="forthBoard" titleName="Column name"></Blockfield>
-//         <Blockfield idName="fifthBoard"  titleName="Column name"></Blockfield>
-//         <Blockfield idName="sixBoard" titleName="Column name"></Blockfield>
-//     </div>
-//     )
-//   }
-//   function showPopup(){
-//     return (
-//       <div className="popup-wrapper desk-popup">
-//         <div className="popup">
-//           <img className="popup__cancel" src="img/cancel.png" alt="cancel"/>
-//           <textarea autoFocus maxLength="17" ref={textareaNameOfBoard} placeholder="Board name" onKeyPress={KeyPressEnter} className="popup__textarea-board"></textarea>
-//           <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Number of columns</p>
-//           <div className="popup-radio">
-//             <input className="popup__input" type="radio" id="oneColumn" name="column"/>
-//             <label className="popup__label" htmlFor="oneColumn">1</label>
-//           </div>
-//           <div className="popup-radio">
-//             <input className="popup__input" type="radio" id="twoColumn" name="column"/>
-//             <label className="popup__label" htmlFor="twoColumn">2</label>
-//           </div>
-//           <div className="popup-radio">
-//             <input className="popup__input" type="radio" id="threeColumn" name="column" defaultChecked />
-//             <label className="popup__label" htmlFor="threeColumn">3</label>
-//           </div>  
-//           <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Color of board</p>
-//           <button onClick={createBoard} className="popup__button">
-//             Create
-//           </button>
-//         </div>
-//       </div>
-//     )
-//   }
-//   if(showBoardsField){
-//     return showBoards()
-//   }else {
-//     return showPopup()
-//   }
-// }  
-
-// function CreateDeskButton(props){
-  
-//   function addFullBoard(event){
-//     props.setRender()
-//     if(document.documentElement.clientWidth >= 845){
-//       document.body.style.paddingRight = "16px";
-//     }
-//     document.documentElement.style.overflow = "hidden";
-//   }
-
-//   function showButton(){
-//     return <button className="planner-bar__add-button" onClick={addFullBoard}>+</button>
-//   }
-//   function showDesks(){
-//     return <DeskPopup returnButton={props.setRender} createNewBoard={props.createNewBoard}/>
-//   }
-
-//   if(props.renderFunction){
-//     return showDesks()
-//   }else {
-//     return showButton()
-//   }
-// }
-
 function ChooseBar() {
-  const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: [], titlesOfMiniBoards: ["Todo list", "In progress", "Done"]});
+  const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: [], titlesOfMiniBoards: ["Todo list", "In progress", "Done"], colorsOfBoard: ["ffffff"], colorOfText:["#000000"], numberOfLists: [3]});
   const textareaNameOfBoard = useRef(null);
   let numberOfNewMiniBoards = 0;
+  const color = useRef(null);
+  const mainDesk = useRef(null);
+  const addButton = useRef(null);
+  const colorSpace = useRef(null);
+  const colorIndexes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  let styleForColor = {}
+  let arrayOfColors = ["#ffccd8", "#ebcae6", "#dbcceb", "#c2d8f2", "#b7ebed", "#fff0cc", "#db849e", "#bd82b0", "#9884bd", "#848ebd", "#6797ab", "#ffffff"];
+  
+  let colorOfDeskText = "#000000";
+
+  for (let i = 0; i < arrayOfColors.length; i++){
+    
+    styleForColor[i] = {
+      backgroundColor: arrayOfColors[i],
+    }
+  }
+
+  let colorAddToDetails = "#ffffff";
+
+  function changeBackground(index) {
+    colorAddToDetails = arrayOfColors[index];
+    if(index > 5) {
+      colorOfDeskText = "#ffffff";
+    }else {
+      colorOfDeskText = "#000000";
+    } 
+    mainDesk.current.style.backgroundColor = arrayOfColors[index];
+    colorSpace.current.style.backgroundColor = arrayOfColors[index];
+  }
 
   function KeyPressEnter(event) {
     if (event.key === 'Enter') {
@@ -427,35 +372,41 @@ function ChooseBar() {
       document.body.style.paddingRight = "16px";
     }
     document.documentElement.style.overflow = "hidden"; 
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards})
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists})
   }
   function changeTitleOfList(title, index){
     let titlesOfBoards = boardDetails.titlesOfMiniBoards;
     titlesOfBoards[index] = title;
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards});
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists});
   }
 
   function hidePopup(event) {
     let namesOfBoards = boardDetails.boardFullNames;
     let titlesOfBoards = boardDetails.titlesOfMiniBoards;
+    let colorsOfFullBoard = boardDetails.colorsOfBoard;
+    let colorsOfText = boardDetails.colorOfText;
+    let numberOfColumns = boardDetails.numberOfLists;
 
     if(!event){
       namesOfBoards.push(textareaNameOfBoard.current.value);
-      for (let every of Array.from(document.getElementsByClassName("planner__board"))) {
-        every.style.display = "none";
-      }
+      colorsOfFullBoard.push(colorAddToDetails);
+      numberOfColumns.push(numberOfNewMiniBoards);
+      colorsOfText.push(colorOfDeskText)
       for(let i = 0; i < numberOfNewMiniBoards; i++) {
         titlesOfBoards.push("List name");
       }
       if(document.documentElement.clientWidth >= 861){
-        gsap.from(document.getElementsByClassName("planner-full-board")[0], {duration: 0.8, opacity: 0, marginTop: 340})
+        gsap.from(".planner-flex", {duration: 0.8, opacity: 0, marginTop: 440})
       }else {
-        gsap.from(document.getElementsByClassName("planner-full-board")[0], {duration: 1, opacity: 0})
+        gsap.from(".planner-flex", {duration: 1, opacity: 0})
       }  
     }
+    if(numberOfColumns.length > 4) {
+      addButton.current.style.display= "none";
+    } 
     document.body.style.paddingRight = "0px";
     document.documentElement.style.overflow = ""; 
-    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards})
+    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns})
   }
 
   function desideToHidePopup(){
@@ -473,66 +424,96 @@ function ChooseBar() {
       textareaNameOfBoard.current.style.borderColor ="#ff4036";
     }
   }
+
+  function desideStyleOfColumn (id) {
+    let startId = 0;
+    for (let i = 0; i < boardDetails.numberOfLists.length - 1; i++){
+      startId += boardDetails.numberOfLists[i]
+    }
+    if( id > startId){
+      return {
+        display: "block"
+      }
+    }else {
+      return {
+        display: "none"
+      }
+    }
+    
+  }
+
   
   return (
     <React.Fragment>
-      <div className= "planner-bar">
-        {
-          boardDetails.boardFullNames.map ((item,id) => {
-            return (
-              <div key={id} className="planner-bar__desk">
-                <div className="planner-bar__name">
-                  <p title={item} className="planner-bar__text">{item}</p>
-                </div>
-                <button className="planner-bar__delete"><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
-              </div>
-            )
-          })
-        }
-        {
-          boardDetails.showPopup.map ((item, id) => {
-            return (
-              <div key= {id} className="popup-wrapper desk-popup">
-                <div className="popup">
-                  <img className="popup__cancel" onClick={hidePopup} src="img/cancel.png" alt="cancel"/>
-                  <textarea autoFocus maxLength="17" ref={textareaNameOfBoard} placeholder="Board name" onKeyPress={KeyPressEnter} className="popup__textarea-board"></textarea>
-                  <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Number of columns</p>
-                  <div className="popup-radio">
-                    <input className="popup__input" type="radio" id="oneColumn" name="column"/>
-                    <label className="popup__label" htmlFor="oneColumn">1</label>
+        <div className= "planner-bar">
+          {
+            boardDetails.boardFullNames.map ((item,id) => {
+              return (
+                <div key={id} className="planner-bar__desk" style={{backgroundColor: boardDetails.colorsOfBoard[id], color: boardDetails.colorOfText[id]}}>
+                  <div className="planner-bar__name">
+                    <p title={item} className="planner-bar__text">{item}</p>
                   </div>
-                  <div className="popup-radio">
-                    <input className="popup__input" type="radio" id="twoColumn" name="column"/>
-                    <label className="popup__label" htmlFor="twoColumn">2</label>
-                  </div>
-                  <div className="popup-radio">
-                    <input className="popup__input" type="radio" id="threeColumn" name="column" defaultChecked />
-                    <label className="popup__label" htmlFor="threeColumn">3</label>
-                  </div>  
-                  <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Color of board</p>
-                  <button onClick={desideToHidePopup} className="popup__button">
-                    Create
-                  </button>
+                  <button className="planner-bar__delete"><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
                 </div>
-              </div>
-            )
-          })
-        }
-        <button className="planner-bar__add-button" onClick={showPopup}>+</button>
-      </div>
-      <div className= "planner-full-board">
-        {
-          boardDetails.titlesOfMiniBoards.map ((item, id) => {
-            return (
-              <Blockfield key = {id} index={id} idName={"board" + ++id} changeTitle={changeTitleOfList} titleName={item}></Blockfield>
-            )
-          })
-        }
-      </div>
+              )
+            })
+          }
+          {
+            boardDetails.showPopup.map ((item, id) => {
+              return (
+                <div key= {id} className="popup-wrapper desk-popup">
+                  <div className="popup">
+                    <img className="popup__cancel" onClick={hidePopup} src="img/cancel.png" alt="cancel"/>
+                    <textarea autoFocus maxLength="17" ref={textareaNameOfBoard} placeholder="Board name" onKeyPress={KeyPressEnter} className="popup__textarea-board"></textarea>
+                    <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Number of columns</p>
+                    <div className="popup-radio">
+                      <input className="popup__input" type="radio" id="oneColumn" name="column"/>
+                      <label className="popup__label" htmlFor="oneColumn">1</label>
+                    </div>
+                    <div className="popup-radio">
+                      <input className="popup__input" type="radio" id="twoColumn" name="column"/>
+                      <label className="popup__label" htmlFor="twoColumn">2</label>
+                    </div>
+                    <div className="popup-radio">
+                      <input className="popup__input" type="radio" id="threeColumn" name="column" defaultChecked />
+                      <label className="popup__label" htmlFor="threeColumn">3</label>
+                    </div>  
+                    <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Color of board</p>
+                    <button className="planner__palette-button">
+                        {
+                          colorIndexes.map ((item) => {
+                            return (<div onClick={()=> changeBackground(item)} ref={color} style={styleForColor[item]} className='planner__palette' key = {item} index={item}></div>)
+                          })
+                        }
+                      </button>
+                    <div ref={colorSpace} className="planner__colorSpace"></div>
+                    <button onClick={desideToHidePopup} className="popup__button">
+                      Create
+                    </button>
+                  </div>
+                </div>
+              )
+            })
+          }
+          <button ref={addButton} className="planner-bar__add-button" onClick={showPopup}>+</button>
+        </div>
+        
+              <div ref={mainDesk} className= "planner-full-board">
+                <div className="planner-flex">
+                  {
+                      boardDetails.titlesOfMiniBoards.map ((item, id) => {
+                          
+                          return (
+                            <Blockfield key = {id} index={id} idName={"board" + ++id} changeTitle={changeTitleOfList} style={desideStyleOfColumn(id)}  titleName={item}></Blockfield>
+                          )
+                      })
+                    }
+                </div>
+            </div>
+            
+        
     </React.Fragment>
   ) 
-
-  
 }
 
 
@@ -704,11 +685,11 @@ if(document.documentElement.clientWidth >= 845) {
   gsap.from(".header__item:first-child", {duration: 2, y: -100});
   gsap.from(".header__item:last-child", {duration: 2, delay: 1, y: -100});
 
-  gsap.from("#board1", {duration: 0.8, marginTop: 340, opacity: 0});
+  gsap.from("#board1", {duration: 0.8, marginTop: 400, opacity: 0});
   gsap.from(" #board1 .planner__title, #board1 .planner__button", {duration: 0.8, delay: 0.8, opacity: 0});
-  gsap.from("#board2", {duration: 0.8, delay: 0.7, marginTop: 340, opacity: 0});
+  gsap.from("#board2", {duration: 0.8, delay: 0.7, marginTop: 400, opacity: 0});
   gsap.from(" #board2 .planner__title, #board2 .planner__button", {duration: 0.8, delay: 1.5, opacity: 0});
-  gsap.from("#board3", {duration: 0.8, delay: 1.5, marginTop: 340, opacity: 0});
+  gsap.from("#board3", {duration: 0.8, delay: 1.5, marginTop: 400, opacity: 0});
   gsap.from(" #board3 .planner__title, #board3 .planner__button", {duration: 0.8, delay: 2.3, opacity: 0});
 } else {
   gsap.from(".header__item:first-child", {duration: 2, y: 200});
