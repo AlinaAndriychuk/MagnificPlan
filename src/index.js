@@ -47,7 +47,11 @@ function PopupBlock(props) {
           <textarea className="popup__time" ref={minutes} maxLength="2" defaultValue={props.minutesValue}></textarea>
           <p className="popup__marker">m</p>
           <p className="popup__prompt"><img className="popup__prompt-image" src="img/attachment.png" alt="attachment"/>Attachments</p>
-          <input className="popup__file" onChange={changeFiles} type="file" multiple/>
+          <label className="popup__file-label">
+              <img className="popup__file-image" src="img/paperclip.png" alt="attachment"/>
+              <span className="popup__file-title">Add files</span>
+            <input className="popup__file" onChange={changeFiles} type="file" multiple/>
+          </label>
           <pre className="popup__file-text" ref={files} onKeyPress={props.onKey} contentEditable="">{props.filesValue}</pre>
           <button onClick={() =>{
             props.deleteFunction();
@@ -91,7 +95,7 @@ function Colorpalette(props) {
     setColored(false)
   }
   let styleForColor = {}
-  let arrayOfColors = ["#ffffff","#d6ebff","#ecccff","#ff919e","#91ffbb","#fbffc7"];
+  let arrayOfColors = ["#ffccd8", "#f2e6ff", "#deefff", "#c0fcdc", "#fffbd9", "#ffffff"];
   for (let i = 0; i < 6; i++){
     styleForColor[i] = {
       backgroundColor: arrayOfColors[i],
@@ -339,6 +343,8 @@ function ChooseBar() {
   let arrayOfColors = ["#ffccd8", "#ebcae6", "#dbcceb", "#c2d8f2", "#b7ebed", "#fff0cc", "#db849e", "#bd82b0", "#9884bd", "#848ebd", "#6797ab", "#ffffff"];
   
   let colorOfDeskText = "#000000";
+  let colorAddToDetails = "#ffffff";
+  let colored = false;
 
   for (let i = 0; i < arrayOfColors.length; i++){
     
@@ -347,11 +353,10 @@ function ChooseBar() {
     }
   }
 
-  let colorAddToDetails = "#ffffff";
-
   function changeBackground(index) {
+    colored = true;
     colorAddToDetails = arrayOfColors[index];
-    if(index > 5) {
+    if(index > 5 && index !== 11) {
       colorOfDeskText = "#ffffff";
     }else {
       colorOfDeskText = "#000000";
@@ -388,10 +393,16 @@ function ChooseBar() {
     let numberOfColumns = boardDetails.numberOfLists;
 
     if(!event){
+      if(colored) {
+        colorsOfFullBoard.push(colorAddToDetails);
+        colorsOfText.push(colorOfDeskText)
+      } else {
+        mainDesk.current.style.backgroundColor = "#ffffff";
+        colorsOfFullBoard.push("#ffffff");
+        colorsOfText.push("#000000");
+      }
       namesOfBoards.push(textareaNameOfBoard.current.value);
-      colorsOfFullBoard.push(colorAddToDetails);
       numberOfColumns.push(numberOfNewMiniBoards);
-      colorsOfText.push(colorOfDeskText)
       for(let i = 0; i < numberOfNewMiniBoards; i++) {
         titlesOfBoards.push("List name");
       }
@@ -404,6 +415,7 @@ function ChooseBar() {
     if(numberOfColumns.length > 4) {
       addButton.current.style.display= "none";
     } 
+    colored = false;
     document.body.style.paddingRight = "0px";
     document.documentElement.style.overflow = ""; 
     setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns})
@@ -486,7 +498,7 @@ function ChooseBar() {
                           })
                         }
                       </button>
-                    <div ref={colorSpace} className="planner__colorSpace"></div>
+                    <div ref={colorSpace} className="popup__colorSpace"></div>
                     <button onClick={desideToHidePopup} className="popup__button">
                       Create
                     </button>
@@ -552,11 +564,11 @@ plannerContainer.addEventListener('mousedown', function(event) {
   let currentBucket = null;
 
   function enterDroppable(elem) {
-    gsap.to(elem, { boxShadow: " 7px 7px 5px #f0ddfc"})
+    gsap.to(elem, { boxShadow: " 7px 7px 5px #776183"})
   }
 
   function leaveDroppable(elem) {
-    gsap.to(elem, { backgroundColor: "#f9f0fa", boxShadow: "none"})
+    gsap.to(elem, { boxShadow: "none"})
   }
 
   function enterBucket(elem) {
