@@ -84,6 +84,7 @@ body {
   height: 27px;
   line-height: 23px;
   letter-spacing: 5px;
+  overflow: hidden;
   padding: 3% 1%;
   text-align: center;
   text-transform: uppercase;
@@ -107,14 +108,13 @@ body {
 
 .planner__button {
   border: none;
-  background-color: #faf0f6;
+  background-color: #f9f0fa;
   cursor: pointer;
   font-weight: 0;
   font-size: 18px;
   font-family: 'Quicksand', sans-serif;
   padding: 2% 6%;
   text-align: left;
-  transition-duration: 0.3s;
   width: 100%;
 }
 
@@ -274,9 +274,12 @@ body {
   width: 100%;
 }
 
-.planner-full-board {
+.planner-flex {
   display: flex;
   justify-content: space-evenly;
+}
+
+.planner-full-board {
   min-height: 500px;
   padding: 40px 0;
   width: 100%;
@@ -284,7 +287,8 @@ body {
 
 .planner-bar__desk {
   box-sizing: border-box;
-  border-right: 1px solid #ccbed6;
+  border-right: 1px solid #5f5175;
+  cursor: pointer;
   float: left;
   display: flex;
   justify-content: space-between;
@@ -293,17 +297,27 @@ body {
   width: 20%;
 }
 
-.planner-bar__desk:hover, .planner-bar__add-button:hover {
+.planner-bar__add-button:hover {
   background-clip: border-box;
   background-color: #f6eefc;
 }
 
-.planner-bar__desk:focus, .planner-bar__add-button:focus, .planner-bar__delete,  .popup__description:focus, .popup__file:focus, .popup__task:focus, .popup__time:focus {
+.planner-bar__add-button:focus, .planner-bar__delete,  .popup__description:focus, .popup__file:focus, .popup__task:focus, .popup__time:focus {
   border: 1px solid #ccbed6;
   background-color: #faf4fc;
   outline: none;
 }
-
+.desk-popup .planner__palette-button {
+  background-color: #ffffff7c;
+  box-shadow: -3px 3px 4px #807a9e;
+  border-color: transparent;
+  height: 80px;
+  margin: 0 0 10px;
+  padding-left: 6px;
+  padding-right: 6px;
+  position: relative;
+  width: 230px;
+}
 .popup__task:focus {
   box-shadow: -3px 3px 4px #807a9e;
 }
@@ -323,6 +337,10 @@ body {
   margin: 0;
   max-height: 40px;
   width: max-content;
+}
+
+.planner-bar {
+  display: flex;
 }
  
 .planner-bar__delete {
@@ -440,13 +458,29 @@ body {
 }
 
 .desk-popup .popup {
-  width: 400px;
+  padding: 20px;
+  width: 300px;
 }
 
 .desk-popup .popup__button {
   padding: 10px 0;
   text-align: center;
   width: 100%;
+}
+
+.desk-popup .popup__prompt {
+  margin: 20px 0;
+  width: 280px;
+}
+
+.planner__colorSpace {
+  background-color: #ffffff;
+  box-shadow: -3px 3px 4px #807a9e;
+  border-radius: 20%;
+  display: inline-block;
+  height: 60px;
+  margin: 0px 0 8px 10px;
+  width: 60px;
 }
 
 .popup__textarea-board:focus {
@@ -513,6 +547,7 @@ body {
 }
 
 .popup__file {
+  border: 1px solid transparent;
   width: 100%;
 }
 
@@ -769,7 +804,7 @@ body {
   .header__title {
     font-size: 24px;
   }
-  .planner-full-board {
+  .planner-flex {
     display: block;
   }
   .planner__board {
@@ -789,6 +824,9 @@ body {
   .planner__textarea {
     height: 32px;
     width: 318px
+  }
+  .desk-popup .planner__palette-button {
+    width: 200px;
   }
   .planner__title {
     padding: 3% 1%;
@@ -811,10 +849,27 @@ body {
   .planner__title-container .planner__task-button--edit {
     margin-left: -40px;
   }
+  .desk-popup .popup {
+    padding: 8px;
+  }
+  .desk-popup .planner__palette-button {
+    display: block;
+    margin: auto;
+  }
   
   .desk-popup .popup__prompt{
     font-size: 16px;
     width: 220px
+  }
+  .desk-popup .popup__prompt{
+    font-size: 14px;
+    width: 91.5%;
+  }
+  .planner__colorSpace {
+    display: block;
+    height: 50px;
+    margin: 20px auto 5px;
+    width: 50px;
   }
   .popup {
     max-width: 400px;
@@ -838,6 +893,7 @@ body {
     margin:2px 2.5px;
     width:26px
   }
+ 
   .advantages {
     height: 1500px;
   }
@@ -886,6 +942,7 @@ body {
   .planner__task {
     width: 100%;
   }  
+  
   .planner__button {
     margin-bottom: 1px;
   }
@@ -904,6 +961,9 @@ body {
   .planner__title {
     height: 38px;
     line-height: 30px;
+    margin-right: 5.8%;
+    overflow: hidden;
+    width: 90%;
   }
   .planner__title-container {
     height: 44px;
@@ -914,6 +974,9 @@ body {
     height: 44px;
     margin-top: 2px;
     margin-bottom: 2px;
+  }
+  .planner__title-container:hover {
+    background-color: #f9f0fa;
   }
   .planner__textarea-container .planner__textarea{
     height: 34px;
@@ -932,8 +995,10 @@ body {
     width: 13%;
   }
   .planner__title-container .planner__task-button--edit {
+    background-color: #f9f0fa;
+    box-shadow: -5px 0px 10px #f9f0fa;
     margin-top: 0;
-    margin-left: -15%;
+    margin-left: -14%;
   }
   .planner__image {
     max-width: 36px;
@@ -943,10 +1008,7 @@ body {
   .planner__palette-button{
     margin-left:0px;
   }
-  .desk-popup .popup__prompt{
-    font-size: 14px;
-    width: 180px
-  }
+  
   .popup__task {
     font-size: 20px;
     padding-top: 10px;
