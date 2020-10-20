@@ -371,7 +371,31 @@ function ChooseBar() {
   }
 
   function deleteDesk(id) {
-    gsap.to(mainDesk.current, {background : boardDetails.colorsOfBoard[--id]});
+    let namesOfBoards = boardDetails.boardFullNames;
+    let titlesOfBoards = boardDetails.titlesOfMiniBoards;
+    let colorsOfFullBoard = boardDetails.colorsOfBoard;
+    let colorsOfText = boardDetails.colorOfText;
+    let numberOfColumns = boardDetails.numberOfLists;
+    let mainColor = boardDetails.colorOfMainDesk;
+    let startId = 0;
+
+    for (let i = 0; i < id; i++){
+      startId += boardDetails.numberOfLists[i];
+    }
+
+    namesOfBoards.splice(id, 1);
+    colorsOfFullBoard.splice(id, 1);
+    colorsOfText.splice(id, 1);
+    titlesOfBoards.splice(startId, boardDetails.numberOfLists[id]);
+    numberOfColumns.splice(id, 1);
+    mainColor[0] = colorsOfFullBoard[--id]
+
+    if(id == 0) {
+      let barAddButton = document.querySelector(".planner-bar__add-button");
+      barAddButton.classList.toggle(".planner-bar__add-button--only")
+    }
+    gsap.to(mainDesk.current, {background : mainColor[0]});
+    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor})
   }
 
   function changeDesk(id) {
@@ -444,7 +468,7 @@ function ChooseBar() {
     document.documentElement.style.overflow = ""; 
     gsap.to(mainDesk.current, {background : mainColor[0]});
 
-    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor})
+    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor})
   }
 
   function desideToHidePopup(){
