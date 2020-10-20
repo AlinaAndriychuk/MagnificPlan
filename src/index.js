@@ -56,7 +56,7 @@ function PopupBlock(props) {
           <button onClick={() =>{
             props.deleteFunction();
             setFloated(true)
-          }} className="popup__button-change"><img className="planner__image" src="img/garbage.png" alt="delete"/></button>
+          }} className="popup__button-change"><img className="planner__image" src="img/basket.png" alt="delete"/></button>
           <Colorpalette blockfieldIndex={props.blockfieldIndex} colorFunction={props.colorFunction} blockfieldContext={props.blockfieldContext}></Colorpalette>
           <button onClick={hidePopup} className=" popup__button">
             Save
@@ -329,9 +329,8 @@ class Blockfield extends React.Component {
   }
 }
 
-
 function ChooseBar() {
-  const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: [], titlesOfMiniBoards: ["Todo list", "In progress", "Done"], colorsOfBoard: ["ffffff"], colorOfText:["#000000"], numberOfLists: [3]});
+  const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: [], titlesOfMiniBoards: ["Todo list", "In progress", "Done"], colorsOfBoard: ["#ffffff"], colorOfText:["#000000"], numberOfLists: [3], colorOfMainDesk:["#ffffff"]});
   const textareaNameOfBoard = useRef(null);
   let numberOfNewMiniBoards = 0;
   const color = useRef(null);
@@ -340,7 +339,7 @@ function ChooseBar() {
   const colorSpace = useRef(null);
   const colorIndexes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   let styleForColor = {}
-  let arrayOfColors = ["#ffccd8", "#ebcae6", "#dbcceb", "#c2d8f2", "#b7ebed", "#fff0cc", "#db849e", "#bd82b0", "#9884bd", "#848ebd", "#6797ab", "#ffffff"];
+  let arrayOfColors = ["linear-gradient(180deg, #fc9db5, #ffedf7)", "linear-gradient(180deg, #ffcfda, #e1deff)", "linear-gradient(180deg, #ddc6f5, #e0f0ff)", "linear-gradient(180deg, #c2d7fd, #dafff1)", "linear-gradient(180deg, #b3f6f8, #fbffda)", "linear-gradient(180deg, #fff0cc, #ffe6ff)", "linear-gradient(180deg, #c45a7a, #cf8fd8)", "linear-gradient(180deg, #e498d5, #79639b)", "linear-gradient(180deg, #8b6ba5, #78adeb)", "linear-gradient(180deg, #686ebb, #7dfdfd)", "linear-gradient(180deg, #699fb4, #9dffc9)", "#ffffff"];
   
   let colorOfDeskText = "#000000";
   let colorAddToDetails = "#ffffff";
@@ -349,7 +348,7 @@ function ChooseBar() {
   for (let i = 0; i < arrayOfColors.length; i++){
     
     styleForColor[i] = {
-      backgroundColor: arrayOfColors[i],
+      background: arrayOfColors[i],
     }
   }
 
@@ -361,8 +360,8 @@ function ChooseBar() {
     }else {
       colorOfDeskText = "#000000";
     } 
-    mainDesk.current.style.backgroundColor = arrayOfColors[index];
-    colorSpace.current.style.backgroundColor = arrayOfColors[index];
+    gsap.to(mainDesk.current, {background : arrayOfColors[index]})
+    gsap.to(colorSpace.current, {background : arrayOfColors[index]})
   }
 
   function KeyPressEnter(event) {
@@ -371,18 +370,38 @@ function ChooseBar() {
     }
   }
 
+  function deleteDesk(id) {
+    gsap.to(mainDesk.current, {background : boardDetails.colorsOfBoard[--id]});
+  }
+
+  function changeDesk(id) {
+    let startId = 0;
+    let listBlocks = Array.from( mainDesk.current.querySelectorAll(".planner__board"));
+    for (let i = 0; i < id; i++){
+      startId += boardDetails.numberOfLists[i];
+    }
+    for (let i = 0; i < listBlocks.length; i++) {
+      if(i >= startId && i < startId + boardDetails.numberOfLists[id]) {
+        listBlocks[i].style.display = "block";
+      } else {
+        listBlocks[i].style.display = "none";
+      }
+    }
+    
+    gsap.to(mainDesk.current, {background : boardDetails.colorsOfBoard[id]});
+  }
   
   function showPopup(){
     if(document.documentElement.clientWidth >= 845){
       document.body.style.paddingRight = "16px";
     }
     document.documentElement.style.overflow = "hidden"; 
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists})
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk})
   }
   function changeTitleOfList(title, index){
     let titlesOfBoards = boardDetails.titlesOfMiniBoards;
     titlesOfBoards[index] = title;
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists});
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk});
   }
 
   function hidePopup(event) {
@@ -391,15 +410,18 @@ function ChooseBar() {
     let colorsOfFullBoard = boardDetails.colorsOfBoard;
     let colorsOfText = boardDetails.colorOfText;
     let numberOfColumns = boardDetails.numberOfLists;
+    let mainColor = boardDetails.colorOfMainDesk;
 
     if(!event){
       if(colored) {
         colorsOfFullBoard.push(colorAddToDetails);
-        colorsOfText.push(colorOfDeskText)
+        colorsOfText.push(colorOfDeskText);
+        mainColor[0] = colorAddToDetails;
       } else {
         mainDesk.current.style.backgroundColor = "#ffffff";
         colorsOfFullBoard.push("#ffffff");
         colorsOfText.push("#000000");
+        mainColor[0] = "#ffffff"
       }
       namesOfBoards.push(textareaNameOfBoard.current.value);
       numberOfColumns.push(numberOfNewMiniBoards);
@@ -411,14 +433,18 @@ function ChooseBar() {
       }else {
         gsap.from(".planner-flex", {duration: 1, opacity: 0})
       }  
+      if(numberOfColumns.length > 4) {
+        addButton.current.style.display= "none";
+      } 
+      
     }
-    if(numberOfColumns.length > 4) {
-      addButton.current.style.display= "none";
-    } 
     colored = false;
+    
     document.body.style.paddingRight = "0px";
     document.documentElement.style.overflow = ""; 
-    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns})
+    gsap.to(mainDesk.current, {background : mainColor[0]});
+
+    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor})
   }
 
   function desideToHidePopup(){
@@ -461,11 +487,11 @@ function ChooseBar() {
           {
             boardDetails.boardFullNames.map ((item,id) => {
               return (
-                <div key={id} className="planner-bar__desk" style={{backgroundColor: boardDetails.colorsOfBoard[id], color: boardDetails.colorOfText[id]}}>
+                <div key={id} className="planner-bar__desk" onClick={()=> changeDesk(id)} style={{background: boardDetails.colorsOfBoard[id].split(",")[1], color: boardDetails.colorOfText[id]}}>
                   <div className="planner-bar__name">
                     <p title={item} className="planner-bar__text">{item}</p>
                   </div>
-                  <button className="planner-bar__delete"><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
+                  <button className="planner-bar__delete" onClick={()=> deleteDesk(id)}><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
                 </div>
               )
             })
@@ -477,7 +503,7 @@ function ChooseBar() {
                   <div className="popup">
                     <img className="popup__cancel" onClick={hidePopup} src="img/cancel.png" alt="cancel"/>
                     <textarea autoFocus maxLength="17" ref={textareaNameOfBoard} placeholder="Board name" onKeyPress={KeyPressEnter} className="popup__textarea-board"></textarea>
-                    <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Number of columns</p>
+                    <p className="popup__prompt"><img className="popup__prompt-image" src="img/numbers.png" alt="numbers"/>Number of columns</p>
                     <div className="popup-radio">
                       <input className="popup__input" type="radio" id="oneColumn" name="column"/>
                       <label className="popup__label" htmlFor="oneColumn">1</label>
@@ -490,7 +516,7 @@ function ChooseBar() {
                       <input className="popup__input" type="radio" id="threeColumn" name="column" defaultChecked />
                       <label className="popup__label" htmlFor="threeColumn">3</label>
                     </div>  
-                    <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Color of board</p>
+                    <p className="popup__prompt"><img className="popup__prompt-image" src="img/color.png" alt="color"/>Color of board</p>
                     <button className="planner__palette-button">
                         {
                           colorIndexes.map ((item) => {
@@ -697,11 +723,11 @@ if(document.documentElement.clientWidth >= 845) {
   gsap.from(".header__item:first-child", {duration: 2, y: -100});
   gsap.from(".header__item:last-child", {duration: 2, delay: 1, y: -100});
 
-  gsap.from("#board1", {duration: 0.8, marginTop: 400, opacity: 0});
+  gsap.from("#board1", {duration: 0.8, marginTop: 380, opacity: 0});
   gsap.from(" #board1 .planner__title, #board1 .planner__button", {duration: 0.8, delay: 0.8, opacity: 0});
-  gsap.from("#board2", {duration: 0.8, delay: 0.7, marginTop: 400, opacity: 0});
+  gsap.from("#board2", {duration: 0.8, delay: 0.7, marginTop: 380, opacity: 0});
   gsap.from(" #board2 .planner__title, #board2 .planner__button", {duration: 0.8, delay: 1.5, opacity: 0});
-  gsap.from("#board3", {duration: 0.8, delay: 1.5, marginTop: 400, opacity: 0});
+  gsap.from("#board3", {duration: 0.8, delay: 1.5, marginTop: 380, opacity: 0});
   gsap.from(" #board3 .planner__title, #board3 .planner__button", {duration: 0.8, delay: 2.3, opacity: 0});
 } else {
   gsap.from(".header__item:first-child", {duration: 2, y: 200});
@@ -734,7 +760,7 @@ window.addEventListener("scroll", function(event) {
   if(document.documentElement.clientWidth >= 845) {
     if (document.documentElement.scrollTop > 200 && document.documentElement.scrollTop < 750) {
       gsap.to(" .advantages__heading", {duration: 2, opacity: 1, rotationX: 0});
-      gsap.to(" .advantages__line", {duration: 1, rotationY: 0});
+      gsap.to(" .advantages__line", {duration: 3, rotationY: 0});
     }  
     if (document.documentElement.scrollTop > 400 && document.documentElement.scrollTop < 950) {
       gsap.to(" #advantages__image--first", {duration: 2, rotationY: 0, opacity: 1});
@@ -769,7 +795,7 @@ window.addEventListener("scroll", function(event) {
   if(document.documentElement.clientWidth < 845 && document.documentElement.clientWidth >= 384 ) {
     if (document.documentElement.scrollTop > 400 && document.documentElement.scrollTop < 900) {
       gsap.to(" .advantages__heading", {duration: 2, opacity: 1, rotationX: 0});
-      gsap.to(" .advantages__line", {duration: 1, rotationY: 0});
+      gsap.to(" .advantages__line", {duration: 3, rotationY: 0});
     }  
     if (document.documentElement.scrollTop > 700 && document.documentElement.scrollTop < 1250) {
       gsap.to(" #advantages__image--first", {duration: 2, rotationY: 0, opacity: 1});
@@ -804,7 +830,7 @@ window.addEventListener("scroll", function(event) {
   if(document.documentElement.clientWidth < 384) {
     if (document.documentElement.scrollTop > 600 && document.documentElement.scrollTop < 1000) {
       gsap.to(" .advantages__heading", {duration: 2, opacity: 1, rotationX: 0});
-      gsap.to(" .advantages__line", {duration: 1, rotationY: 0});
+      gsap.to(" .advantages__line", {duration: 3, rotationY: 0});
     }  
     if (document.documentElement.scrollTop > 800 && document.documentElement.scrollTop < 1450) {
       gsap.to(" #advantages__image--first", {duration: 2, rotationY: 0, opacity: 1});
