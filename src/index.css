@@ -158,6 +158,10 @@ body {
   outline: none;
 }
 
+.planner-bar__add-button--only {
+  background-color: #c6bcce;
+}
+
 .planner__board {
   border: 1px solid #c0b7ca;
   background-color: #f9f0fa;
