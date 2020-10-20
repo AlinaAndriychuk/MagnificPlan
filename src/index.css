@@ -159,6 +159,7 @@ body {
 }
 
 .planner__board {
+  border: 1px solid #c0b7ca;
   background-color: #f9f0fa;
   height: 100%;
   padding: 4px;
@@ -649,8 +650,8 @@ body {
   border: none;
   background-color: #8d8d8d;
   height: 1px;
-  margin: 0 5%;
-  width: 90%;
+  margin: 0;
+  width: 100%;
   transform: rotateY(90deg);
 }
 
