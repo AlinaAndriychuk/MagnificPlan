@@ -222,16 +222,15 @@ function BlockTitle(props) {
   function renderEditBlock (){
     return (
       <div className="planner__textarea-container planner__task">
-        <textarea autoFocus maxLength="17" onKeyPress={textareaKeyPress} ref={textarea} placeholder={props.titleName} className="planner__textarea"></textarea>
-        <button onClick={save} className="planner__task-button"><img className="planner__image" src="img/ribbon.png" alt="save"/></button>
+        <input onBlur={save} autoFocus maxLength="17" onKeyPress={textareaKeyPress} ref={textarea} defaultValue={props.titleName} className="planner__textarea"></input>
+        <button className="planner__task-button"><img className="planner__image" src="img/ribbon.png" alt="save"/></button>
       </div>
     )
   }
   function renderNormalBlock (){
     return (
       <div className="planner__title-container">
-          <div className="planner__title" title={props.titleName} onKeyPress={textareaKeyPress}>{props.titleName}</div>
-          <button onClick={edit} className="planner__task-button--edit"><img className="planner__image" src="img/pencil.png" alt="edit"/></button>
+          <div onClick={edit} className="planner__title" title={props.titleName} onKeyPress={textareaKeyPress}>{props.titleName}</div>
       </div>
     )
   }
@@ -388,9 +387,9 @@ function ChooseBar() {
     colorsOfText.splice(id, 1);
     titlesOfBoards.splice(startId, boardDetails.numberOfLists[id]);
     numberOfColumns.splice(id, 1);
-    mainColor[0] = colorsOfFullBoard[--id]
+    mainColor[0] = colorsOfFullBoard[--id];
 
-    if(id == 0) {
+    if(id === 0) {
       let barAddButton = document.querySelector(".planner-bar__add-button");
       barAddButton.classList.toggle(".planner-bar__add-button--only")
     }
@@ -492,6 +491,7 @@ function ChooseBar() {
     for (let i = 0; i < boardDetails.numberOfLists.length - 1; i++){
       startId += boardDetails.numberOfLists[i]
     }
+
     if( id > startId){
       return {
         display: "block"
