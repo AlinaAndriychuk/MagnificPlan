@@ -177,6 +177,7 @@ body {
 }
 
 .planner__title {
+  cursor: text;
   float: left;
   font-size: 20px;
   height: 27px;
