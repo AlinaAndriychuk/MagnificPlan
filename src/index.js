@@ -329,7 +329,7 @@ class Blockfield extends React.Component {
 }
 
 function ChooseBar() {
-  const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: [], titlesOfMiniBoards: ["Todo list", "In progress", "Done"], colorsOfBoard: ["#ffffff"], colorOfText:["#000000"], numberOfLists: [3], colorOfMainDesk:["#ffffff"]});
+  const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: [], titlesOfMiniBoards: ["Todo list", "In progress", "Done"], colorsOfBoard: ["#ffffff"], colorOfText:["#000000"], numberOfLists: [3], colorOfMainDesk:["#ffffff"], displayOfLists: ["block", "block", "block"]});
   const textareaNameOfBoard = useRef(null);
   let numberOfNewMiniBoards = 0;
   const color = useRef(null);
@@ -376,42 +376,88 @@ function ChooseBar() {
     let colorsOfText = boardDetails.colorOfText;
     let numberOfColumns = boardDetails.numberOfLists;
     let mainColor = boardDetails.colorOfMainDesk;
+    let displays = boardDetails.displayOfLists;
     let startId = 0;
 
     for (let i = 0; i < id; i++){
       startId += boardDetails.numberOfLists[i];
+    }
+
+    let deleteCurrent
+
+    if(displays[startId + 1] === "block") {
+      deleteCurrent = true;
     }
 
     namesOfBoards.splice(id, 1);
     colorsOfFullBoard.splice(id, 1);
     colorsOfText.splice(id, 1);
     titlesOfBoards.splice(startId, boardDetails.numberOfLists[id]);
+    displays.splice(startId, boardDetails.numberOfLists[id])
     numberOfColumns.splice(id, 1);
-    mainColor[0] = colorsOfFullBoard[--id];
+    mainColor[0] = colorsOfFullBoard[id - 1];
 
-    if(id === 0) {
-      let barAddButton = document.querySelector(".planner-bar__add-button");
-      barAddButton.classList.toggle(".planner-bar__add-button--only")
+    
+    if(deleteCurrent) {
+      let nextDesk;
+      if(boardDetails.numberOfLists[id - 1]) {
+        nextDesk = id - 1;
+        gsap.to(mainDesk.current, {background : mainColor[0]});
+      } else if (boardDetails.numberOfLists[id]) {
+        nextDesk = id;
+        gsap.to(mainDesk.current, {background : boardDetails.colorsOfBoard[id]});
+      } else {
+      displays = [];
+        gsap.to(mainDesk.current, {background : "#ffffff"});
+      }
+      changeDesk(nextDesk)
+    } else {
+      let sumOfIndexes = 0;
+      let thisDesk = 0;
+      for (let i = 0; i < boardDetails.titlesOfMiniBoards.length; i++) {
+        sumOfIndexes++
+        if(displays[i] === "block") {
+          break;
+        }
+      }
+      for(let i = 0; i < boardDetails.numberOfLists.length; i++) {
+        thisDesk += boardDetails.numberOfLists[i];
+        if(thisDesk >= sumOfIndexes) {
+          changeDesk(i)
+          break
+        }
+      }
     }
-    gsap.to(mainDesk.current, {background : mainColor[0]});
-    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor})
+
+    if(numberOfColumns.length === 0) {
+      addButton.current.classList.add("planner-bar__add-button--only")
+    } else {
+      gsap.to(addButton.current, {display: "inline-block"})
+    }
+
+    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays});
   }
 
+
   function changeDesk(id) {
+    let displays = boardDetails.displayOfLists;
     let startId = 0;
-    let listBlocks = Array.from( mainDesk.current.querySelectorAll(".planner__board"));
+
     for (let i = 0; i < id; i++){
       startId += boardDetails.numberOfLists[i];
     }
-    for (let i = 0; i < listBlocks.length; i++) {
-      if(i >= startId && i < startId + boardDetails.numberOfLists[id]) {
-        listBlocks[i].style.display = "block";
+
+    for (let i = 0; i <= boardDetails.titlesOfMiniBoards.length; i++) {
+      if(i > startId && i < startId + boardDetails.numberOfLists[id] + 1) {
+        displays[i] = "block";
       } else {
-        listBlocks[i].style.display = "none";
+        displays[i] = "none";
       }
     }
-    
+
     gsap.to(mainDesk.current, {background : boardDetails.colorsOfBoard[id]});
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists});
+
   }
   
   function showPopup(){
@@ -419,12 +465,12 @@ function ChooseBar() {
       document.body.style.paddingRight = "16px";
     }
     document.documentElement.style.overflow = "hidden"; 
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk})
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists})
   }
   function changeTitleOfList(title, index){
     let titlesOfBoards = boardDetails.titlesOfMiniBoards;
     titlesOfBoards[index] = title;
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk});
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists});
   }
 
   function hidePopup(event) {
@@ -434,6 +480,7 @@ function ChooseBar() {
     let colorsOfText = boardDetails.colorOfText;
     let numberOfColumns = boardDetails.numberOfLists;
     let mainColor = boardDetails.colorOfMainDesk;
+    let displays = boardDetails.displayOfLists;
 
     if(!event){
       if(colored) {
@@ -448,9 +495,17 @@ function ChooseBar() {
       }
       namesOfBoards.push(textareaNameOfBoard.current.value);
       numberOfColumns.push(numberOfNewMiniBoards);
+      let lengthOfLists = boardDetails.titlesOfMiniBoards.length + 1;
+      for (let i = 0; i < lengthOfLists; i++) {
+        displays[i] = "none"
+      }
       for(let i = 0; i < numberOfNewMiniBoards; i++) {
         titlesOfBoards.push("List name");
       }
+      for(let i = 0; i <= numberOfNewMiniBoards; i++) {
+        displays.push("block")
+      }
+      
       if(document.documentElement.clientWidth >= 861){
         gsap.from(".planner-flex", {duration: 0.8, opacity: 0, marginTop: 440})
       }else {
@@ -458,15 +513,14 @@ function ChooseBar() {
       }  
       if(numberOfColumns.length > 4) {
         addButton.current.style.display= "none";
-      } 
-      changeDesk(boardDetails.numberOfLists[boardDetails.numberOfLists.length - 1])
+      }
     }
     colored = false;
     
     document.body.style.paddingRight = "0px";
     document.documentElement.style.overflow = ""; 
     gsap.to(mainDesk.current, {background : mainColor[0]});
-    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor})
+    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays})
   }
 
   function desideToHidePopup(){
@@ -484,25 +538,6 @@ function ChooseBar() {
       textareaNameOfBoard.current.style.borderColor ="#ff4036";
     }
   }
-
-  function desideStyleOfColumn (id) {
-    let startId = 0;
-    for (let i = 0; i < boardDetails.numberOfLists.length - 1; i++){
-      startId += boardDetails.numberOfLists[i]
-    }
-
-    if( id > startId && id <= startId + 3){
-      return {
-        display: "block"
-      }
-    }else {
-      return {
-        display: "none"
-      }
-    }
-    
-  }
-
   
   return (
     <React.Fragment>
@@ -514,7 +549,10 @@ function ChooseBar() {
                   <div className="planner-bar__name">
                     <p title={item} className="planner-bar__text">{item}</p>
                   </div>
-                  <button className="planner-bar__delete" onClick={()=> deleteDesk(id)}><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
+                  <button className="planner-bar__delete" onClick={(event)=> {
+                    event.stopPropagation()
+                    deleteDesk(id)
+                  }}><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
                 </div>
               )
             })
@@ -565,7 +603,7 @@ function ChooseBar() {
                       boardDetails.titlesOfMiniBoards.map ((item, id) => {
                           
                           return (
-                            <Blockfield key = {id} index={id} idName={"board" + ++id} changeTitle={changeTitleOfList} style={desideStyleOfColumn(id)}  titleName={item}></Blockfield>
+                            <Blockfield key = {id} index={id} idName={"board" + ++id} changeTitle={changeTitleOfList} style={{display: boardDetails.displayOfLists[id]}}  titleName={item}></Blockfield>
                           )
                       })
                     }
