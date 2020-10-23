@@ -159,6 +159,8 @@ body {
 }
 
 .planner-bar__add-button--only {
+  display: block;
+  margin: 0 auto;
   background-color: #c6bcce;
 }
 
