@@ -459,14 +459,13 @@ function ChooseBar() {
       if(numberOfColumns.length > 4) {
         addButton.current.style.display= "none";
       } 
-      
+      changeDesk(boardDetails.numberOfLists[boardDetails.numberOfLists.length - 1])
     }
     colored = false;
     
     document.body.style.paddingRight = "0px";
     document.documentElement.style.overflow = ""; 
     gsap.to(mainDesk.current, {background : mainColor[0]});
-
     setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor})
   }
 
@@ -492,7 +491,7 @@ function ChooseBar() {
       startId += boardDetails.numberOfLists[i]
     }
 
-    if( id > startId){
+    if( id > startId && id <= startId + 3){
       return {
         display: "block"
       }
