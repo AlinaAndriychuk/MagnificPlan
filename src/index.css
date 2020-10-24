@@ -137,12 +137,13 @@ body {
   background-color: transparent;
   border-top-right-radius: 20%;
   border-bottom-right-radius: 20%;
-  border: none;
+  border: 1px solid transparent;
   cursor: pointer;
   font-family: 'Quicksand', sans-serif;
-  font-size: 26px;
+  font-size: 34px;
   height: 40px;
-  padding-bottom: 15px;
+  line-height: 10px;
+  padding-bottom: 9px;
   transition-duration: 0.3s;
   width: 40px;
 }
@@ -176,6 +177,10 @@ body {
   border: 4px solid#dad1f3;
   box-shadow: 0px 2px 2px #807a9e;
   color:#ffffff;
+}
+
+.planner-bar__menu {
+  display: none;
 }
 
 .planner__board {
@@ -403,6 +408,19 @@ body {
   margin: auto;
   padding: 20px;
   width: 700px;
+}
+
+.popup__container {
+  margin: auto;
+  width: fit-content;
+}
+
+.popup__title {
+  font-size: 24px;
+  letter-spacing: 5px;
+  margin-top: 0;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .popup__task {    
@@ -859,10 +877,52 @@ body {
     font-size: 24px;
   }
   .planner-bar {
-    display: block;
+    justify-content: center;
+    height: 40px;
+    overflow-y: hidden;
+  }
+  .planner-bar__container {
+    height: 40px;
+    overflow: hidden;
+  }
+  .planner__list {
+    height: 200px;
+  }
+  .planner-bar__desk {
+    border-left: 1px solid #5f5175 ;
+    float: none;
+  }
+  .planner-bar__menu {
+    background-color: transparent;
+    border-top-left-radius: 20%;
+    border-bottom-left-radius: 20%;
+    border: 1px solid transparent;
+    display: inline-block;
+    cursor: pointer;
+    height: 40px;
+    padding: 7px 3px;
+    transition-duration: 0.3s;
+    width: 40px;
+  }
+  .planner-bar__menu:hover {
+    background-clip: border-box;
+    background-color: #f6eefc;
+  }
+  
+  .planner-bar__menu:focus{
+    border: 1px solid #ccbed6;
+    background-color: #faf4fc;
+    outline: none;
+  }
+  .planner-bar__menu-image {
+    width: 24px;
+  }
+  .planner-bar__menu-hide {
+    display: none;
   }
   .planner-flex {
     display: block;
+    padding: 0 2px;
   }
   .planner__board {
     margin: 0 auto 10px;
@@ -1115,7 +1175,15 @@ body {
   }
 }
 
-
+@media screen and (max-width: 270px) {
+  .planner-bar__desk {
+    min-width: 140px;
+    width: 120px;
+  }
+  .planner-bar__name{
+    min-width: 100px;
+  }
+}
 
 
 
