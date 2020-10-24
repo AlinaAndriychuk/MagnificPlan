@@ -432,7 +432,7 @@ function ChooseBar() {
     if(numberOfColumns.length === 0) {
       addButton.current.classList.add("planner-bar__add-button--only")
     } else {
-      gsap.to(addButton.current, {display: "inline-block"})
+      gsap.to(addButton.current, {display: "inline-block"});
     }
 
     setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays});
@@ -513,6 +513,8 @@ function ChooseBar() {
       }  
       if(numberOfColumns.length > 4) {
         addButton.current.style.display= "none";
+      } else {
+        addButton.current.classList.remove("planner-bar__add-button--only")
       }
     }
     colored = false;
@@ -596,21 +598,17 @@ function ChooseBar() {
           }
           <button ref={addButton} className="planner-bar__add-button" onClick={showPopup}>+</button>
         </div>
-        
-              <div ref={mainDesk} className= "planner-full-board">
-                <div className="planner-flex">
-                  {
-                      boardDetails.titlesOfMiniBoards.map ((item, id) => {
-                          
-                          return (
-                            <Blockfield key = {id} index={id} idName={"board" + ++id} changeTitle={changeTitleOfList} style={{display: boardDetails.displayOfLists[id]}}  titleName={item}></Blockfield>
-                          )
-                      })
-                    }
-                </div>
+        <div ref={mainDesk} className= "planner-full-board">
+          <div className="planner-flex">
+            {
+              boardDetails.titlesOfMiniBoards.map ((item, id) => {
+                return (
+                  <Blockfield key = {id} index={id} idName={"board" + ++id} changeTitle={changeTitleOfList} style={{display: boardDetails.displayOfLists[id]}}  titleName={item}></Blockfield>
+                )
+              })
+            }
             </div>
-            
-        
+        </div>
     </React.Fragment>
   ) 
 }
