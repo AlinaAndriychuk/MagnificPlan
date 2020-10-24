@@ -328,6 +328,74 @@ class Blockfield extends React.Component {
   }
 }
 
+function MenuBar(props) {
+  const [showBar, setShowBar] = useState(false);
+
+  function showBarFunction(){
+    setShowBar(true)
+  }
+
+  function hidePopup(){
+    setShowBar(false)
+  }
+
+  function showButton(){
+    return (
+      <button className="planner-bar__menu" onClick={showBarFunction}>
+        <img className="planner-bar__menu-image" alt="menu" src="img/menubar.png"/>
+      </button>
+    )
+  }
+
+  function openAnotherDesk(id) {
+    props.changeDesk(id)
+    setShowBar(false)
+  }
+
+  function deleteTheDesk(id) {
+    if(id === 0) {
+      setShowBar(false)
+    }
+    props.deleteDesk(id)
+  }
+
+  function showFullBar() {
+    return (
+      <div className="popup-wrapper deskName-popup">
+        <div className="popup">
+        <img className="popup__cancel" onClick={hidePopup} src="img/cancel.png" alt="cancel"/>
+        <p className="popup__title">Your boards</p>
+        <div className="popup__container">
+          {
+              props.boardDetails.boardFullNames.map ((item,id) => {
+                return (
+                  <div key={id} className="planner-bar__desk" onClick={()=> openAnotherDesk(id)} style={{background: props.boardDetails.colorsOfBoard[id].split(",")[1], color: props.boardDetails.colorOfText[id]}}>
+                    <div className="planner-bar__name">
+                      <p title={item} className="planner-bar__text">{item}</p>
+                    </div>
+                    <button className="planner-bar__delete" onClick={(event)=> {
+                      event.stopPropagation()
+                      deleteTheDesk(id)
+                    }}><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
+                  </div>
+                )
+              })
+            }
+          </div>  
+        </div>
+      </div>
+    )
+  }
+
+  if(showBar) {
+    document.documentElement.style.overflow = "hidden"; 
+    return showFullBar()
+  } else {
+    document.documentElement.style.overflow = ""; 
+    return showButton()
+  }
+}
+
 function ChooseBar() {
   const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: [], titlesOfMiniBoards: ["Todo list", "In progress", "Done"], colorsOfBoard: ["#ffffff"], colorOfText:["#000000"], numberOfLists: [3], colorOfMainDesk:["#ffffff"], displayOfLists: ["block", "block", "block"]});
   const textareaNameOfBoard = useRef(null);
@@ -408,7 +476,7 @@ function ChooseBar() {
         gsap.to(mainDesk.current, {background : boardDetails.colorsOfBoard[id]});
       } else {
       displays = [];
-        gsap.to(mainDesk.current, {background : "#ffffff"});
+        gsap.to(mainDesk.current, {background : ""});
       }
       changeDesk(nextDesk)
     } else {
@@ -431,6 +499,7 @@ function ChooseBar() {
 
     if(numberOfColumns.length === 0) {
       addButton.current.classList.add("planner-bar__add-button--only")
+      document.querySelector(".planner-bar__menu").classList.add("planner-bar__menu-hide")
     } else {
       gsap.to(addButton.current, {display: "inline-block"});
     }
@@ -454,7 +523,7 @@ function ChooseBar() {
         displays[i] = "none";
       }
     }
-
+    document.querySelector(".planner-bar__container").scrollTo(0, id * 40)
     gsap.to(mainDesk.current, {background : boardDetails.colorsOfBoard[id]});
     setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists});
 
@@ -463,8 +532,8 @@ function ChooseBar() {
   function showPopup(){
     if(document.documentElement.clientWidth >= 845){
       document.body.style.paddingRight = "16px";
-    }
-    document.documentElement.style.overflow = "hidden"; 
+    } 
+    gsap.to(document.documentElement, {overflow: "hidden"})
     setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists})
   }
   function changeTitleOfList(title, index){
@@ -515,7 +584,10 @@ function ChooseBar() {
         addButton.current.style.display= "none";
       } else {
         addButton.current.classList.remove("planner-bar__add-button--only")
+        document.querySelector(".planner-bar__menu").classList.remove("planner-bar__menu-hide")
       }
+    
+      document.querySelector(".planner-bar__container").scrollTo(0, 40)
     }
     colored = false;
     
@@ -544,21 +616,26 @@ function ChooseBar() {
   return (
     <React.Fragment>
         <div className= "planner-bar">
-          {
-            boardDetails.boardFullNames.map ((item,id) => {
-              return (
-                <div key={id} className="planner-bar__desk" onClick={()=> changeDesk(id)} style={{background: boardDetails.colorsOfBoard[id].split(",")[1], color: boardDetails.colorOfText[id]}}>
-                  <div className="planner-bar__name">
-                    <p title={item} className="planner-bar__text">{item}</p>
-                  </div>
-                  <button className="planner-bar__delete" onClick={(event)=> {
-                    event.stopPropagation()
-                    deleteDesk(id)
-                  }}><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
-                </div>
-              )
-            })
-          }
+          <MenuBar boardDetails={boardDetails} deleteDesk={deleteDesk} changeDesk={changeDesk}></MenuBar>
+          <div className="planner-bar__container">
+            <div className="planner__list">
+              {
+                boardDetails.boardFullNames.map ((item,id) => {
+                  return (
+                    <div key={id} className="planner-bar__desk" onClick={()=> changeDesk(id)} style={{background: boardDetails.colorsOfBoard[id].split(",")[1], color: boardDetails.colorOfText[id]}}>
+                      <div className="planner-bar__name">
+                        <p title={item} className="planner-bar__text">{item}</p>
+                      </div>
+                      <button className="planner-bar__delete" onClick={(event)=> {
+                        event.stopPropagation()
+                        deleteDesk(id)
+                      }}><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </div>
           {
             boardDetails.showPopup.map ((item, id) => {
               return (
