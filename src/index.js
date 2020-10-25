@@ -369,7 +369,7 @@ function MenuBar(props) {
           {
               props.boardDetails.boardFullNames.map ((item,id) => {
                 return (
-                  <div key={id} className="planner-bar__desk" onClick={()=> openAnotherDesk(id)} style={{background: props.boardDetails.colorsOfBoard[id].split(",")[1], color: props.boardDetails.colorOfText[id]}}>
+                  <div key={id} className="planner-bar__desk" onClick={()=> openAnotherDesk(id)} style={{background: props.boardDetails.colorsOfBoard[id].split(",")[1] || "#ffffff", color: props.boardDetails.colorOfText[id]}}>
                     <div className="planner-bar__name">
                       <p title={item} className="planner-bar__text">{item}</p>
                     </div>
@@ -619,7 +619,7 @@ function ChooseBar() {
               {
                 boardDetails.boardFullNames.map ((item,id) => {
                   return (
-                    <div key={id} className="planner-bar__desk" onClick={()=> changeDesk(id)} style={{background: boardDetails.colorsOfBoard[id].split(",")[1], color: boardDetails.colorOfText[id]}}>
+                    <div key={id} className="planner-bar__desk" onClick={()=> changeDesk(id)} style={{background: boardDetails.colorsOfBoard[id].split(",")[1] || "#ffffff", color: boardDetails.colorOfText[id]}}>
                       <div className="planner-bar__name">
                         <p title={item} className="planner-bar__text">{item}</p>
                       </div>
@@ -640,7 +640,7 @@ function ChooseBar() {
               {
                 boardDetails.boardFullNames.map ((item,id) => {
                   return (
-                    <div key={id} className="planner-bar__desk" onClick={()=> changeDesk(id)} style={{background: boardDetails.colorsOfBoard[id].split(",")[1], color: boardDetails.colorOfText[id]}}>
+                    <div key={id} className="planner-bar__desk" onClick={()=> changeDesk(id)} style={{background: boardDetails.colorsOfBoard[id].split(",")[1] || "#ffffff", color: boardDetails.colorOfText[id]}}>
                       <div className="planner-bar__name">
                         <p title={item} className="planner-bar__text">{item}</p>
                       </div>
