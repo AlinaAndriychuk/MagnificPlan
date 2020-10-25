@@ -229,11 +229,12 @@ body {
 }
 
 .planner__board {
+  box-sizing: border-box;
   border: 1px solid #c0b7ca;
   background-color: #f9f0fa;
   height: 100%;
   padding: 4px;
-  width: 350px; 
+  width: 358px; 
 }
 
 .planner__title-container {
@@ -280,7 +281,7 @@ body {
 .planner__task {
   display: inline-block;
   min-height: 36px;
-  width: 350px;
+  width: 348px;
 }
 
 .planner__task:hover {
@@ -340,7 +341,7 @@ body {
   margin: 0px;
   padding: 11px 6px;
   text-align: center;
-  width: 338px;
+  width: 336px;
 }
 
 .planner__textarea-container {
@@ -363,7 +364,7 @@ body {
   padding: 2px 5px;
   resize: none;
   vertical-align: top;
-  width: 332px;
+  width: 330px;
 }
 .planner__textarea:hover {
   background-color: #f8f9ff;
@@ -457,7 +458,15 @@ body {
 
 .popup__container {
   margin: auto;
-  width: fit-content;
+  max-width: 300px;
+  width: 90%;
+}
+
+.popup .planner-bar__desk {
+  border: 1px solid #9289a1;
+  max-width: 300px;
+  margin: 10px 0;
+  width: 100%;
 }
 
 .popup__title {
@@ -878,20 +887,20 @@ body {
 
 @media screen and (max-width: 1100px) {
   .planner__board {
-    width: 272px;
+    width: 278px;
   }
   .planner__title {
     padding: 3.9% 1%;
   }
   .planner__task {
-    width: 272px;
+    width: 268px;
   }
   .planner__task-text {
-    width: 260px;
+    width: 256px;
   }
   .planner__textarea {
     height: 32px;
-    width: 254px
+    width: 250px
   }
   .planner__task-button {
     height: 36px;
