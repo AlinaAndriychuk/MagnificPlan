@@ -946,7 +946,7 @@ body {
   }
   .planner__board {
     margin: 0 auto 10px;
-    width: 370px;
+    width: 380px;
   }
   .planner__title-container {
     margin-bottom: 2px;
@@ -1088,9 +1088,8 @@ body {
   .planner__title {
     height: 38px;
     line-height: 30px;
-    margin-right: 5.8%;
     overflow: hidden;
-    width: 90%;
+    width: 98%;
   }
   .planner__button {
     margin-bottom: 1px;
