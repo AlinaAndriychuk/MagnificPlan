@@ -523,7 +523,7 @@ function ChooseBar() {
         displays[i] = "none";
       }
     }
-    document.querySelector(".planner-bar__container").scrollTo(0, id * 40)
+    document.querySelector(".planner-bar__container").scrollTo(0, id * 40);
     gsap.to(mainDesk.current, {background : boardDetails.colorsOfBoard[id]});
     setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists});
 
@@ -587,7 +587,7 @@ function ChooseBar() {
         document.querySelector(".planner-bar__menu").classList.remove("planner-bar__menu-hide")
       }
     
-      document.querySelector(".planner-bar__container").scrollTo(0, 40)
+      document.querySelector(".planner-bar__container").scrollTo(0, (numberOfColumns.length - 1) * 40);
     }
     colored = false;
     
@@ -616,6 +616,24 @@ function ChooseBar() {
   return (
     <React.Fragment>
         <div className= "planner-bar">
+              {
+                boardDetails.boardFullNames.map ((item,id) => {
+                  return (
+                    <div key={id} className="planner-bar__desk" onClick={()=> changeDesk(id)} style={{background: boardDetails.colorsOfBoard[id].split(",")[1], color: boardDetails.colorOfText[id]}}>
+                      <div className="planner-bar__name">
+                        <p title={item} className="planner-bar__text">{item}</p>
+                      </div>
+                      <button className="planner-bar__delete" onClick={(event)=> {
+                        event.stopPropagation()
+                        deleteDesk(id)
+                      }}><img className="planner-bar__image" src="img/cancel.png" alt="delete"/></button>
+                    </div>
+                  )
+                })
+              }
+          <button ref={addButton} className="planner-bar__add-button" onClick={showPopup}>+</button>
+        </div>
+        <div className= "planner-bar-small">
           <MenuBar boardDetails={boardDetails} deleteDesk={deleteDesk} changeDesk={changeDesk}></MenuBar>
           <div className="planner-bar__container">
             <div className="planner__list">
@@ -636,7 +654,9 @@ function ChooseBar() {
               }
             </div>
           </div>
-          {
+          <button ref={addButton} className="planner-bar__add-button" onClick={showPopup}>+</button>
+        </div>
+        {
             boardDetails.showPopup.map ((item, id) => {
               return (
                 <div key= {id} className="popup-wrapper desk-popup">
@@ -673,8 +693,6 @@ function ChooseBar() {
               )
             })
           }
-          <button ref={addButton} className="planner-bar__add-button" onClick={showPopup}>+</button>
-        </div>
         <div ref={mainDesk} className= "planner-full-board">
           <div className="planner-flex">
             {
