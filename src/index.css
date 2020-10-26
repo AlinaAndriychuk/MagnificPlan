@@ -95,6 +95,7 @@ body {
 .planner-bar__container {
   height: 40px;
   overflow: hidden;
+  width: 100%;
 }
 
 .planner__list {
@@ -102,6 +103,7 @@ body {
 }
 
 .planner-bar-small .planner-bar__desk {
+  width: 100%;
   float: none;
 }
 
@@ -428,6 +430,43 @@ body {
 .planner__large-element {
   font-size: 26px;
   vertical-align: baseline;
+}
+
+.planner__column-menu {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  height: 40px;
+  margin-top: -40px;
+  right: 0;
+  position: absolute;
+  width: 40px;
+}
+
+.planner__column-menu:focus {
+  outline: none;
+}
+
+.planner__column-image {
+  width: 100%;
+}
+
+.planner__column-options {
+  background-color: #fdfaff;
+  border: solid 1px #ccbed6;
+  cursor: pointer;
+  margin-top: -40px;
+  right: 0;
+  position: absolute;
+  padding: 5px;
+  width: 90px;
+  z-index: 1000;
+}
+
+.planner__column-palette {
+  background-color: transparent;
+  border: none;
+  padding: 2px 0 2px 9px;
 }
 
 .popup-wrapper {
@@ -940,6 +979,9 @@ body {
     border-left: 1px solid #5f5175 ;
     float: none;
   }
+  .planner-bar__add-button, .planner-bar__menu{
+    border-radius: 0;
+  }
   .planner-flex {
     display: block;
     padding: 0 2px;
@@ -994,6 +1036,12 @@ body {
     height:24px;
     margin:2px 2.5px;
     width:24px
+  }
+
+  .planner__column-palette .planner__palette {
+    height: 28px;
+    margin: 2px 3px;
+    width: 28px;
   }
   .popup {
     max-width: 400px;
