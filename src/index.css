@@ -393,7 +393,7 @@ body {
 
 .planner__palette-button {
   border: solid 1px transparent;
-  background-color:#f7f5f5;
+  background-color:#5f4f6b;
   box-shadow: -3px 3px 4px #807a9e;
   height: 45px;
   margin-left: 71px;
@@ -450,7 +450,7 @@ body {
   background-color: transparent;
   cursor: pointer;
   height: 35px;
-  margin-top: -40px;
+  margin-top: -36px;
   right: 0;
   position: absolute;
   width: 35px;
@@ -504,6 +504,18 @@ body {
   outline:none;
 }
 
+.planner__arrow {
+  position: absolute;
+}
+
+.planner__arrow--left {
+
+}
+
+.planner__arrow--right {
+  right: 0;
+}
+
 .popup-wrapper {
   background-color: rgba(42, 11, 49, 0.63);
   box-sizing: border-box;
@@ -521,7 +533,7 @@ body {
 }
 
 .popup {
-  background: url(../src/backgroundImages/gradientdark.jpg) left top;
+  background: #f3f1f7 left top;
   box-shadow: 7px 7px 5px #4d4961;
   background-size: cover;
   height: min-content;
@@ -632,7 +644,8 @@ body {
 }
 
 .popup__file-label:hover, .popup__button:hover {
-  border:2px solid #ffffff;
+  background-color: #e3dbe9;
+  border:2px solid #e3dbe9;
   box-shadow: -3px 3px 4px #807a9e;
 }
 
@@ -696,14 +709,26 @@ body {
 }
 
 .popup__prompt {
-  background-color: #ffffffcc;
+  background-color: #e3dbe9;
   box-shadow: -3px 3px 4px #807a9e;
   font-size: 18px;
   margin: 10px 0;
   padding: 10px;
   vertical-align: top;
-  width: 270px;
+  width: 60%;
 } 
+
+.popup__prompt--top {
+  width: 80%;
+}
+
+.popup__prompt--middle {
+  width: 40%;
+}
+
+.popup__prompt--bottom {
+  width: 60%;
+}
 
 .popup__prompt-image {
   height: 18px;
@@ -798,19 +823,13 @@ body {
 .desk-popup .planner__palette-button {
   background-color: #ffffffaf;
   box-shadow: -3px 3px 4px #807a9e;
-  border-color: transparent;
+  border-color: #e3dbe9;
   height: 80px;
   margin: 0 0 10px;
   padding-left: 6px;
   padding-right: 6px;
   position: relative;
   width: 230px;
-}
-
-.desk-popup .planner__palette {
-  border: none;
-  height: 30px;
-  width: 30px;
 }
 
 .advantages__line {
@@ -1086,7 +1105,16 @@ body {
     max-width: 400px;
   }
   .popup__prompt{
-    width:180px
+    min-width:180px
+  }
+  .popup__prompt--top {
+    width: 85%;
+  }
+  .popup__prompt--middle {
+    width: 40%;
+  }
+  .popup__prompt--bottom {
+    width: 70%;
   }
   .popup__button, .popup__button-change {
     margin-top: 14px;
@@ -1110,8 +1138,8 @@ body {
     width: 200px;
   }
   .desk-popup .planner__palette {
-    height: 26px;
-    width: 26px;
+    height: 24px;
+    width: 24px;
   }
   .advantages {
     height: 1500px;
@@ -1231,6 +1259,9 @@ body {
   .popup__task {
     font-size: 20px;
     padding-top: 10px;
+  }
+  .popup__prompt{
+    width:180px;
   }
   .popup__button {
     padding: 10px 24px;
