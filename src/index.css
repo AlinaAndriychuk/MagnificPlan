@@ -74,6 +74,7 @@ body {
 .planner-full-board {
   min-height: 500px;
   padding: 40px 0;
+  position: relative;
   width: 100%;
 }
 
@@ -234,6 +235,7 @@ body {
   margin: 0 auto -100px;
   transition-duration: 0.3s;
   width: 100px;
+  z-index: 10;
 }
 
 .planner-bar__add-button--only:hover {
@@ -469,7 +471,7 @@ body {
   border: solid 1px #d7d1da;
   cursor: pointer;
   margin-top: -40px;
-  right: -110px;
+  right: -120px;
   position: absolute;
   padding: 5px;
   width: 90px;
@@ -505,15 +507,36 @@ body {
 }
 
 .planner__arrow {
+  border: none;
+  bottom: 0;
+  cursor: pointer;
+  top: 40px;
+  opacity: 0;
   position: absolute;
+  transition-duration: 0.3s;
+  width: 60px;
+}
+
+.planner__arrow:hover {
+  opacity: 1;
+  background-color: #ebe4eead;
+}
+
+.planner__arrow:focus {
+  outline: none;
 }
 
 .planner__arrow--left {
-
+  border-radius: 0 30% 30% 0;
 }
 
 .planner__arrow--right {
+  border-radius: 30% 0 0 30%;
   right: 0;
+}
+
+.planner__arrow-image {
+  width: 100%;
 }
 
 .popup-wrapper {

@@ -76,13 +76,11 @@ function PopupBlock(props) {
   if (floated){
     document.documentElement.style.overflow = "";
     document.body.style.paddingRight = "0px";
-    document.querySelector(".planner__column-menu").style.right = "0"
     return renderButton();
   } else {
     document.documentElement.style.overflow = "hidden";
     if(document.documentElement.clientWidth >= 861){
       document.body.style.paddingRight = "16px";
-      document.querySelector(".planner__column-menu").style.right = "16px"
     }
     return renderPopup();
   }
@@ -402,7 +400,7 @@ function ColumnMenu(props) {
 
   function showColumnFunction() {
     document.body.addEventListener("click", bodyClick);
-    gsap.to(".planner__column-options", { x: -110})
+    gsap.to(".planner__column-options", { x: -120})
   }
 
   function bodyClick(event) {
@@ -419,7 +417,7 @@ function ColumnMenu(props) {
 
   function hidePopup() {
     document.body.removeEventListener("click", bodyClick);
-    gsap.to(".planner__column-options", {duration: 1, x: 110})
+    gsap.to(".planner__column-options", {duration: 1, x: 120})
   }
 
   function addList() {
@@ -519,6 +517,12 @@ function ChooseBar() {
       titlesOfBoards.splice(startId, 0, "List name");
       displays.splice(startId, 0, "block")
     }
+
+    if(document.documentElement.clientWidth >= 861){
+      gsap.from(".planner-flex", {duration: 0.8, opacity: 0, marginTop: 400})
+    }else {
+      gsap.from(".planner-flex", {duration: 1, opacity: 0})
+    } 
 
     setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: displays, currentDesk: boardDetails.currentDesk})
   }
@@ -634,7 +638,6 @@ function ChooseBar() {
   function showPopup(){
     if(document.documentElement.clientWidth >= 845){
       document.body.style.paddingRight = "16px";
-      document.querySelector(".planner__column-menu").style.right = "16px"
     } 
     gsap.to(document.documentElement, {overflow: "hidden"})
     setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk})
@@ -701,7 +704,6 @@ function ChooseBar() {
     colored = false;
     
     document.body.style.paddingRight = "0px";
-    document.querySelector(".planner__column-menu").style.right = "0"
     document.documentElement.style.overflow = ""; 
     gsap.to(mainDesk.current, {background : mainColor[0]});
     setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: currentBoard})
@@ -721,6 +723,62 @@ function ChooseBar() {
       alert("Fill the board name field");
       textareaNameOfBoard.current.style.borderColor ="#ff4036";
     }
+  }
+
+  function rideToTheRight() {
+    let numberOfColumns = boardDetails.numberOfLists;
+    let displays = boardDetails.displayOfLists;
+    let currentBoard = boardDetails.currentDesk;
+    let mainColor = boardDetails.colorOfMainDesk;
+    let columns = [];
+
+    let startId = 0;
+
+    for (let i = 0; i <= currentBoard[0]; i++){
+      startId += boardDetails.numberOfLists[i];
+    }
+
+    // if(!boardDetails.numberOfLists[currentBoard[0] + 1]) return
+
+    for (let i = 0; i <= boardDetails.titlesOfMiniBoards.length; i++) {
+      if(i > startId && i < startId + boardDetails.numberOfLists[currentBoard[0]] + 1) {
+        displays[i] = "block";
+      } else {
+        let idBoard = "#board" + (i + 1);
+        columns.push(idBoard)
+        displays[i] = "none";
+      }
+    }
+
+    mainColor[0] = boardDetails.colorsOfBoard[currentBoard[0] + 1]
+    currentBoard[0] = currentBoard[0] + 1;
+
+    for(let everyBoard of Array.from(document.querySelectorAll(".planner__board"))) {
+      everyBoard.innerHTML ="";
+      everyBoard.style.height = "150px"
+    }
+
+    gsap.to(".planner-flex", {marginLeft: "auto", marginRight: "auto"});
+    gsap.to(".planner-flex", {duration: 1, delay: 0.5, width: "100px"});
+    gsap.to(".planner__board", {duration: 0.6, width: 20, height: 20});
+    gsap.to(columns[0], {duration: 0.8, delay: 0.4, marginTop: 400, rotationZ: 90});
+    if(columns[1]) {
+      gsap.to(columns[1], {duration: 0.8, delay: 0.7, marginTop: 400, rotationZ: -180});
+    }
+    if(columns[2]) {
+      gsap.to(columns[2], {duration: 0.5, delay: 1, marginTop: 400, rotationZ: 90});
+    }
+    
+
+
+
+    // gsap.to(mainDesk.current, {background : mainColor[0]});
+    // gsap.to(".planner-flex", {x: document.documentElement.clientWidth});
+
+    // setTimeout(()=> {
+    //   setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: boardDetails.currentDesk})
+    // }, 1000)
+    
   }
   
   return (
@@ -808,7 +866,7 @@ function ChooseBar() {
           <button className="planner__arrow planner__arrow--left">
             <img src="img/leftarrow.png" alt="arrow" className="planner__arrow-image"/>
           </button>
-          <button className="planner__arrow planner__arrow--right">
+          <button onClick={rideToTheRight} className="planner__arrow planner__arrow--right">
             <img src="img/rightarrow.png" alt="arrow" className="planner__arrow-image"/>
           </button>
           <div className="planner-flex">
