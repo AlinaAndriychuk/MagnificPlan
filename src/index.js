@@ -39,14 +39,14 @@ function PopupBlock(props) {
         <div className="popup">
           <img onClick={()=> setFloated(true)} className="popup__cancel" src="img/cancel.png" alt="cancel"/>
           <div contentEditable="" onKeyPress={props.onKey} ref={taskName} style={props.styleOfBlock} className="popup__task">{props.taskName}</div>
-          <p className="popup__prompt"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Description</p>
+          <p className="popup__prompt popup__prompt--top"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Description</p>
           <textarea className="popup__description" placeholder="Write description to your task" ref={description} defaultValue={props.descValue}></textarea>
-          <p className="popup__prompt"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Time estimation</p>
+          <p className="popup__prompt popup__prompt--middle"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Time estimation</p>
           <textarea className="popup__time" ref={hours} maxLength="3" defaultValue={props.hoursValue}></textarea> 
           <p className="popup__marker">h</p>
           <textarea className="popup__time" ref={minutes} maxLength="2" defaultValue={props.minutesValue}></textarea>
           <p className="popup__marker">m</p>
-          <p className="popup__prompt"><img className="popup__prompt-image" src="img/attachment.png" alt="attachment"/>Attachments</p>
+          <p className="popup__prompt popup__prompt--bottom"><img className="popup__prompt-image" src="img/attachment.png" alt="attachment"/>Attachments</p>
           <label className="popup__file-label">
               <img className="popup__file-image" src="img/paperclip.png" alt="attachment"/>
               <span className="popup__file-title">Add files</span>
@@ -76,11 +76,13 @@ function PopupBlock(props) {
   if (floated){
     document.documentElement.style.overflow = "";
     document.body.style.paddingRight = "0px";
+    document.querySelector(".planner__column-menu").style.right = "0"
     return renderButton();
   } else {
     document.documentElement.style.overflow = "hidden";
     if(document.documentElement.clientWidth >= 861){
       document.body.style.paddingRight = "16px";
+      document.querySelector(".planner__column-menu").style.right = "16px"
     }
     return renderPopup();
   }
@@ -632,6 +634,7 @@ function ChooseBar() {
   function showPopup(){
     if(document.documentElement.clientWidth >= 845){
       document.body.style.paddingRight = "16px";
+      document.querySelector(".planner__column-menu").style.right = "16px"
     } 
     gsap.to(document.documentElement, {overflow: "hidden"})
     setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk})
@@ -698,6 +701,7 @@ function ChooseBar() {
     colored = false;
     
     document.body.style.paddingRight = "0px";
+    document.querySelector(".planner__column-menu").style.right = "0"
     document.documentElement.style.overflow = ""; 
     gsap.to(mainDesk.current, {background : mainColor[0]});
     setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: currentBoard})
@@ -801,6 +805,12 @@ function ChooseBar() {
           }
         <div ref={mainDesk} className= "planner-full-board">
           <ColumnMenu addListFunction={addList} changeBackground={changeBackground} styleColor={styleForColor} colorIndexes={colorIndexes}></ColumnMenu>
+          <button className="planner__arrow planner__arrow--left">
+            <img src="img/leftarrow.png" alt="arrow" className="planner__arrow-image"/>
+          </button>
+          <button className="planner__arrow planner__arrow--right">
+            <img src="img/rightarrow.png" alt="arrow" className="planner__arrow-image"/>
+          </button>
           <div className="planner-flex">
             {
               boardDetails.titlesOfMiniBoards.map ((item, id) => {
