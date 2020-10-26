@@ -397,47 +397,59 @@ function MenuBar(props) {
 }
 
 function ColumnMenu(props) {
-  const [showMenu, setShowMenu] = useState(false);
 
   function showColumnFunction() {
-    setShowMenu(true)
+    document.body.addEventListener("click", bodyClick);
+    gsap.to(".planner__column-options", { x: -110})
   }
-  function showButton(){
-    return (
+
+  function bodyClick(event) {
+    if(event.target.closest(".planner__column-options")){
+      return;
+    }
+    hidePopup();
+  }
+
+  function changeColor(index) {
+    hidePopup()
+    props.changeBackground(index, true)
+  }
+
+  function hidePopup() {
+    document.body.removeEventListener("click", bodyClick);
+    gsap.to(".planner__column-options", {duration: 1, x: 110})
+  }
+
+  function addList() {
+    props.addListFunction();
+  }
+
+  return (
+    <React.Fragment>
       <button className="planner__column-menu" onClick={showColumnFunction}>
         <img className="planner__column-image" alt="Column menu" src="img/columnmenu.png"/>
       </button>
-    )
-  }
-  function showColumnMenu(){
-    return (
       <div className="planner__column-options">
-        <button className="planner__column-palette">
-          {
-            props.colorIndexes.map ((item) => {
-              return (<div style={props.styleColor[item]} className='planner__palette' key = {item} index={item}></div>)
-            })
-          }
-        </button>     
-        <button className="planner__button"><span className="planner__large-element">+</span> Add list</button>                   
+        <img className="popup__cancel" onClick= {hidePopup} src="img/cancel.png" alt="cancel"/>
+          <button className="planner__column-palette">
+            {
+              props.colorIndexes.map ((item) => {
+                return (<div style={props.styleColor[item]} onClick={()=>changeColor(item)} className='planner__palette' key = {item} index={item}></div>)
+              })
+            }
+          </button>     
+        <button className="planner__button" onClick={addList}><span className="planner__large-element">+</span> Add list</button>                   
       </div>
-    )
-  }
-
-  if(showMenu) {
-    return showColumnMenu()
-  } else {
-    return showButton()
-  }
+    </React.Fragment>
+  )
 }
 
 function ChooseBar() {
-  const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: [], titlesOfMiniBoards: ["Todo list", "In progress", "Done"], colorsOfBoard: ["#ffffff"], colorOfText:["#000000"], numberOfLists: [3], colorOfMainDesk:["#ffffff"], displayOfLists: ["block", "block", "block"]});
+  const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: [], titlesOfMiniBoards: ["Todo list", "In progress", "Done"], colorsOfBoard: ["#ffffff"], colorOfText:["#000000"], numberOfLists: [3], colorOfMainDesk:["#ffffff"], displayOfLists: ["block", "block", "block"], currentDesk: [0]});
   const textareaNameOfBoard = useRef(null);
   let numberOfNewMiniBoards = 0;
   const color = useRef(null);
   const mainDesk = useRef(null);
-  const addButton = useRef(null);
   const colorSpace = useRef(null);
   const colorIndexes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   let styleForColor = {}
@@ -454,7 +466,7 @@ function ChooseBar() {
     }
   }
 
-  function changeBackground(index) {
+  function changeBackground(index, popup) {
     colored = true;
     colorAddToDetails = arrayOfColors[index];
     if(index > 5 && index !== 11) {
@@ -462,8 +474,51 @@ function ChooseBar() {
     }else {
       colorOfDeskText = "#000000";
     } 
-    gsap.to(mainDesk.current, {background : arrayOfColors[index]})
-    gsap.to(colorSpace.current, {background : arrayOfColors[index]})
+
+    
+    if(popup) {
+      changeColorOfDesk()
+      gsap.to(mainDesk.current, {background : arrayOfColors[index]})
+    } else {
+      gsap.to(mainDesk.current, {background : arrayOfColors[index]})
+      gsap.to(colorSpace.current, {background : arrayOfColors[index]})
+    }
+  }
+
+  function changeColorOfDesk() {
+    let colorsOfFullBoard = boardDetails.colorsOfBoard;
+    let colorsOfText = boardDetails.colorOfText;
+    let mainColor = boardDetails.colorOfMainDesk;
+    let currentBoard = boardDetails.currentDesk;
+
+    colorsOfFullBoard[currentBoard[0]] = colorAddToDetails;
+    colorsOfText[currentBoard[0]] = colorOfDeskText;
+    mainColor[0] = colorAddToDetails;
+
+
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: colorsOfFullBoard, colorOfText: colorsOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: mainColor, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk})
+  }
+
+  function addList(){
+    let titlesOfBoards = boardDetails.titlesOfMiniBoards;
+    let numberOfColumns = boardDetails.numberOfLists;
+    let displays = boardDetails.displayOfLists;
+    let currentBoard = boardDetails.currentDesk;
+    let startId = 0;
+
+    for (let i = 0; i <= currentBoard[0]; i++){
+      startId += boardDetails.numberOfLists[i];
+    }
+
+    if(numberOfColumns[currentBoard[0]] === 3) {
+      return;
+    } else {
+      numberOfColumns[currentBoard[0]] = numberOfColumns[currentBoard[0]] + 1;
+      titlesOfBoards.splice(startId, 0, "List name");
+      displays.splice(startId, 0, "block")
+    }
+
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: displays, currentDesk: boardDetails.currentDesk})
   }
 
   function KeyPressEnter(event) {
@@ -533,18 +588,25 @@ function ChooseBar() {
     }
 
     if(numberOfColumns.length === 0) {
-      addButton.current.classList.add("planner-bar__add-button--only")
+      for(let every of Array.from(document.getElementsByClassName("planner-bar__add-button"))) {
+        every.classList.add("planner-bar__add-button--only")
+      }
+      document.querySelector(".planner__column-menu").style.display = "none"
       document.querySelector(".planner-bar__menu").classList.add("planner-bar__menu-hide")
     } else {
-      gsap.to(addButton.current, {display: "inline-block"});
+      for(let every of Array.from(document.getElementsByClassName("planner-bar__add-button"))) {
+        gsap.to(every, {display: "inline-block"});
+      }
+      
     }
 
-    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays});
+    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: boardDetails.currentDesk});
   }
 
 
   function changeDesk(id) {
     let displays = boardDetails.displayOfLists;
+    let currentBoard = boardDetails.currentDesk;
     let startId = 0;
 
     for (let i = 0; i < id; i++){
@@ -558,9 +620,12 @@ function ChooseBar() {
         displays[i] = "none";
       }
     }
+
+    currentBoard[0] = id
+
     document.querySelector(".planner-bar__container").scrollTo(0, id * 40);
     gsap.to(mainDesk.current, {background : boardDetails.colorsOfBoard[id]});
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists});
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: currentBoard});
 
   }
   
@@ -569,12 +634,12 @@ function ChooseBar() {
       document.body.style.paddingRight = "16px";
     } 
     gsap.to(document.documentElement, {overflow: "hidden"})
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists})
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk})
   }
   function changeTitleOfList(title, index){
     let titlesOfBoards = boardDetails.titlesOfMiniBoards;
     titlesOfBoards[index] = title;
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists});
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk});
   }
 
   function hidePopup(event) {
@@ -585,6 +650,7 @@ function ChooseBar() {
     let numberOfColumns = boardDetails.numberOfLists;
     let mainColor = boardDetails.colorOfMainDesk;
     let displays = boardDetails.displayOfLists;
+    let currentBoard = boardDetails.currentDesk;
 
     if(!event){
       if(colored) {
@@ -611,25 +677,30 @@ function ChooseBar() {
       }
       
       if(document.documentElement.clientWidth >= 861){
-        gsap.from(".planner-flex", {duration: 0.8, opacity: 0, marginTop: 440})
+        gsap.from(".planner-flex", {duration: 0.8, opacity: 0, marginTop: 400})
       }else {
         gsap.from(".planner-flex", {duration: 1, opacity: 0})
       }  
       if(numberOfColumns.length > 4) {
-        addButton.current.style.display= "none";
+        for(let every of Array.from(document.getElementsByClassName("planner-bar__add-button"))) {
+          every.style.display= "none";
+        }
       } else {
-        addButton.current.classList.remove("planner-bar__add-button--only")
+        for(let every of Array.from(document.getElementsByClassName("planner-bar__add-button"))) {
+          every.classList.remove("planner-bar__add-button--only")
+        }
         document.querySelector(".planner-bar__menu").classList.remove("planner-bar__menu-hide")
       }
-    
+      currentBoard[0] = namesOfBoards.length - 1
       document.querySelector(".planner-bar__container").scrollTo(0, (numberOfColumns.length - 1) * 40);
+      document.querySelector(".planner__column-menu").style.display = "inline-block"
     }
     colored = false;
     
     document.body.style.paddingRight = "0px";
     document.documentElement.style.overflow = ""; 
     gsap.to(mainDesk.current, {background : mainColor[0]});
-    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays})
+    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: currentBoard})
   }
 
   function desideToHidePopup(){
@@ -666,7 +737,7 @@ function ChooseBar() {
                   )
                 })
               }
-          <button ref={addButton} className="planner-bar__add-button" onClick={showPopup}>+</button>
+          <button className="planner-bar__add-button" onClick={showPopup}>+</button>
         </div>
         <div className= "planner-bar-small">
           <MenuBar boardDetails={boardDetails} deleteDesk={deleteDesk} changeDesk={changeDesk}></MenuBar>
@@ -689,7 +760,7 @@ function ChooseBar() {
               }
             </div>
           </div>
-          <button ref={addButton} className="planner-bar__add-button" onClick={showPopup}>+</button>
+          <button className="planner-bar__add-button" onClick={showPopup}>+</button>
         </div>
         {
             boardDetails.showPopup.map ((item, id) => {
@@ -729,7 +800,7 @@ function ChooseBar() {
             })
           }
         <div ref={mainDesk} className= "planner-full-board">
-          <ColumnMenu styleColor={styleForColor} colorIndexes={colorIndexes}></ColumnMenu>
+          <ColumnMenu addListFunction={addList} changeBackground={changeBackground} styleColor={styleForColor} colorIndexes={colorIndexes}></ColumnMenu>
           <div className="planner-flex">
             {
               boardDetails.titlesOfMiniBoards.map ((item, id) => {
