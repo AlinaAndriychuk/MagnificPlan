@@ -1,7 +1,8 @@
 body {
-  font-family: 'Quicksand', sans-serif;
-  letter-spacing: 2px;
+  font-family: 'Barlow', sans-serif;
+  letter-spacing: 1px;
   margin: 0;
+  overflow-x: hidden;
 }
 
 *::selection {
@@ -107,6 +108,11 @@ body {
   float: none;
 }
 
+.planner-bar-small .planner-bar__add-button--only {
+  display: none;
+  position: absolute;
+}
+
 .planner-bar__menu {
   background-color: transparent;
   border-top-left-radius: 20%;
@@ -160,9 +166,14 @@ body {
 }
 
 .planner-bar__text {
+  border: none;
   margin: 0;
   max-height: 40px;
   width: max-content;
+}
+
+.planner-bar__text:focus {
+  outline:1px solid #ccbed6;
 }
  
 .planner-bar__delete {
@@ -190,11 +201,13 @@ body {
   border-bottom-right-radius: 20%;
   border: 1px solid transparent;
   cursor: pointer;
-  font-family: 'Quicksand', sans-serif;
+  color: #6e6e6e;
+  font-family: 'Barlow', sans-serif;
   font-size: 34px;
+  font-weight: 200;
   height: 40px;
   line-height: 10px;
-  padding-bottom: 9px;
+  padding-bottom: 6px;
   transition-duration: 0.3s;
   width: 40px;
 }
@@ -251,7 +264,7 @@ body {
   font-size: 20px;
   height: 27px;
   line-height: 23px;
-  letter-spacing: 5px;
+  letter-spacing: 4px;
   overflow: hidden;
   padding: 3% 1%;
   text-align: center;
@@ -270,7 +283,7 @@ body {
   cursor: pointer;
   font-weight: 0;
   font-size: 18px;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Barlow', sans-serif;
   padding: 2% 6%;
   text-align: left;
   width: 100%;
@@ -300,7 +313,7 @@ body {
   cursor: pointer;
   font-weight: 0;
   font-size: 18px;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Barlow', sans-serif;
   height: 36px;
   margin: 4px -34px;
   opacity: 0;
@@ -325,7 +338,7 @@ body {
   cursor: pointer;
   font-weight: 0;
   font-size: 18px;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Barlow', sans-serif;
   height: 36px;
   margin: 4px -70px;
   opacity: 0;
@@ -359,7 +372,7 @@ body {
   background-color: #fefeff;
   float: left;
   font-size: 16px;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Barlow', sans-serif;
   height: 32px;
   letter-spacing: 2px;
   margin: 4px 3px 4px 4px;
@@ -429,18 +442,18 @@ body {
 
 .planner__large-element {
   font-size: 26px;
-  vertical-align: baseline;
+  vertical-align: -1.5px;
 }
 
 .planner__column-menu {
   border: none;
   background-color: transparent;
   cursor: pointer;
-  height: 40px;
+  height: 35px;
   margin-top: -40px;
   right: 0;
   position: absolute;
-  width: 40px;
+  width: 35px;
 }
 
 .planner__column-menu:focus {
@@ -452,21 +465,43 @@ body {
 }
 
 .planner__column-options {
-  background-color: #fdfaff;
-  border: solid 1px #ccbed6;
+  background-color: #fffffff5;
+  border: solid 1px #d7d1da;
   cursor: pointer;
   margin-top: -40px;
-  right: 0;
+  right: -110px;
   position: absolute;
   padding: 5px;
   width: 90px;
   z-index: 1000;
 }
 
+.planner__column-options .planner__button {
+  margin-top: 5px;
+  outline: 1px solid #d7d1da;
+  transition-duration: 0.1s;
+}
+
+.planner__column-options .planner__button:hover {
+  background-color: transparent;
+  outline-color: transparent;
+}
+
+.planner__column-options .popup__cancel {
+  display: block;
+  float: none;
+  margin: 5px auto;
+  width: 30px;
+}
+
 .planner__column-palette {
   background-color: transparent;
   border: none;
   padding: 2px 0 2px 9px;
+}
+
+.planner__column-palette:focus {
+  outline:none;
 }
 
 .popup-wrapper {
@@ -520,7 +555,7 @@ body {
   box-sizing: border-box;
   border: 1px solid #ccbed6;
   font-size: 26px;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Barlow', sans-serif;
   min-height: 44px;
   margin: 0;
   padding: 5px;
@@ -551,7 +586,7 @@ body {
 .popup__description {
   box-sizing: border-box;
   font-size: 16px;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Barlow', sans-serif;
   min-height: 170px;
   padding: 10px;
   resize: none;
@@ -564,7 +599,7 @@ body {
 
 .popup__time {
   font-size: 22px;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Barlow', sans-serif;
   height: 30px;
   resize:none;
   text-align: center;
@@ -619,7 +654,7 @@ body {
 }
 
 .popup__file-text {
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Barlow', sans-serif;
   white-space:  pre-line;
 }
 
@@ -631,7 +666,7 @@ body {
   float: right;
   font-weight: 0;
   font-size: 18px;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Barlow', sans-serif;
   letter-spacing: 3px;
   margin: 10px 0 0;
   min-width:100px;
@@ -680,7 +715,7 @@ body {
   box-sizing: border-box;
   background-color: transparent;
   font-size: 26px;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Barlow', sans-serif;
   height: 46px;
   margin: 0;
   padding: 5px;
@@ -981,6 +1016,10 @@ body {
   }
   .planner-bar__add-button, .planner-bar__menu{
     border-radius: 0;
+  }
+  .planner-bar-small .planner-bar__add-button--only {
+    display: block;
+    border-radius: 0 0 30% 30%;
   }
   .planner-flex {
     display: block;
