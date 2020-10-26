@@ -396,6 +396,41 @@ function MenuBar(props) {
   }
 }
 
+function ColumnMenu(props) {
+  const [showMenu, setShowMenu] = useState(false);
+
+  function showColumnFunction() {
+    setShowMenu(true)
+  }
+  function showButton(){
+    return (
+      <button className="planner__column-menu" onClick={showColumnFunction}>
+        <img className="planner__column-image" alt="Column menu" src="img/columnmenu.png"/>
+      </button>
+    )
+  }
+  function showColumnMenu(){
+    return (
+      <div className="planner__column-options">
+        <button className="planner__column-palette">
+          {
+            props.colorIndexes.map ((item) => {
+              return (<div style={props.styleColor[item]} className='planner__palette' key = {item} index={item}></div>)
+            })
+          }
+        </button>     
+        <button className="planner__button"><span className="planner__large-element">+</span> Add list</button>                   
+      </div>
+    )
+  }
+
+  if(showMenu) {
+    return showColumnMenu()
+  } else {
+    return showButton()
+  }
+}
+
 function ChooseBar() {
   const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: [], titlesOfMiniBoards: ["Todo list", "In progress", "Done"], colorsOfBoard: ["#ffffff"], colorOfText:["#000000"], numberOfLists: [3], colorOfMainDesk:["#ffffff"], displayOfLists: ["block", "block", "block"]});
   const textareaNameOfBoard = useRef(null);
@@ -694,6 +729,7 @@ function ChooseBar() {
             })
           }
         <div ref={mainDesk} className= "planner-full-board">
+          <ColumnMenu styleColor={styleForColor} colorIndexes={colorIndexes}></ColumnMenu>
           <div className="planner-flex">
             {
               boardDetails.titlesOfMiniBoards.map ((item, id) => {
@@ -702,7 +738,7 @@ function ChooseBar() {
                 )
               })
             }
-            </div>
+          </div>
         </div>
     </React.Fragment>
   ) 
