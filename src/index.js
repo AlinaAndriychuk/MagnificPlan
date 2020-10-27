@@ -797,6 +797,22 @@ function ChooseBar() {
 
     function endAnimation(){
       currentBoard[0] = currentBoard[0] + 1;
+
+      let startId = 0;
+
+      for (let i = 0; i <= currentBoard[0]; i++){
+        startId += boardDetails.numberOfLists[i];
+      }
+
+      let nextLists = [];
+      for (let i = 0; i <= boardDetails.titlesOfMiniBoards.length; i++) {
+        if(i < startId && i >= startId - boardDetails.numberOfLists[currentBoard[0]]) {
+          let idBoard = "#board" + (i + 1);
+          nextLists.push(idBoard)
+        }
+      }
+
+      let arrayOfImages = Array.from(document.querySelectorAll(".planner__animation-image"))
       
       gsap.to(".planner-flex", {duration: 1, delay: 1, width: "100%"});
       gsap.to(".planner__board", {duration: 0, display: "none"})
@@ -804,18 +820,34 @@ function ChooseBar() {
       gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.6, rotationZ: 270})
       gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.8, marginTop: 0, width: 64})
       gsap.to(columns[0] + " + .planner__animation-image", {duration: 0.3, delay: 1.6, opacity: 0})
-
-      if(columns[2]) {
+      setTimeout(()=> arrayOfImages[0].remove(), 2000)
+      if(nextLists[2]) {
         gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.5, rotationZ: -20})
         gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.2, delay: 0.4, marginTop: 0, width: 64})
         gsap.to(columns[1] + " + .planner__animation-image", {duration: 0.3, delay: 1.4, opacity: 0})
-        gsap.to( columns[2] + " + .planner__animation-image", {duration: 0.5, delay: 0.8, rotationZ: 30})
-        gsap.to( columns[2] + " + .planner__animation-image", {duration: 1.2, delay: 1, marginTop: 0, width: 64})
-        gsap.to(columns[2] + " + .planner__animation-image", {duration: 0.3, delay: 2, opacity: 0})
+        setTimeout(()=> arrayOfImages[1].remove(), 2000)
+        gsap.to( columns[2] + " + .planner__animation-image", {duration: 0.5, delay: 0.5, rotationZ: 30})
+        gsap.to( columns[2] + " + .planner__animation-image", {duration: 1.3, delay: 0.7, marginTop: 0, width: 64})
+        gsap.to(columns[2] + " + .planner__animation-image", {duration: 0.2, delay: 1.8, opacity: 0})
+        setTimeout(()=> arrayOfImages[2].remove(), 2000)
+      } else if(nextLists[1]) {
+        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.5, rotationZ: 10})
+        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.2, delay: 0.4, marginTop: 0, width: 64})
+        gsap.to(columns[1] + " + .planner__animation-image", {duration: 0.3, delay: 1.4, opacity: 0})
+        arrayOfImages[2].remove()
+        setTimeout(()=> arrayOfImages[1].remove(), 2000)
+      } else if(columns[2]){
+        arrayOfImages[1].remove()
+        arrayOfImages[2].remove()
       } else if(columns[1]) {
-        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1, delay: 0.3, rotationZ: 270})
-        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.2, delay: 0.7, marginTop: 0, width: 64})
+        arrayOfImages[1].remove()
       }
+
+      gsap.to(nextLists[0], { display: "block", delay: 2})
+      gsap.to(".planner__board", { delay: 2, opacity: 1})
+      gsap.to(".planner__box", { delay: 1, opacity: 0, display: "none"})
+      if(nextLists[1]) gsap.to(nextLists[1], { display: "block",delay: 2})
+      if(nextLists[2]) gsap.to(nextLists[2], { display: "block",delay: 2})
 
     }
 
