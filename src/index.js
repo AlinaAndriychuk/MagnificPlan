@@ -738,46 +738,88 @@ function ChooseBar() {
       startId += boardDetails.numberOfLists[i];
     }
 
-    // if(!boardDetails.numberOfLists[currentBoard[0] + 1]) return
-
+    if(!boardDetails.numberOfLists[currentBoard[0] + 1]) return
     for (let i = 0; i <= boardDetails.titlesOfMiniBoards.length; i++) {
-      if(i > startId && i < startId + boardDetails.numberOfLists[currentBoard[0]] + 1) {
+      if(i > startId && i < startId + boardDetails.numberOfLists[currentBoard[0] + 1] + 1) {
         displays[i] = "block";
       } else {
-        let idBoard = "#board" + (i + 1);
-        columns.push(idBoard)
         displays[i] = "none";
       }
     }
 
+    for (let i = 0; i <= boardDetails.titlesOfMiniBoards.length; i++) {
+      if(i < startId && i >= startId - boardDetails.numberOfLists[currentBoard[0]]) {
+        let idBoard = "#board" + (i + 1);
+        columns.push(idBoard)
+      }
+    }
+
     mainColor[0] = boardDetails.colorsOfBoard[currentBoard[0] + 1]
-    currentBoard[0] = currentBoard[0] + 1;
 
-    for(let everyBoard of Array.from(document.querySelectorAll(".planner__board"))) {
-      everyBoard.innerHTML ="";
-      everyBoard.style.height = "150px"
-    }
-
+    gsap.to(".planner__box", {display: "block", opacity: 1, width: 170})
     gsap.to(".planner-flex", {marginLeft: "auto", marginRight: "auto"});
-    gsap.to(".planner-flex", {duration: 1, delay: 0.5, width: "100px"});
-    gsap.to(".planner__board", {duration: 0.6, width: 20, height: 20});
-    gsap.to(columns[0], {duration: 0.8, delay: 0.4, marginTop: 400, rotationZ: 90});
-    if(columns[1]) {
-      gsap.to(columns[1], {duration: 0.8, delay: 0.7, marginTop: 400, rotationZ: -180});
-    }
-    if(columns[2]) {
-      gsap.to(columns[2], {duration: 0.5, delay: 1, marginTop: 400, rotationZ: 90});
-    }
+    gsap.to(".planner-flex", {duration: 1.5, delay: 0.9, width: "30px"});
+    gsap.to(".planner__board", {duration: 0.3, delay: 0.3, opacity: 0, display: "none"});
+
+    setTimeout(()=> {
+      for (let i = 0; i < columns.length; i++){
+        let image = document.createElement("img");
+        image.src = "img/imgAnimate.png";
+        image.alt = "animation";
+        image.className = "planner__animation-image";
+        document.querySelector(columns[i]).after(image);
+      }
+      gsap.to(".planner__animation-image", {duration:0, opacity: 0, height:"100%"})
+      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, opacity: 1, delay: 0.5, rotationZ: 90, width: 64})
+      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1.2, delay: 0.7, marginTop: 380, width: 30})
+
+      
+
+      if(columns[2]) {
+        gsap.to( columns[1] + " + .planner__animation-image", {duration: 0.8, opacity: 1, rotationZ: 120, width: 64})
+        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.3, delay: 0.2, marginTop: 380, width: 30})
+        gsap.to( columns[2] + " + .planner__animation-image", {duration: 1, opacity: 1, delay: 0.3, rotationZ: 200, width: 64})
+        gsap.to( columns[2] + " + .planner__animation-image", {duration: 1, delay: 0.6, marginTop: 380, width: 30})
+      } else if(columns[1]) {
+        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.3, opacity: 1, rotationZ: 190, width: 64})
+        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1, delay: 0.4, marginTop: 380, width: 30})
+      }
+
+    }, 600)
+  
     
+    gsap.to(mainDesk.current, {delay: 2, background : mainColor[0]});
+    
+    setTimeout(()=> {
+      setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: boardDetails.currentDesk})
+      endAnimation()
+    }, 2000)
+
+    function endAnimation(){
+      currentBoard[0] = currentBoard[0] + 1;
+      
+      gsap.to(".planner-flex", {duration: 1, delay: 1, width: "100%"});
+      gsap.to(".planner__board", {duration: 0, display: "none"})
+      
+      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.6, rotationZ: 270})
+      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.8, marginTop: 0, width: 64})
+      gsap.to(columns[0] + " + .planner__animation-image", {duration: 0.3, delay: 1.6, opacity: 0})
+
+      if(columns[2]) {
+        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.5, rotationZ: -20})
+        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.2, delay: 0.4, marginTop: 0, width: 64})
+        gsap.to(columns[1] + " + .planner__animation-image", {duration: 0.3, delay: 1.4, opacity: 0})
+        gsap.to( columns[2] + " + .planner__animation-image", {duration: 0.5, delay: 0.8, rotationZ: 30})
+        gsap.to( columns[2] + " + .planner__animation-image", {duration: 1.2, delay: 1, marginTop: 0, width: 64})
+        gsap.to(columns[2] + " + .planner__animation-image", {duration: 0.3, delay: 2, opacity: 0})
+      } else if(columns[1]) {
+        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1, delay: 0.3, rotationZ: 270})
+        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.2, delay: 0.7, marginTop: 0, width: 64})
+      }
+
+    }
 
 
-
-    // gsap.to(mainDesk.current, {background : mainColor[0]});
-    // gsap.to(".planner-flex", {x: document.documentElement.clientWidth});
-
-    // setTimeout(()=> {
-    //   setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: boardDetails.currentDesk})
-    // }, 1000)
     
   }
   
@@ -878,6 +920,7 @@ function ChooseBar() {
               })
             }
           </div>
+          <img alt="box" src = "img/box.png" className="planner__box"/>
         </div>
     </React.Fragment>
   ) 
@@ -988,7 +1031,7 @@ plannerContainer.addEventListener('mousedown', function(event) {
 
 
     element.style.position = 'fixed';
-    element.style.zIndex = 10;
+    element.style.zIndex = 30;
     moveAt(clientX, clientY);
   };
 
