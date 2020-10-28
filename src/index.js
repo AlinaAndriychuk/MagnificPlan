@@ -631,7 +631,7 @@ function ChooseBar() {
 
     document.querySelector(".planner-bar__container").scrollTo(0, id * 40);
     gsap.to(mainDesk.current, {background : boardDetails.colorsOfBoard[id]});
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: currentBoard});
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: displays, currentDesk: currentBoard});
 
   }
   
@@ -725,15 +725,22 @@ function ChooseBar() {
     }
   }
 
-  function rideToTheRight() {
+  function slideTheDesk(event) {
 
-    if(document.documentElement.clientWidth <= 843 ) return
+    if(document.documentElement.clientWidth <= 843 ) return;
 
     let numberOfColumns = boardDetails.numberOfLists;
     let displays = boardDetails.displayOfLists;
     let currentBoard = boardDetails.currentDesk;
     let mainColor = boardDetails.colorOfMainDesk;
     let columns = [];
+    let sideOfSliding;
+
+    if(event.target.closest(".planner__arrow--right")) {
+      sideOfSliding = "right"
+    } else {
+      sideOfSliding = "left"
+    }
 
     let startId = 0;
 
@@ -741,13 +748,29 @@ function ChooseBar() {
       startId += boardDetails.numberOfLists[i];
     }
 
-    if(!boardDetails.numberOfLists[currentBoard[0] + 1]) return
+    let nextDesk;
+    if(sideOfSliding === "right") {
+      nextDesk = currentBoard[0] + 1;
+    }else {
+      nextDesk = currentBoard[0] - 1;
+    }
+
+    if(!boardDetails.numberOfLists[nextDesk]) return
     for (let i = 0; i <= boardDetails.titlesOfMiniBoards.length; i++) {
-      if(i > startId && i < startId + boardDetails.numberOfLists[currentBoard[0] + 1] + 1) {
-        displays[i] = "block";
+      if(sideOfSliding === "right") {
+        if(i > startId && i < startId + boardDetails.numberOfLists[nextDesk] + 1) {
+          displays[i] = "block";
+        } else {
+          displays[i] = "none";
+        }
       } else {
-        displays[i] = "none";
+        if(i > startId - boardDetails.numberOfLists[currentBoard[0]] - boardDetails.numberOfLists[nextDesk] && i < startId - boardDetails.numberOfLists[currentBoard[0]] + 1) {
+          displays[i] = "block";
+        } else {
+          displays[i] = "none";
+        }
       }
+      
     }
 
     for (let i = 0; i <= boardDetails.titlesOfMiniBoards.length; i++) {
@@ -757,7 +780,7 @@ function ChooseBar() {
       }
     }
 
-    mainColor[0] = boardDetails.colorsOfBoard[currentBoard[0] + 1]
+    mainColor[0] = boardDetails.colorsOfBoard[nextDesk]
 
     gsap.to(".planner__box", {display: "block", opacity: 1, width: 170})
     gsap.to(".planner-flex", {marginLeft: "auto", marginRight: "auto"});
@@ -799,7 +822,7 @@ function ChooseBar() {
     }, 2000)
 
     function endAnimation(){
-      currentBoard[0] = currentBoard[0] + 1;
+      currentBoard[0] = nextDesk;
 
       let startId = 0;
 
@@ -892,8 +915,9 @@ function ChooseBar() {
 
     }
 
-
-    
+    setTimeout(() => {
+      setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: currentBoard})
+    }, 2100)
   }
   
   return (
@@ -978,10 +1002,10 @@ function ChooseBar() {
           }
         <div ref={mainDesk} className= "planner-full-board">
           <ColumnMenu addListFunction={addList} changeBackground={changeBackground} styleColor={styleForColor} colorIndexes={colorIndexes}></ColumnMenu>
-          <button className="planner__arrow planner__arrow--left">
+          <button onClick={slideTheDesk} className="planner__arrow planner__arrow--left">
             <img src="img/leftarrow.png" alt="arrow" className="planner__arrow-image"/>
           </button>
-          <button onClick={rideToTheRight} className="planner__arrow planner__arrow--right">
+          <button onClick={slideTheDesk} className="planner__arrow planner__arrow--right">
             <img src="img/rightarrow.png" alt="arrow" className="planner__arrow-image"/>
           </button>
           <div className="planner-flex">
