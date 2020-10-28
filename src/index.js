@@ -726,6 +726,9 @@ function ChooseBar() {
   }
 
   function rideToTheRight() {
+
+    if(document.documentElement.clientWidth <= 843 ) return
+
     let numberOfColumns = boardDetails.numberOfLists;
     let displays = boardDetails.displayOfLists;
     let currentBoard = boardDetails.currentDesk;
@@ -758,7 +761,7 @@ function ChooseBar() {
 
     gsap.to(".planner__box", {display: "block", opacity: 1, width: 170})
     gsap.to(".planner-flex", {marginLeft: "auto", marginRight: "auto"});
-    gsap.to(".planner-flex", {duration: 1.5, delay: 0.9, width: "30px"});
+    gsap.to(".planner-flex", {duration: 1.3, delay: 0.9, width: "30px"});
     gsap.to(".planner__board", {duration: 0.3, delay: 0.3, opacity: 0, display: "none"});
 
     setTimeout(()=> {
@@ -771,7 +774,7 @@ function ChooseBar() {
       }
       gsap.to(".planner__animation-image", {duration:0, opacity: 0, height:"100%"})
       gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, opacity: 1, delay: 0.5, rotationZ: 90, width: 64})
-      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1.2, delay: 0.7, marginTop: 380, width: 30})
+      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.7, marginTop: 380, width: 30})
 
       
 
@@ -811,40 +814,78 @@ function ChooseBar() {
           nextLists.push(idBoard)
         }
       }
+      
+      let arrayOfImagesBefore = Array.from(document.querySelectorAll(".planner__animation-image"))
 
-      let arrayOfImages = Array.from(document.querySelectorAll(".planner__animation-image"))
-      
-      gsap.to(".planner-flex", {duration: 1, delay: 1, width: "100%"});
-      gsap.to(".planner__board", {duration: 0, display: "none"})
-      
-      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.6, rotationZ: 270})
-      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.8, marginTop: 0, width: 64})
-      gsap.to(columns[0] + " + .planner__animation-image", {duration: 0.3, delay: 1.6, opacity: 0})
-      setTimeout(()=> arrayOfImages[0].remove(), 2000)
-      if(nextLists[2]) {
+      if(columns[1] && nextLists[2] && !columns[2]) {
+        columns[2] = nextLists[2]
+        let image = document.createElement("img");
+        image.src = "img/imgAnimate.png";
+        image.alt = "animation";
+        image.className = "planner__animation-image";
+        document.querySelector(columns[2]).after(image);
+        gsap.to( columns[2] + " + .planner__animation-image", {duration: 0, marginTop: 380, width: 30, height:"100%"})
+      } else if (!columns[1] && nextLists[2]) {
+        columns[1] = nextLists[1]
+        columns[2] = nextLists[2]
+        for(let i = 1; i < 3; i++) {
+          let image = document.createElement("img");
+          image.src = "img/imgAnimate.png";
+          image.alt = "animation";
+          image.className = "planner__animation-image";
+          document.querySelector(columns[i]).after(image);
+        }
+        gsap.to( columns[1] + " + .planner__animation-image", {duration: 0, marginTop: 380, width: 30, height:"100%"})
+        gsap.to( columns[2] + " + .planner__animation-image", {duration: 0, marginTop: 380, width: 30, height:"100%"})
+      } else if (columns[2] && !nextLists[2] && nextLists[1]) {
+        columns[2] = false
+        arrayOfImagesBefore[2].remove()  
+      } else if (!columns[1] && nextLists[1]) {
+        columns[1] = nextLists[1]
+        let image = document.createElement("img");
+        image.src = "img/imgAnimate.png";
+        image.alt = "animation";
+        image.className = "planner__animation-image";
+        document.querySelector(columns[1]).after(image);
+        gsap.to( columns[1] + " + .planner__animation-image", {duration: 0, marginTop: 380, width: 30, height:"100%"})
+      } else if (columns[2] && !nextLists[1]) {
+        columns[1] = false;
+        columns[2] = false;
+        arrayOfImagesBefore[1].remove()  
+        arrayOfImagesBefore[2].remove()  
+      } else if (columns[1] && !nextLists[1]) {
+        columns[1] = false;
+        arrayOfImagesBefore[1].remove()  
+      }
+
+      let arrayOfImagesAfter = Array.from(document.querySelectorAll(".planner__animation-image"))
+
+      if(columns[2] ) {
         gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.5, rotationZ: -20})
         gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.2, delay: 0.4, marginTop: 0, width: 64})
         gsap.to(columns[1] + " + .planner__animation-image", {duration: 0.3, delay: 1.4, opacity: 0})
-        setTimeout(()=> arrayOfImages[1].remove(), 2000)
+        setTimeout(()=> arrayOfImagesAfter[1].remove(), 2000)
         gsap.to( columns[2] + " + .planner__animation-image", {duration: 0.5, delay: 0.5, rotationZ: 30})
         gsap.to( columns[2] + " + .planner__animation-image", {duration: 1.3, delay: 0.7, marginTop: 0, width: 64})
         gsap.to(columns[2] + " + .planner__animation-image", {duration: 0.2, delay: 1.8, opacity: 0})
-        setTimeout(()=> arrayOfImages[2].remove(), 2000)
-      } else if(nextLists[1]) {
-        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.5, rotationZ: 10})
+        setTimeout(()=> arrayOfImagesAfter[2].remove(), 2000)
+      } else if (columns[1]) {
+        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.5, rotationZ: -20})
         gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.2, delay: 0.4, marginTop: 0, width: 64})
         gsap.to(columns[1] + " + .planner__animation-image", {duration: 0.3, delay: 1.4, opacity: 0})
-        arrayOfImages[2].remove()
-        setTimeout(()=> arrayOfImages[1].remove(), 2000)
-      } else if(columns[2]){
-        arrayOfImages[1].remove()
-        arrayOfImages[2].remove()
-      } else if(columns[1]) {
-        arrayOfImages[1].remove()
+        setTimeout(()=> arrayOfImagesAfter[1].remove(), 2000)
       }
+   
+      gsap.to(".planner-flex", {duration: 1, delay: 0.9, width: "100%"});
+      gsap.to(".planner__board", {duration: 0, display: "none"})
+
+      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.6, rotationZ: 270})
+      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.8, marginTop: 0, width: 64})
+      gsap.to(columns[0] + " + .planner__animation-image", {duration: 0.3, delay: 1.6, opacity: 0})
+      setTimeout(()=> arrayOfImagesAfter[0].remove(), 2000)
 
       gsap.to(nextLists[0], { display: "block", delay: 2})
-      gsap.to(".planner__board", { delay: 2, opacity: 1})
+      gsap.to(".planner__board", { delay: 2.1, opacity: 1})
       gsap.to(".planner__box", { delay: 1, opacity: 0, display: "none"})
       if(nextLists[1]) gsap.to(nextLists[1], { display: "block",delay: 2})
       if(nextLists[2]) gsap.to(nextLists[2], { display: "block",delay: 2})
