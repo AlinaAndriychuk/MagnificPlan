@@ -514,7 +514,7 @@ function ChooseBar() {
       return;
     } else {
       numberOfColumns[currentBoard[0]] = numberOfColumns[currentBoard[0]] + 1;
-      titlesOfBoards.splice(startId, 0, "List name");
+      titlesOfBoards.splice(startId, 0, "Column name");
       displays.splice(startId, 0, "block")
     }
 
@@ -676,7 +676,7 @@ function ChooseBar() {
         displays[i] = "none"
       }
       for(let i = 0; i < numberOfNewMiniBoards; i++) {
-        titlesOfBoards.push("List name");
+        titlesOfBoards.push("Column name");
       }
       for(let i = 0; i <= numberOfNewMiniBoards; i++) {
         displays.push("block")
@@ -733,9 +733,7 @@ function ChooseBar() {
     let displays = boardDetails.displayOfLists;
     let currentBoard = boardDetails.currentDesk;
     let mainColor = boardDetails.colorOfMainDesk;
-    let columns = [];
     let sideOfSliding;
-
     if(event.target.closest(".planner__arrow--right")) {
       sideOfSliding = "right"
     } else {
@@ -770,154 +768,199 @@ function ChooseBar() {
           displays[i] = "none";
         }
       }
-      
     }
 
+    let newSpace = document.createElement("div");
+    newSpace.className = "planner-fullSpace";
+    newSpace.style.height = mainDesk.current.clientHeight + "px";
+    newSpace.style.background = boardDetails.colorsOfBoard[nextDesk];
+    mainDesk.current.before(newSpace)
+    if(sideOfSliding === "right") {
+      newSpace.style.right = 0;
+    } else {
+      newSpace.style.left = 0;
+    }
+    gsap.to(newSpace, {duration : 1, width: "100%"});
+    gsap.to(mainDesk.current, {duration : 0, delay: 1.1, background: boardDetails.colorsOfBoard[nextDesk]});
+    setTimeout(() => newSpace.remove(), 1100);
+    gsap.to(".planner__board", {duration : 0, delay: 1, opacity: 0});
+
+    mainColor[0] = boardDetails.colorsOfBoard[nextDesk];
+
+    currentBoard[0] = nextDesk;
+    let startOfNewLists = 0;
+
+    for (let i = 0; i <= currentBoard[0]; i++){
+      startOfNewLists += boardDetails.numberOfLists[i];
+    }
+
+    let nextLists = [];
     for (let i = 0; i <= boardDetails.titlesOfMiniBoards.length; i++) {
-      if(i < startId && i >= startId - boardDetails.numberOfLists[currentBoard[0]]) {
+      if(i < startOfNewLists && i >= startOfNewLists - boardDetails.numberOfLists[currentBoard[0]]) {
         let idBoard = "#board" + (i + 1);
-        columns.push(idBoard)
+        nextLists.push(idBoard)
       }
     }
 
-    mainColor[0] = boardDetails.colorsOfBoard[nextDesk]
-
-    gsap.to(".planner__box", {display: "block", opacity: 1, width: 170})
-    gsap.to(".planner-flex", {marginLeft: "auto", marginRight: "auto"});
-    gsap.to(".planner-flex", {duration: 1.3, delay: 0.9, width: "30px"});
-    gsap.to(".planner__board", {duration: 0.3, delay: 0.3, opacity: 0, display: "none"});
+    if(sideOfSliding === "right") {
+      gsap.to(".planner__board", {duration : 1, delay: 1.4, opacity: 1});
+      gsap.to(nextLists[0], {duration : 1, delay: 1, opacity: 1});
+      if(nextLists[1]) gsap.to(nextLists[1], {duration : 1, delay: 1.2, opacity: 1});
+    } else {
+      gsap.to(".planner__board", {duration : 1, delay: 1.4, opacity: 1});
+      gsap.to(nextLists[0], {duration : 1, delay: 1.4, opacity: 1});
+      if(nextLists[1]) gsap.to(nextLists[1], {duration : 1, delay: 1.2, opacity: 1});
+      if(nextLists[2]) gsap.to(nextLists[2], {duration : 1, delay: 1, opacity: 1});
+    }
 
     setTimeout(()=> {
-      for (let i = 0; i < columns.length; i++){
-        let image = document.createElement("img");
-        image.src = "img/imgAnimate.png";
-        image.alt = "animation";
-        image.className = "planner__animation-image";
-        document.querySelector(columns[i]).after(image);
-      }
-      gsap.to(".planner__animation-image", {duration:0, opacity: 0, height:"100%"})
-      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, opacity: 1, delay: 0.5, rotationZ: 90, width: 64})
-      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.7, marginTop: 380, width: 30})
+      setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: currentBoard})
+    }, 1000)
+    // for (let i = 0; i <= boardDetails.titlesOfMiniBoards.length; i++) {
+    //   if(i < startId && i >= startId - boardDetails.numberOfLists[currentBoard[0]]) {
+    //     let idBoard = "#board" + (i + 1);
+    //     columns.push(idBoard)
+    //   }
+    // }
+
+    // mainColor[0] = boardDetails.colorsOfBoard[nextDesk]
+
+    // gsap.to(".planner__box", {display: "block", opacity: 1, width: 170})
+    // gsap.to(".planner-flex", {marginLeft: "auto", marginRight: "auto"});
+    // gsap.to(".planner-flex", {duration: 1.3, delay: 0.9, width: "30px"});
+    // gsap.to(".planner__board", {duration: 0.3, delay: 0.3, opacity: 0, display: "none"});
+
+    // setTimeout(()=> {
+    //   for (let i = 0; i < columns.length; i++){
+    //     let image = document.createElement("img");
+    //     image.src = "img/imgAnimate.png";
+    //     image.alt = "animation";
+    //     image.className = "planner__animation-image";
+    //     document.querySelector(columns[i]).after(image);
+    //   }
+    //   gsap.to(".planner__animation-image", {duration:0, opacity: 0, height:"100%"})
+    //   gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, opacity: 1, delay: 0.5, rotationZ: 90, width: 64})
+    //   gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.7, marginTop: 380, width: 30})
 
       
 
-      if(columns[2]) {
-        gsap.to( columns[1] + " + .planner__animation-image", {duration: 0.8, opacity: 1, rotationZ: 120, width: 64})
-        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.3, delay: 0.2, marginTop: 380, width: 30})
-        gsap.to( columns[2] + " + .planner__animation-image", {duration: 1, opacity: 1, delay: 0.3, rotationZ: 200, width: 64})
-        gsap.to( columns[2] + " + .planner__animation-image", {duration: 1, delay: 0.6, marginTop: 380, width: 30})
-      } else if(columns[1]) {
-        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.3, opacity: 1, rotationZ: 190, width: 64})
-        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1, delay: 0.4, marginTop: 380, width: 30})
-      }
+    //   if(columns[2]) {
+    //     gsap.to( columns[1] + " + .planner__animation-image", {duration: 0.8, opacity: 1, rotationZ: 120, width: 64})
+    //     gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.3, delay: 0.2, marginTop: 380, width: 30})
+    //     gsap.to( columns[2] + " + .planner__animation-image", {duration: 1, opacity: 1, delay: 0.3, rotationZ: 200, width: 64})
+    //     gsap.to( columns[2] + " + .planner__animation-image", {duration: 1, delay: 0.6, marginTop: 380, width: 30})
+    //   } else if(columns[1]) {
+    //     gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.3, opacity: 1, rotationZ: 190, width: 64})
+    //     gsap.to( columns[1] + " + .planner__animation-image", {duration: 1, delay: 0.4, marginTop: 380, width: 30})
+    //   }
 
-    }, 600)
+    // }, 600)
   
     
-    gsap.to(mainDesk.current, {delay: 2, background : mainColor[0]});
+    // gsap.to(mainDesk.current, {delay: 2, background : mainColor[0]});
     
-    setTimeout(()=> {
-      setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: boardDetails.currentDesk})
-      endAnimation()
-    }, 2000)
+    // setTimeout(()=> {
+    //   setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: boardDetails.currentDesk})
+    //   endAnimation()
+    // }, 2000)
 
-    function endAnimation(){
-      currentBoard[0] = nextDesk;
+    // function endAnimation(){
+    //   currentBoard[0] = nextDesk;
 
-      let startId = 0;
+    //   let startId = 0;
 
-      for (let i = 0; i <= currentBoard[0]; i++){
-        startId += boardDetails.numberOfLists[i];
-      }
+    //   for (let i = 0; i <= currentBoard[0]; i++){
+    //     startId += boardDetails.numberOfLists[i];
+    //   }
 
-      let nextLists = [];
-      for (let i = 0; i <= boardDetails.titlesOfMiniBoards.length; i++) {
-        if(i < startId && i >= startId - boardDetails.numberOfLists[currentBoard[0]]) {
-          let idBoard = "#board" + (i + 1);
-          nextLists.push(idBoard)
-        }
-      }
+    //   let nextLists = [];
+    //   for (let i = 0; i <= boardDetails.titlesOfMiniBoards.length; i++) {
+    //     if(i < startId && i >= startId - boardDetails.numberOfLists[currentBoard[0]]) {
+    //       let idBoard = "#board" + (i + 1);
+    //       nextLists.push(idBoard)
+    //     }
+    //   }
       
-      let arrayOfImagesBefore = Array.from(document.querySelectorAll(".planner__animation-image"))
+    //   let arrayOfImagesBefore = Array.from(document.querySelectorAll(".planner__animation-image"))
 
-      if(columns[1] && nextLists[2] && !columns[2]) {
-        columns[2] = nextLists[2]
-        let image = document.createElement("img");
-        image.src = "img/imgAnimate.png";
-        image.alt = "animation";
-        image.className = "planner__animation-image";
-        document.querySelector(columns[2]).after(image);
-        gsap.to( columns[2] + " + .planner__animation-image", {duration: 0, marginTop: 380, width: 30, height:"100%"})
-      } else if (!columns[1] && nextLists[2]) {
-        columns[1] = nextLists[1]
-        columns[2] = nextLists[2]
-        for(let i = 1; i < 3; i++) {
-          let image = document.createElement("img");
-          image.src = "img/imgAnimate.png";
-          image.alt = "animation";
-          image.className = "planner__animation-image";
-          document.querySelector(columns[i]).after(image);
-        }
-        gsap.to( columns[1] + " + .planner__animation-image", {duration: 0, marginTop: 380, width: 30, height:"100%"})
-        gsap.to( columns[2] + " + .planner__animation-image", {duration: 0, marginTop: 380, width: 30, height:"100%"})
-      } else if (columns[2] && !nextLists[2] && nextLists[1]) {
-        columns[2] = false
-        arrayOfImagesBefore[2].remove()  
-      } else if (!columns[1] && nextLists[1]) {
-        columns[1] = nextLists[1]
-        let image = document.createElement("img");
-        image.src = "img/imgAnimate.png";
-        image.alt = "animation";
-        image.className = "planner__animation-image";
-        document.querySelector(columns[1]).after(image);
-        gsap.to( columns[1] + " + .planner__animation-image", {duration: 0, marginTop: 380, width: 30, height:"100%"})
-      } else if (columns[2] && !nextLists[1]) {
-        columns[1] = false;
-        columns[2] = false;
-        arrayOfImagesBefore[1].remove()  
-        arrayOfImagesBefore[2].remove()  
-      } else if (columns[1] && !nextLists[1]) {
-        columns[1] = false;
-        arrayOfImagesBefore[1].remove()  
-      }
+    //   if(columns[1] && nextLists[2] && !columns[2]) {
+    //     columns[2] = nextLists[2]
+    //     let image = document.createElement("img");
+    //     image.src = "img/imgAnimate.png";
+    //     image.alt = "animation";
+    //     image.className = "planner__animation-image";
+    //     document.querySelector(columns[2]).after(image);
+    //     gsap.to( columns[2] + " + .planner__animation-image", {duration: 0, marginTop: 380, width: 30, height:"100%"})
+    //   } else if (!columns[1] && nextLists[2]) {
+    //     columns[1] = nextLists[1]
+    //     columns[2] = nextLists[2]
+    //     for(let i = 1; i < 3; i++) {
+    //       let image = document.createElement("img");
+    //       image.src = "img/imgAnimate.png";
+    //       image.alt = "animation";
+    //       image.className = "planner__animation-image";
+    //       document.querySelector(columns[i]).after(image);
+    //     }
+    //     gsap.to( columns[1] + " + .planner__animation-image", {duration: 0, marginTop: 380, width: 30, height:"100%"})
+    //     gsap.to( columns[2] + " + .planner__animation-image", {duration: 0, marginTop: 380, width: 30, height:"100%"})
+    //   } else if (columns[2] && !nextLists[2] && nextLists[1]) {
+    //     columns[2] = false
+    //     arrayOfImagesBefore[2].remove()  
+    //   } else if (!columns[1] && nextLists[1]) {
+    //     columns[1] = nextLists[1]
+    //     let image = document.createElement("img");
+    //     image.src = "img/imgAnimate.png";
+    //     image.alt = "animation";
+    //     image.className = "planner__animation-image";
+    //     document.querySelector(columns[1]).after(image);
+    //     gsap.to( columns[1] + " + .planner__animation-image", {duration: 0, marginTop: 380, width: 30, height:"100%"})
+    //   } else if (columns[2] && !nextLists[1]) {
+    //     columns[1] = false;
+    //     columns[2] = false;
+    //     arrayOfImagesBefore[1].remove()  
+    //     arrayOfImagesBefore[2].remove()  
+    //   } else if (columns[1] && !nextLists[1]) {
+    //     columns[1] = false;
+    //     arrayOfImagesBefore[1].remove()  
+    //   }
 
-      let arrayOfImagesAfter = Array.from(document.querySelectorAll(".planner__animation-image"))
+    //   let arrayOfImagesAfter = Array.from(document.querySelectorAll(".planner__animation-image"))
 
-      if(columns[2] ) {
-        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.5, rotationZ: -20})
-        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.2, delay: 0.4, marginTop: 0, width: 64})
-        gsap.to(columns[1] + " + .planner__animation-image", {duration: 0.3, delay: 1.4, opacity: 0})
-        setTimeout(()=> arrayOfImagesAfter[1].remove(), 2000)
-        gsap.to( columns[2] + " + .planner__animation-image", {duration: 0.5, delay: 0.5, rotationZ: 30})
-        gsap.to( columns[2] + " + .planner__animation-image", {duration: 1.3, delay: 0.7, marginTop: 0, width: 64})
-        gsap.to(columns[2] + " + .planner__animation-image", {duration: 0.2, delay: 1.8, opacity: 0})
-        setTimeout(()=> arrayOfImagesAfter[2].remove(), 2000)
-      } else if (columns[1]) {
-        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.5, rotationZ: -20})
-        gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.2, delay: 0.4, marginTop: 0, width: 64})
-        gsap.to(columns[1] + " + .planner__animation-image", {duration: 0.3, delay: 1.4, opacity: 0})
-        setTimeout(()=> arrayOfImagesAfter[1].remove(), 2000)
-      }
+    //   if(columns[2] ) {
+    //     gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.5, rotationZ: -20})
+    //     gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.2, delay: 0.4, marginTop: 0, width: 64})
+    //     gsap.to(columns[1] + " + .planner__animation-image", {duration: 0.3, delay: 1.4, opacity: 0})
+    //     setTimeout(()=> arrayOfImagesAfter[1].remove(), 2000)
+    //     gsap.to( columns[2] + " + .planner__animation-image", {duration: 0.5, delay: 0.5, rotationZ: 30})
+    //     gsap.to( columns[2] + " + .planner__animation-image", {duration: 1.3, delay: 0.7, marginTop: 0, width: 64})
+    //     gsap.to(columns[2] + " + .planner__animation-image", {duration: 0.2, delay: 1.8, opacity: 0})
+    //     setTimeout(()=> arrayOfImagesAfter[2].remove(), 2000)
+    //   } else if (columns[1]) {
+    //     gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.5, rotationZ: -20})
+    //     gsap.to( columns[1] + " + .planner__animation-image", {duration: 1.2, delay: 0.4, marginTop: 0, width: 64})
+    //     gsap.to(columns[1] + " + .planner__animation-image", {duration: 0.3, delay: 1.4, opacity: 0})
+    //     setTimeout(()=> arrayOfImagesAfter[1].remove(), 2000)
+    //   }
    
-      gsap.to(".planner-flex", {duration: 1, delay: 0.9, width: "100%"});
-      gsap.to(".planner__board", {duration: 0, display: "none"})
+    //   gsap.to(".planner-flex", {duration: 1, delay: 0.9, width: "100%"});
+    //   gsap.to(".planner__board", {duration: 0, display: "none"})
 
-      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.6, rotationZ: 270})
-      gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.8, marginTop: 0, width: 64})
-      gsap.to(columns[0] + " + .planner__animation-image", {duration: 0.3, delay: 1.6, opacity: 0})
-      setTimeout(()=> arrayOfImagesAfter[0].remove(), 2000)
+    //   gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.6, rotationZ: 270})
+    //   gsap.to(columns[0] + " + .planner__animation-image", {duration: 1, delay: 0.8, marginTop: 0, width: 64})
+    //   gsap.to(columns[0] + " + .planner__animation-image", {duration: 0.3, delay: 1.6, opacity: 0})
+    //   setTimeout(()=> arrayOfImagesAfter[0].remove(), 2000)
 
-      gsap.to(nextLists[0], { display: "block", delay: 2})
-      gsap.to(".planner__board", { delay: 2.1, opacity: 1})
-      gsap.to(".planner__box", { delay: 1, opacity: 0, display: "none"})
-      if(nextLists[1]) gsap.to(nextLists[1], { display: "block",delay: 2})
-      if(nextLists[2]) gsap.to(nextLists[2], { display: "block",delay: 2})
+    //   gsap.to(nextLists[0], { display: "block", delay: 2})
+    //   gsap.to(".planner__board", { delay: 2.1, opacity: 1})
+    //   gsap.to(".planner__box", { delay: 1, opacity: 0, display: "none"})
+    //   if(nextLists[1]) gsap.to(nextLists[1], { display: "block",delay: 2})
+    //   if(nextLists[2]) gsap.to(nextLists[2], { display: "block",delay: 2})
 
-    }
+    // }
 
-    setTimeout(() => {
-      setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: currentBoard})
-    }, 2100)
+    // setTimeout(() => {
+    //   setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: currentBoard})
+    // }, 2100)
   }
   
   return (
@@ -1017,7 +1060,6 @@ function ChooseBar() {
               })
             }
           </div>
-          <img alt="box" src = "img/box.png" className="planner__box"/>
         </div>
     </React.Fragment>
   ) 
