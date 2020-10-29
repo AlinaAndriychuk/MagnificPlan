@@ -259,6 +259,10 @@ body {
   width: 358px; 
 }
 
+.planner__slider-button-container {
+  display: none;
+}
+
 .planner__title-container {
   height: 44px;
   margin-bottom: 4px;
@@ -777,7 +781,9 @@ body {
   font-size: 26px;
   font-family: 'Inter', sans-serif;
   height: 46px;
+  line-height: 35px;
   margin: 0;
+  overflow: hidden;
   padding: 5px;
   resize: none;
   text-align: center;
@@ -1075,13 +1081,39 @@ body {
     display: block;
     border-radius: 0 0 30% 30%;
   }
+  .planner-full-board {
+    width: 100%;
+  }
   .planner-flex {
-    display: block;
-    padding: 0 2px;
+    justify-content: flex-start;
+    margin: 0 auto;
+    overflow: hidden;
+    width: 380.8px;
   }
   .planner__board {
-    margin: 0 auto 10px;
+    border: 2px solid #c0b7ca;
+    margin: 0 auto;
+    min-width: 380.85px;
+  }
+  .planner__slider-button-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px auto 0;
     width: 380px;
+  }
+  .planner__slider-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    height: 60px;
+    padding: 3px 0;
+    width: 100px;
+  }
+  .planner__slider-button:focus {
+    outline: none;
+  }
+  .planner__slider-image {
+    height: 100%;
   }
   .planner__title-container {
     margin-bottom: 2px;
@@ -1097,7 +1129,7 @@ body {
   }
   .planner__task {
     margin: 2px 0px;
-    width: 370px;
+    width: 369px;
   }
   .planner__task-text {
     width: 290px;
@@ -1130,11 +1162,13 @@ body {
     margin:2px 2.5px;
     width:24px
   }
-
   .planner__column-palette .planner__palette {
     height: 28px;
     margin: 2px 3px;
     width: 28px;
+  }
+  .planner__arrow {
+    display: none;
   }
   .popup {
     max-width: 400px;
@@ -1159,9 +1193,6 @@ body {
     height: 50px;
     margin: 20px auto 5px;
     width: 50px;
-  }
-  .desk-popup .popup {
-    padding: 8px;
   }
   .desk-popup .popup__prompt{
     font-size: 14px;
@@ -1214,7 +1245,10 @@ body {
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 410px) {
+  .planner-flex {
+    width: 230px;
+  }
   .planner__board {
     box-sizing: border-box;
     margin: 0 0 30px;
@@ -1313,6 +1347,12 @@ body {
   }
   .popup__button-change .planner__image {
     width: 100%;
+  }
+  .popup__textarea-board {
+    font-size: 18px;
+  }
+  .desk-popup .popup {
+    padding: 8px;
   }
   .advantages__heading {
     font-size: 24px;
