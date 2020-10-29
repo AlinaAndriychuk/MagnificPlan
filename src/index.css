@@ -4,7 +4,7 @@ html {
 }
 
 body {
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Inter', sans-serif;
   letter-spacing: 1px;
   margin: 0;
   overflow-x: hidden;
@@ -208,7 +208,7 @@ body {
   border: 1px solid transparent;
   cursor: pointer;
   color: #6e6e6e;
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 34px;
   font-weight: 200;
   height: 40px;
@@ -289,8 +289,8 @@ body {
   background-color: #f9f0fa;
   cursor: pointer;
   font-weight: 0;
-  font-size: 18px;
-  font-family: 'Barlow', sans-serif;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
   padding: 2% 6%;
   text-align: left;
   width: 100%;
@@ -320,7 +320,7 @@ body {
   cursor: pointer;
   font-weight: 0;
   font-size: 18px;
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Inter', sans-serif;
   height: 36px;
   margin: 4px -34px;
   opacity: 0;
@@ -345,7 +345,7 @@ body {
   cursor: pointer;
   font-weight: 0;
   font-size: 18px;
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Inter', sans-serif;
   height: 36px;
   margin: 4px -70px;
   opacity: 0;
@@ -379,7 +379,7 @@ body {
   background-color: #fefeff;
   float: left;
   font-size: 16px;
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Inter', sans-serif;
   height: 32px;
   letter-spacing: 2px;
   margin: 4px 3px 4px 4px;
@@ -427,7 +427,7 @@ body {
   display: none;
   position: fixed;
   left: -100px;
-  width: 100px;
+  width: 120px;
   z-index: 15;
 }
 
@@ -545,17 +545,11 @@ body {
   width: 100%;
 }
 
-.planner__box {
-  display: none;
-  top: 330px;
-  left: 0;
-  margin: 0 auto;
-  opacity: 0;
+.planner-fullSpace {
   position: absolute;
-  right: 0;
-  width: 10px;
+  width: 0;
+  z-index: 100;
 }
-
 
 .popup-wrapper {
   background-color: rgba(42, 11, 49, 0.63);
@@ -608,7 +602,7 @@ body {
   box-sizing: border-box;
   border: 1px solid #ccbed6;
   font-size: 26px;
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Inter', sans-serif;
   min-height: 44px;
   margin: 0;
   padding: 5px;
@@ -639,7 +633,7 @@ body {
 .popup__description {
   box-sizing: border-box;
   font-size: 16px;
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Inter', sans-serif;
   min-height: 170px;
   padding: 10px;
   resize: none;
@@ -652,7 +646,7 @@ body {
 
 .popup__time {
   font-size: 22px;
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Inter', sans-serif;
   height: 30px;
   resize:none;
   text-align: center;
@@ -708,7 +702,7 @@ body {
 }
 
 .popup__file-text {
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Inter', sans-serif;
   white-space:  pre-line;
 }
 
@@ -720,7 +714,7 @@ body {
   float: right;
   font-weight: 0;
   font-size: 18px;
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Inter', sans-serif;
   letter-spacing: 3px;
   margin: 10px 0 0;
   min-width:100px;
@@ -781,7 +775,7 @@ body {
   box-sizing: border-box;
   background-color: transparent;
   font-size: 26px;
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Inter', sans-serif;
   height: 46px;
   margin: 0;
   padding: 5px;
