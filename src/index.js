@@ -17,7 +17,7 @@ function PopupBlock(props) {
   }
 
   function hidePopup(){
-    props.saveFunction(props.taskContext, taskName.current.innerText, props.taskIndex, description.current.value, hours.current.value, minutes.current.value, files.current.innerHTML)
+    props.saveFunction( taskName.current.innerText, props.taskIndex, description.current.value, hours.current.value, minutes.current.value, files.current.innerHTML)
     setFloated(true)
   }
 
@@ -57,7 +57,7 @@ function PopupBlock(props) {
             props.deleteFunction();
             setFloated(true)
           }} className="popup__button-change"><img className="planner__image" src="img/basket.png" alt="delete"/></button>
-          <Colorpalette blockfieldIndex={props.blockfieldIndex} colorFunction={props.colorFunction} blockfieldContext={props.blockfieldContext}></Colorpalette>
+          <Colorpalette blockfieldIndex={props.blockfieldIndex} colorFunction={props.colorFunction} ></Colorpalette>
           <button onClick={hidePopup} className=" popup__button">
             Save
           </button>
@@ -103,7 +103,7 @@ function Colorpalette(props) {
   }
 
   function changeBackground(index) {
-    props.colorFunction(props.blockfieldContext, arrayOfColors[index], props.blockfieldIndex)
+    props.colorFunction( arrayOfColors[index], props.blockfieldIndex)
     setColored(true);
   }
   
@@ -141,13 +141,13 @@ function Block(props) {
     setEdited(false)
   }
   function remove() {
-    props.deleteFunction(props.context, props.index)
+    props.deleteFunction( props.index)
   }
   function save(){
     let newValue = textarea.current.value;
     setEdited(true) 
     if(!newValue) newValue = textarea.current.placeholder
-    props.updateFunction(props.context, newValue, props.index)
+    props.updateFunction(newValue, props.index)
   }
   function textareaKeyPress(event) {
     if (event.key === 'Enter') {
@@ -187,7 +187,7 @@ function Block(props) {
       <div style={styleOfBlock} className="planner__task">
         <p onMouseUp={hideBasket} onMouseDown={showBasket} className="planner__task-text">{props.taskName}</p>
         <button onClick={edit} className="planner__task-button--edit"><img className="planner__image" src="img/pencil.png" alt="edit"/></button>
-        <PopupBlock taskIndex={props.index} filesValue={props.files} hoursValue={props.hours} minutesValue={props.minutes} onKey={props.onKeyPressFunction} descValue={props.descriptionValue} taskContext = {props.context} saveFunction={props.updateFunction} styleOfBlock={styleOfBlock} deleteFunction={remove} blockfieldIndex={props.index} colorFunction={props.colorFunction} blockfieldContext={props.context} styleTask={styleOfBlock} taskName={props.taskName}></PopupBlock>
+        <PopupBlock taskIndex={props.index} filesValue={props.files} hoursValue={props.hours} minutesValue={props.minutes} onKey={props.onKeyPressFunction} descValue={props.descriptionValue} saveFunction={props.updateFunction} styleOfBlock={styleOfBlock} deleteFunction={remove} blockfieldIndex={props.index} colorFunction={props.colorFunction}  styleTask={styleOfBlock} taskName={props.taskName}></PopupBlock>
       </div>
     )
   }
@@ -212,7 +212,7 @@ function BlockTitle(props) {
     let newValue = textarea.current.value;
     if(!textarea.current.value) newValue = props.titleName
     setEdited(false)
-    props.changeTitle(props.context, newValue, props.index)
+    props.changeTitle(newValue, props.index)
   }
   function textareaKeyPress(event) {
     if (event.key === 'Enter') {
@@ -256,6 +256,7 @@ class Blockfield extends React.Component {
     }
   }
   addBlock (context, text, color, desc, hours, minutes, files) {
+    alert ()
     let arrayOfTasks = context.state.tasks;
     let arrayOfColors = context.state.colors;
     let arrayOfDescriptions = context.state.description;
@@ -444,8 +445,8 @@ function ColumnMenu(props) {
   )
 }
 
-function ChooseBar() {
-  const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: [], titlesOfMiniBoards: ["Todo list", "In progress", "Done"], colorsOfBoard: ["#ffffff"], colorOfText:["#000000"], numberOfLists: [3], colorOfMainDesk:["#ffffff"], displayOfLists: ["block", "block", "block"], currentDesk: [0]});
+function ChooseBar() { 
+  const [boardDetails, setBoardDetails] = useState({boardFullNames: ["New board"], showPopup: [], titlesOfMiniBoards: ["Todo list", "In progress", "Done"], colorsOfBoard: ["#ffffff"], colorOfText:["#000000"], numberOfLists: [3], colorOfMainDesk:["#ffffff"], displayOfLists: ["block", "block", "block"], currentDesk: [0], blockField: [{tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}, {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []}]});
   const textareaNameOfBoard = useRef(null);
   let numberOfNewMiniBoards = 0;
   const color = useRef(null);
@@ -463,6 +464,60 @@ function ChooseBar() {
     
     styleForColor[i] = {
       background: arrayOfColors[i],
+    }
+  }
+
+  function addBlock (text, color, desc, hours, minutes, files, index) {
+    let fullBlockField = boardDetails.blockField;
+    let newBlockField = boardDetails.blockField[index]
+    newBlockField.tasks.push(text);
+    alert(index)
+    newBlockField.colors.push(color);
+    newBlockField.description.push(desc);
+    newBlockField.hours.push(hours);
+    newBlockField.minutes.push(minutes);
+    newBlockField.files.push(files);
+    fullBlockField[index] = newBlockField;
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
+  }
+  function changeColorOfBlock(color, index){
+    // let arrayOfTasks = boardDetails.tasks;
+    // let arrayOfColors = boardDetails.colors;
+    // arrayOfColors[index] = color;
+    // setBoardDetails ({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.mainColor, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, description: boardDetails.description, hours: boardDetails.hours, minutes: boardDetails.minutes, files: boardDetails.files, tasks: arrayOfTasks, colors: arrayOfColors})
+  }
+  function deleteBlock(index) {
+    // let arrayOfTasks = boardDetails.tasks;
+    // let arrayOfColors = boardDetails.colors;
+    // let arrayOfDescriptions = boardDetails.description;
+    // let arrayOfHours = boardDetails.hours;
+    // let arrayOfMinutes = boardDetails.minutes;
+    // let arrayOfFiles = boardDetails.files;
+    // arrayOfTasks.splice(index, 1);
+    // arrayOfColors.splice(index, 1);
+    // arrayOfDescriptions.splice(index, 1);
+    // arrayOfHours.splice(index, 1);
+    // arrayOfMinutes.splice(index, 1);
+    // arrayOfFiles.splice(index, 1);
+    // setBoardDetails ({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.mainColor, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, tasks: arrayOfTasks, colors: arrayOfColors, description: arrayOfDescriptions, hours: arrayOfHours, minutes: arrayOfMinutes, files: arrayOfFiles})
+  }
+  function updateTextInBlock( text, index, desc, hours, minutes, files) {
+    // let arrayOfTasks = boardDetails.tasks;
+    // let arrayOfColors = boardDetails.colors;
+    // let arrayOfDescriptions = boardDetails.description;
+    // let arrayOfHours = boardDetails.hours;
+    // let arrayOfMinutes = boardDetails.minutes;
+    // let arrayOfFiles = boardDetails.files;
+    // arrayOfTasks[index] = text;
+    // if(desc === "" || desc) arrayOfDescriptions[index] = desc; 
+    // if(hours === "" || hours) arrayOfHours[index] = hours; 
+    // if(minutes === "" || minutes) arrayOfMinutes[index] = minutes; 
+    // if(files === "" || files) arrayOfFiles[index] = files; 
+    // setBoardDetails ({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.mainColor, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, tasks: arrayOfTasks, colors: arrayOfColors, description: arrayOfDescriptions, hours: arrayOfHours, minutes: arrayOfMinutes, files: arrayOfFiles})
+  }
+  function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      event.target.blur()
     }
   }
 
@@ -496,7 +551,7 @@ function ChooseBar() {
     mainColor[0] = colorAddToDetails;
 
 
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: colorsOfFullBoard, colorOfText: colorsOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: mainColor, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk})
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: colorsOfFullBoard, colorOfText: colorsOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: mainColor, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: boardDetails.blockField})
   }
 
   function addList(){
@@ -523,8 +578,8 @@ function ChooseBar() {
     }else {
       gsap.from(".planner-flex", {duration: 1, opacity: 0})
     } 
-
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: displays, currentDesk: boardDetails.currentDesk})
+    gsap.to(".planner__slider-button-container", {duration: 0, display: ""})
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: displays, currentDesk: boardDetails.currentDesk, blockField: boardDetails.blockField})
   }
 
   function KeyPressEnter(event) {
@@ -547,49 +602,27 @@ function ChooseBar() {
       startId += boardDetails.numberOfLists[i];
     }
 
-    let deleteCurrent
-
-    if(displays[startId + 1] === "block") {
-      deleteCurrent = true;
-    }
-
     namesOfBoards.splice(id, 1);
     colorsOfFullBoard.splice(id, 1);
     colorsOfText.splice(id, 1);
-    titlesOfBoards(startId, boardDetails.numberOfLists[id]);
+    titlesOfBoards.splice(startId, boardDetails.numberOfLists[id]);
     displays.splice(startId, boardDetails.numberOfLists[id])
     numberOfColumns.splice(id, 1);
-    mainColor[0] = colorsOfFullBoard[id - 1];
-
+    mainColor[0] = colorsOfFullBoard[id - 1] || colorsOfFullBoard[id] || "#ffffff";
     
-    if(deleteCurrent) {
-      let nextDesk;
-      if(boardDetails.numberOfLists[id - 1]) {
-        nextDesk = id - 1;
-        gsap.to(mainDesk.current, {background : mainColor[0]});
-      } else if (boardDetails.numberOfLists[id]) {
-        nextDesk = id;
-        gsap.to(mainDesk.current, {background : boardDetails.colorsOfBoard[id]});
-      } else {
-      displays = [];
-        gsap.to(mainDesk.current, {background : ""});
+    let sumOfIndexes = 0;
+    let thisDesk = 0;
+    for (let i = 0; i < boardDetails.titlesOfMiniBoards.length; i++) {
+      sumOfIndexes++
+      if(displays[i] === "block") {
+        break;
       }
-      changeDesk(nextDesk)
-    } else {
-      let sumOfIndexes = 0;
-      let thisDesk = 0;
-      for (let i = 0; i < boardDetails.titlesOfMiniBoards.length; i++) {
-        sumOfIndexes++
-        if(displays[i] === "block") {
-          break;
-        }
-      }
-      for(let i = 0; i < boardDetails.numberOfLists.length; i++) {
-        thisDesk += boardDetails.numberOfLists[i];
-        if(thisDesk >= sumOfIndexes) {
-          changeDesk(i)
-          break
-        }
+    }
+    for(let i = 0; i < boardDetails.numberOfLists.length; i++) {
+      thisDesk += boardDetails.numberOfLists[i];
+      if(thisDesk >= sumOfIndexes) {
+        changeDesk(i)
+        break
       }
     }
 
@@ -597,6 +630,8 @@ function ChooseBar() {
       for(let every of Array.from(document.getElementsByClassName("planner-bar__add-button"))) {
         every.classList.add("planner-bar__add-button--only")
       }
+      document.querySelector(".planner").style.marginTop = "40px"
+      document.querySelector(".planner-full-board").style.background = "#ffffff"
       document.querySelector(".planner__column-menu").style.display = "none"
       document.querySelector(".planner-bar__menu").classList.add("planner-bar__menu-hide")
     } else {
@@ -606,7 +641,7 @@ function ChooseBar() {
       
     }
 
-    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: boardDetails.currentDesk});
+    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: boardDetails.currentDesk, blockField: boardDetails.blockField});
   }
 
 
@@ -620,7 +655,7 @@ function ChooseBar() {
     }
 
     for (let i = 0; i <= boardDetails.titlesOfMiniBoards.length; i++) {
-      if(i > startId && i < startId + boardDetails.numberOfLists[id] + 1) {
+      if(i > startId - 1 && i < startId + boardDetails.numberOfLists[id]) {
         displays[i] = "block";
       } else {
         displays[i] = "none";
@@ -632,9 +667,15 @@ function ChooseBar() {
     let flexContainer = document.querySelector(".planner-flex");
     flexContainer.scrollTo(0, 0);
 
+    if(boardDetails.numberOfLists[id] > 1) {
+      gsap.to(".planner__slider-button-container", {duration: 0, display: ""})
+    } else {
+      gsap.to(".planner__slider-button-container", {duration: 0, display: "none"})
+    }
+
     document.querySelector(".planner-bar__container").scrollTo(0, id * 40);
     gsap.to(mainDesk.current, {background : boardDetails.colorsOfBoard[id]});
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: displays, currentDesk: currentBoard});
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: displays, currentDesk: currentBoard,blockField: boardDetails.blockField});
 
   }
   
@@ -643,12 +684,12 @@ function ChooseBar() {
       document.body.style.paddingRight = "16px";
     } 
     gsap.to(document.documentElement, {overflow: "hidden"})
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk})
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: boardDetails.blockField})
   }
   function changeTitleOfList(title, index){
     let titlesOfBoards = boardDetails.titlesOfMiniBoards;
     titlesOfBoards[index] = title;
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk});
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard ,colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: boardDetails.blockField});
   }
 
   function hidePopup(event) {
@@ -675,13 +716,13 @@ function ChooseBar() {
       namesOfBoards.push(textareaNameOfBoard.current.value);
       numberOfColumns.push(numberOfNewMiniBoards);
       let lengthOfLists = boardDetails.titlesOfMiniBoards.length + 1;
-      for (let i = 0; i < lengthOfLists; i++) {
+      for (let i = 0; i < lengthOfLists - 1; i++) {
         displays[i] = "none"
       }
       for(let i = 0; i < numberOfNewMiniBoards; i++) {
         titlesOfBoards.push("Column name");
       }
-      for(let i = 0; i <= numberOfNewMiniBoards; i++) {
+      for(let i = 0; i < numberOfNewMiniBoards; i++) {
         displays.push("block")
       }
       
@@ -705,23 +746,28 @@ function ChooseBar() {
       document.querySelector(".planner__column-menu").style.display = "inline-block";
       let flexContainer = document.querySelector(".planner-flex");
       flexContainer.scrollTo(0, 0);
+      changeDesk(currentBoard[0])
+      document.querySelector(".planner").style.marginTop = ""
     }
     colored = false;
     
     document.body.style.paddingRight = "0px";
     document.documentElement.style.overflow = ""; 
     gsap.to(mainDesk.current, {background : mainColor[0]});
-    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: currentBoard})
+    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: currentBoard, blockField: boardDetails.blockField})
   }
 
   function desideToHidePopup(){
     if(textareaNameOfBoard.current.value){
       if(document.getElementById("threeColumn").checked) {
         numberOfNewMiniBoards = 3
+        gsap.to(".planner__slider-button-container", {duration: 0, display: ""})
       }else if(document.getElementById("twoColumn").checked) {
         numberOfNewMiniBoards = 2
+        gsap.to(".planner__slider-button-container", {duration: 0, display: ""})
       }else {
         numberOfNewMiniBoards = 1;
+        gsap.to(".planner__slider-button-container", {duration: 0, display: "none"})
       }
       hidePopup()
     }else {
@@ -819,42 +865,47 @@ function ChooseBar() {
     }
 
     setTimeout(()=> {
-      setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: currentBoard})
+      setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: currentBoard, blockField: boardDetails.blockField})
     }, 1000)
   }
 
-  function slideColumns(event) {
-    let flexContainer = document.querySelector(".planner-flex");
-    
-    gsap.to(event.target.closest(".planner__slider-button-container"), {duration: 0.3, opacity: 0});
+  let finishOfSliding = 0;
 
+  function slideColumns(event) {
+
+    let flexContainer = document.querySelector(".planner-flex");
+    let whichButton = false;
     if(event.target.closest(".planner__slider--right")) {
-      let finish = 68;
-      let i = 0;
-      let timer = setInterval(() =>{
-          if(i < finish){
-              flexContainer.scrollBy(6, 0)
-              i++
-          }
-          if(i >= finish){
-              clearInterval(timer)
-          }
-      }, 8)
-    } else {
-      let finish = 68;
-      let i = 0;
-      let timer = setInterval(() =>{
-          if(i < finish){
-              flexContainer.scrollBy(-5, 0)
-              i++
-          }
-          if(i >= finish){
-              clearInterval(timer)
-          }
-      }, 8)
+      whichButton = true
     }
 
-    gsap.to(event.target.closest(".planner__slider-button-container"), {duration: 0.3, delay: 0.5, opacity: 1});
+    if(finishOfSliding >= boardDetails.numberOfLists[boardDetails.currentDesk[0]] - 1 && whichButton ) return;
+    if( !whichButton && finishOfSliding <= 0 ) return;
+    
+    let widthOfContainer = flexContainer.clientWidth;
+
+    let newSpace = document.createElement("div");
+    newSpace.className = "planner-fullSpace";
+    newSpace.style.height = mainDesk.current.clientHeight + "px";
+    newSpace.style.background = boardDetails.colorsOfBoard[boardDetails.currentDesk[0]];
+    mainDesk.current.before(newSpace)
+
+    if(whichButton) {
+      newSpace.style.right = 0;
+      finishOfSliding++
+    } else {
+      newSpace.style.left = 0;
+      finishOfSliding--
+    }
+
+    gsap.to(newSpace, {duration : 1, width: "100%"});
+    gsap.to(event.target.closest(".planner__slider-button-container"), {duration: 0.3, opacity: 0});
+
+    setTimeout(()=> flexContainer.scrollLeft = widthOfContainer * finishOfSliding, 1000)
+    setTimeout(() => newSpace.remove(), 1000);
+    gsap.to(".planner__board", {duration: 0, delay: 1, opacity: 0});
+    gsap.to(".planner__board", {duration: 0.3, delay: 1.1, opacity: 1});
+    gsap.to(event.target.closest(".planner__slider-button-container"), {duration: 0.3, delay: 1.1, opacity: 1});
   }
   
   return (
@@ -947,9 +998,17 @@ function ChooseBar() {
           </button>
           <div className="planner-flex">
             {
-              boardDetails.titlesOfMiniBoards.map ((item, id) => {
+              boardDetails.titlesOfMiniBoards.map ((titleItem, id) => {
                 return (
-                  <Blockfield key = {id} index={id} idName={"board" + ++id} changeTitle={changeTitleOfList} style={{display: boardDetails.displayOfLists[id]}}  titleName={item}></Blockfield>
+                  <div key = {id}  style={{display: boardDetails.displayOfLists[id]}} id={"board" + (id + 1)} className="planner__board">
+                    <BlockTitle index={id} changeTitle={changeTitleOfList} titleName= {titleItem}></BlockTitle>
+                    {
+                      boardDetails.blockField[id].tasks.map ((item,id) => {
+                        return (<Block realParent={"board" + ++id} backColor={boardDetails.blockField[id].colors[id]} onKeyPressFunction={handleKeyPress} files={boardDetails.blockField[id].files[id]} descriptionValue={boardDetails.blockField[id].description[id]} hours={boardDetails.blockField[id].hours[id]} minutes={boardDetails.blockField[id].minutes[id]} key = {id} colorFunction={changeColorOfBlock} deleteFunction={deleteBlock} updateFunction={updateTextInBlock} index= {id} taskName= {item}></Block>)
+                      })
+                    }
+                    <button onClick={() => addBlock("Task name", "#fcfafbda", "", "0", "0", "", id)} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
+                </div>
                 )
               })
             }
