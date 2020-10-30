@@ -95,7 +95,7 @@ function Colorpalette(props) {
     setColored(false)
   }
   let styleForColor = {}
-  let arrayOfColors = ["#ffccd8", "#f2e6ff", "#deefff", "#c0fcdc", "#fffbd9", "#ffffff"];
+  let arrayOfColors = ["#ffafc2", "#ecdaff", "#c7e4ff", "#9fffcc", "#fffac8", "#ffffff"];
   for (let i = 0; i < 6; i++){
     styleForColor[i] = {
       backgroundColor: arrayOfColors[i],
@@ -556,7 +556,7 @@ function ChooseBar() {
     namesOfBoards.splice(id, 1);
     colorsOfFullBoard.splice(id, 1);
     colorsOfText.splice(id, 1);
-    titlesOfBoards.splice(startId, boardDetails.numberOfLists[id]);
+    titlesOfBoards(startId, boardDetails.numberOfLists[id]);
     displays.splice(startId, boardDetails.numberOfLists[id])
     numberOfColumns.splice(id, 1);
     mainColor[0] = colorsOfFullBoard[id - 1];
