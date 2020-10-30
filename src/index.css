@@ -683,7 +683,7 @@ body {
 }
 
 .popup__file-label:hover, .popup__button:hover {
-  background-color: #e3dbe9;
+  background: linear-gradient(90deg, #f9eaff, #d2c8df);
   border:2px solid #e3dbe9;
   box-shadow: -3px 3px 4px #807a9e;
 }
@@ -748,7 +748,7 @@ body {
 }
 
 .popup__prompt {
-  background-color: #e3dbe9;
+  background: linear-gradient(90deg, #f9eaff, #d2c8df);
   box-shadow: -3px 3px 4px #807a9e;
   font-size: 18px;
   margin: 10px 0;
