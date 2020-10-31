@@ -141,7 +141,7 @@ function Block(props) {
     setEdited(false)
   }
   function remove() {
-    props.deleteFunction( props.index)
+    props.deleteFunction( props.index, props.idOfBlock)
   }
   function save(){
     let newValue = textarea.current.value;
@@ -467,17 +467,16 @@ function ChooseBar() {
     }
   }
 
-  function addBlock (text, color, desc, hours, minutes, files, index) {
+  function addBlock (text, color, desc, hours, minutes, files, id) {
     let fullBlockField = boardDetails.blockField;
-    let newBlockField = boardDetails.blockField[index]
+    let newBlockField = boardDetails.blockField[id]
     newBlockField.tasks.push(text);
-    alert(index)
     newBlockField.colors.push(color);
     newBlockField.description.push(desc);
     newBlockField.hours.push(hours);
     newBlockField.minutes.push(minutes);
     newBlockField.files.push(files);
-    fullBlockField[index] = newBlockField;
+    fullBlockField[id] = newBlockField;
     setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
   }
   function changeColorOfBlock(color, index, id){
@@ -487,31 +486,17 @@ function ChooseBar() {
     fullBlockField[id] = newBlockField;
     setBoardDetails ({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.mainColor, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
   }
-  function deleteBlock(index) {
+  function deleteBlock(index, id) {
     let fullBlockField = boardDetails.blockField;
-    let newBlockField = boardDetails.blockField[index]
-    // newBlockField.tasks.push(text);
-    alert(index)
-    // newBlockField.colors.push(color);
-    // newBlockField.description.push(desc);
-    // newBlockField.hours.push(hours);
-    // newBlockField.minutes.push(minutes);
-    // newBlockField.files.push(files);
-    // fullBlockField[index] = newBlockField;
-    // setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
-    // // let arrayOfTasks = boardDetails.tasks;
-    // let arrayOfColors = boardDetails.colors;
-    // let arrayOfDescriptions = boardDetails.description;
-    // let arrayOfHours = boardDetails.hours;
-    // let arrayOfMinutes = boardDetails.minutes;
-    // let arrayOfFiles = boardDetails.files;
-    // arrayOfTasks.splice(index, 1);
-    // arrayOfColors.splice(index, 1);
-    // arrayOfDescriptions.splice(index, 1);
-    // arrayOfHours.splice(index, 1);
-    // arrayOfMinutes.splice(index, 1);
-    // arrayOfFiles.splice(index, 1);
-    // setBoardDetails ({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.mainColor, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, tasks: arrayOfTasks, colors: arrayOfColors, description: arrayOfDescriptions, hours: arrayOfHours, minutes: arrayOfMinutes, files: arrayOfFiles})
+    let newBlockField = boardDetails.blockField[id];
+    newBlockField.tasks.splice(index, 1);
+    newBlockField.colors.splice(index, 1);
+    newBlockField.description.splice(index, 1);
+    newBlockField.hours.splice(index, 1);
+    newBlockField.minutes.splice(index, 1);
+    newBlockField.files.splice(index, 1);
+    fullBlockField[id] = newBlockField;
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
   }
   function updateTextInBlock( text, index, desc, hours, minutes, files, id) {
     // let arrayOfTasks = boardDetails.tasks;
