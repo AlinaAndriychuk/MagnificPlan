@@ -57,7 +57,7 @@ function PopupBlock(props) {
             props.deleteFunction();
             setFloated(true)
           }} className="popup__button-change"><img className="planner__image" src="img/basket.png" alt="delete"/></button>
-          <Colorpalette blockfieldIndex={props.blockfieldIndex} colorFunction={props.colorFunction} ></Colorpalette>
+          <Colorpalette blockfieldIndex={props.blockfieldIndex} blockId={props.blockId} colorFunction={props.colorFunction} ></Colorpalette>
           <button onClick={hidePopup} className=" popup__button">
             Save
           </button>
@@ -103,7 +103,7 @@ function Colorpalette(props) {
   }
 
   function changeBackground(index) {
-    props.colorFunction( arrayOfColors[index], props.blockfieldIndex)
+    props.colorFunction( arrayOfColors[index], props.blockfieldIndex, props.blockId)
     setColored(true);
   }
   
@@ -187,7 +187,7 @@ function Block(props) {
       <div style={styleOfBlock} className="planner__task">
         <p onMouseUp={hideBasket} onMouseDown={showBasket} className="planner__task-text">{props.taskName}</p>
         <button onClick={edit} className="planner__task-button--edit"><img className="planner__image" src="img/pencil.png" alt="edit"/></button>
-        <PopupBlock taskIndex={props.index} filesValue={props.files} hoursValue={props.hours} minutesValue={props.minutes} onKey={props.onKeyPressFunction} descValue={props.descriptionValue} saveFunction={props.updateFunction} styleOfBlock={styleOfBlock} deleteFunction={remove} blockfieldIndex={props.index} colorFunction={props.colorFunction}  styleTask={styleOfBlock} taskName={props.taskName}></PopupBlock>
+        <PopupBlock taskIndex={props.index} blockId= {props.idOfBlock} filesValue={props.files} hoursValue={props.hours} minutesValue={props.minutes} onKey={props.onKeyPressFunction} descValue={props.descriptionValue} saveFunction={props.updateFunction} styleOfBlock={styleOfBlock} deleteFunction={remove} blockfieldIndex={props.index} colorFunction={props.colorFunction}  styleTask={styleOfBlock} taskName={props.taskName}></PopupBlock>
       </div>
     )
   }
@@ -480,14 +480,26 @@ function ChooseBar() {
     fullBlockField[index] = newBlockField;
     setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
   }
-  function changeColorOfBlock(color, index){
-    // let arrayOfTasks = boardDetails.tasks;
-    // let arrayOfColors = boardDetails.colors;
-    // arrayOfColors[index] = color;
-    // setBoardDetails ({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.mainColor, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, description: boardDetails.description, hours: boardDetails.hours, minutes: boardDetails.minutes, files: boardDetails.files, tasks: arrayOfTasks, colors: arrayOfColors})
+  function changeColorOfBlock(color, index, id){
+    let fullBlockField = boardDetails.blockField;
+    let newBlockField = boardDetails.blockField[id]
+    newBlockField.colors[index] = color;
+    fullBlockField[id] = newBlockField;
+    setBoardDetails ({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.mainColor, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
   }
   function deleteBlock(index) {
-    // let arrayOfTasks = boardDetails.tasks;
+    let fullBlockField = boardDetails.blockField;
+    let newBlockField = boardDetails.blockField[index]
+    // newBlockField.tasks.push(text);
+    alert(index)
+    // newBlockField.colors.push(color);
+    // newBlockField.description.push(desc);
+    // newBlockField.hours.push(hours);
+    // newBlockField.minutes.push(minutes);
+    // newBlockField.files.push(files);
+    // fullBlockField[index] = newBlockField;
+    // setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
+    // // let arrayOfTasks = boardDetails.tasks;
     // let arrayOfColors = boardDetails.colors;
     // let arrayOfDescriptions = boardDetails.description;
     // let arrayOfHours = boardDetails.hours;
@@ -501,7 +513,7 @@ function ChooseBar() {
     // arrayOfFiles.splice(index, 1);
     // setBoardDetails ({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.mainColor, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, tasks: arrayOfTasks, colors: arrayOfColors, description: arrayOfDescriptions, hours: arrayOfHours, minutes: arrayOfMinutes, files: arrayOfFiles})
   }
-  function updateTextInBlock( text, index, desc, hours, minutes, files) {
+  function updateTextInBlock( text, index, desc, hours, minutes, files, id) {
     // let arrayOfTasks = boardDetails.tasks;
     // let arrayOfColors = boardDetails.colors;
     // let arrayOfDescriptions = boardDetails.description;
@@ -1014,8 +1026,8 @@ function ChooseBar() {
                   <div key = {id}  style={{display: boardDetails.displayOfLists[id]}} id={"board" + (id + 1)} className="planner__board">
                     <BlockTitle index={id} changeTitle={changeTitleOfList} titleName= {titleItem}></BlockTitle>
                     {
-                      boardDetails.blockField[id].tasks.map ((item,id) => {
-                        return (<Block realParent={"board" + ++id} backColor={boardDetails.blockField[id].colors[id]} onKeyPressFunction={handleKeyPress} files={boardDetails.blockField[id].files[id]} descriptionValue={boardDetails.blockField[id].description[id]} hours={boardDetails.blockField[id].hours[id]} minutes={boardDetails.blockField[id].minutes[id]} key = {id} colorFunction={changeColorOfBlock} deleteFunction={deleteBlock} updateFunction={updateTextInBlock} index= {id} taskName= {item}></Block>)
+                      boardDetails.blockField[id].tasks.map ((item,index) => {
+                        return (<Block realParent={"board" + (index + 1)} backColor={boardDetails.blockField[id].colors[index]} idOfBlock={id} onKeyPressFunction={handleKeyPress} files={boardDetails.blockField[id].files[index]} descriptionValue={boardDetails.blockField[id].description[index]} hours={boardDetails.blockField[id].hours[index]} minutes={boardDetails.blockField[id].minutes[index]} key = {index} colorFunction={changeColorOfBlock} deleteFunction={deleteBlock} updateFunction={updateTextInBlock} index= {index} taskName= {item}></Block>)
                       })
                     }
                     <button onClick={() => addBlock("Task name", "#fcfafbda", "", "0", "0", "", id)} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
