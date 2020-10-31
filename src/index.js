@@ -559,19 +559,21 @@ function ChooseBar() {
     let numberOfColumns = boardDetails.numberOfLists;
     let displays = boardDetails.displayOfLists;
     let currentBoard = boardDetails.currentDesk;
+    let fullBlockField = boardDetails.blockField;
     let startId = 0;
 
     for (let i = 0; i <= currentBoard[0]; i++){
       startId += boardDetails.numberOfLists[i];
     }
 
-    if(numberOfColumns[currentBoard[0]] === 3) {
-      return;
-    } else {
-      numberOfColumns[currentBoard[0]] = numberOfColumns[currentBoard[0]] + 1;
-      titlesOfBoards.splice(startId, 0, "Column name");
-      displays.splice(startId, 0, "block")
-    }
+    if(numberOfColumns[currentBoard[0]] === 3) return ;
+
+    numberOfColumns[currentBoard[0]] = numberOfColumns[currentBoard[0]] + 1;
+    titlesOfBoards.splice(startId, 0, "Column name");
+    displays.splice(startId, 0, "block")
+
+    fullBlockField.splice(startId, 0, fullBlockField[fullBlockField.length - 1])
+    fullBlockField.pop()
 
     if(document.documentElement.clientWidth >= 861){
       gsap.from(".planner-flex", {duration: 0.8, opacity: 0, marginTop: 400})
@@ -579,7 +581,7 @@ function ChooseBar() {
       gsap.from(".planner-flex", {duration: 1, opacity: 0})
     } 
     gsap.to(".planner__slider-button-container", {duration: 0, display: ""})
-    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: displays, currentDesk: boardDetails.currentDesk, blockField: boardDetails.blockField})
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: displays, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
   }
 
   function KeyPressEnter(event) {
@@ -596,10 +598,19 @@ function ChooseBar() {
     let numberOfColumns = boardDetails.numberOfLists;
     let mainColor = boardDetails.colorOfMainDesk;
     let displays = boardDetails.displayOfLists;
+    let fullBlockField = boardDetails.blockField;
     let startId = 0;
 
     for (let i = 0; i < id; i++){
       startId += boardDetails.numberOfLists[i];
+    }
+
+    for(let i = 0; i < fullBlockField.length; i++) {
+      if( i >= startId && i < startId + boardDetails.numberOfLists[id]) {
+        let newBlockField = fullBlockField[i];
+        newBlockField = {tasks: [], colors: [], description: [], hours: [], minutes: [], files: []};
+        fullBlockField[i] = newBlockField;
+      }
     }
 
     namesOfBoards.splice(id, 1);
@@ -641,7 +652,7 @@ function ChooseBar() {
       
     }
 
-    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: boardDetails.currentDesk, blockField: boardDetails.blockField});
+    setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: boardDetails.currentDesk, blockField: fullBlockField});
   }
 
 
@@ -807,13 +818,13 @@ function ChooseBar() {
     if(!boardDetails.numberOfLists[nextDesk]) return
     for (let i = 0; i <= boardDetails.titlesOfMiniBoards.length; i++) {
       if(sideOfSliding === "right") {
-        if(i > startId && i < startId + boardDetails.numberOfLists[nextDesk] + 1) {
+        if(i >= startId && i < startId + boardDetails.numberOfLists[nextDesk]) {
           displays[i] = "block";
         } else {
           displays[i] = "none";
         }
       } else {
-        if(i > startId - boardDetails.numberOfLists[currentBoard[0]] - boardDetails.numberOfLists[nextDesk] && i < startId - boardDetails.numberOfLists[currentBoard[0]] + 1) {
+        if(i >= startId - boardDetails.numberOfLists[currentBoard[0]] - boardDetails.numberOfLists[nextDesk] && i < startId - boardDetails.numberOfLists[currentBoard[0]]) {
           displays[i] = "block";
         } else {
           displays[i] = "none";
