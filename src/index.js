@@ -53,8 +53,8 @@ function PopupBlock(props) {
             <input className="popup__file" onChange={changeFiles} type="file" multiple/>
           </label>
           <pre className="popup__file-text" ref={files} onKeyPress={props.onKey} contentEditable="">{props.filesValue}</pre>
-          <button onClick={() =>{
-            props.deleteFunction();
+          <button onClick={(event) =>{
+            props.deleteFunction(event);
             setFloated(true)
           }} className="popup__button-change"><img className="planner__image" src="img/basket.png" alt="delete"/></button>
           <Colorpalette blockfieldIndex={props.blockfieldIndex} blockId={props.blockId} colorFunction={props.colorFunction} ></Colorpalette>
@@ -134,14 +134,14 @@ function Colorpalette(props) {
 }
 function Block(props) {
   
-  const [edited, setEdited] = useState(false);
+  const [edited, setEdited] = useState(true);
   const textarea = useRef(null);
 
   function edit() {
     setEdited(false)
   }
-  function remove() {
-    props.deleteFunction( props.index, props.idOfBlock)
+  function remove(event) {
+    props.deleteFunction( props.index, props.idOfBlock);
   }
   function save(){
     let newValue = textarea.current.value;
@@ -157,7 +157,7 @@ function Block(props) {
   function renderEditBlock (){
     return (
       <div className="planner__task">
-        <textarea autoFocus onKeyPress={textareaKeyPress} ref={textarea} placeholder={props.taskName} className="planner__textarea"></textarea>
+        <textarea autoFocus onBlur={save} onKeyPress={textareaKeyPress} ref={textarea} placeholder={props.taskName} className="planner__textarea"></textarea>
         <button onClick={save} className="planner__task-button"><img className="planner__image" src="img/ribbon.png" alt="save"/></button>
       </div>
     )
@@ -169,22 +169,21 @@ function Block(props) {
     if(document.documentElement.clientWidth >= 861){
       let basket = document.getElementsByClassName("planner__delete-button")[0];
       gsap.to(basket, {left: 100, display: "inline-block"})
+      indexOfTask = props.index;
+      idOfBoardOfTask = props.idOfBlock;
     }
   }
   function hideBasket(event){
     let basket = document.getElementsByClassName("planner__delete-button")[0];
     gsap.to(basket, {left: -100, rotateZ: 0, display: "none"});
-    
     if(deleteTask){
-      let parentOfTask = document.getElementById(props.realParent).querySelector(".planner__button")
-      parentOfTask.before(event.target.closest(".planner__task"));
-      remove()
+      remove(event)
       deleteTask = false;
     }
   }
   function renderNormalBlock (){
     return (
-      <div style={styleOfBlock} className="planner__task">
+      <div id = {props.id} style={styleOfBlock} className="planner__task">
         <p onMouseUp={hideBasket} onMouseDown={showBasket} className="planner__task-text">{props.taskName}</p>
         <button onClick={edit} className="planner__task-button--edit"><img className="planner__image" src="img/pencil.png" alt="edit"/></button>
         <PopupBlock taskIndex={props.index} blockId= {props.idOfBlock} filesValue={props.files} hoursValue={props.hours} minutesValue={props.minutes} onKey={props.onKeyPressFunction} descValue={props.descriptionValue} saveFunction={props.updateFunction} styleOfBlock={styleOfBlock} deleteFunction={remove} blockfieldIndex={props.index} colorFunction={props.colorFunction}  styleTask={styleOfBlock} taskName={props.taskName}></PopupBlock>
@@ -484,7 +483,7 @@ function ChooseBar() {
     let newBlockField = boardDetails.blockField[id]
     newBlockField.colors[index] = color;
     fullBlockField[id] = newBlockField;
-    setBoardDetails ({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.mainColor, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
+    setBoardDetails ({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
   }
   function deleteBlock(index, id) {
     let fullBlockField = boardDetails.blockField;
@@ -501,13 +500,46 @@ function ChooseBar() {
   function updateTextInBlock( id, text, index, desc, hours, minutes, files) {
     let fullBlockField = boardDetails.blockField;
     let newBlockField = boardDetails.blockField[id];
-    alert(id)
     newBlockField.tasks[index] = text;
     if(desc === "" || desc) newBlockField.description[index] = desc;
     if(hours === "" || hours) newBlockField.hours[index] = hours;
     if(minutes === "" || minutes) newBlockField.minutes[index] = minutes;
     if(files === "" || files) newBlockField.files[index] = files;
     fullBlockField[id] = newBlockField;
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
+  }
+  function containNewTask() {
+    if(!containTask) return;
+
+    let fullBlockField = boardDetails.blockField;
+    let oldBlockField = boardDetails.blockField[idOfBoardOfTask];
+    let task = oldBlockField.tasks.splice(indexOfTask, 1);
+    let color = oldBlockField.colors.splice(indexOfTask, 1);
+    let desc = oldBlockField.description.splice(indexOfTask, 1);
+    let hours = oldBlockField.hours.splice(indexOfTask, 1);
+    let minutes = oldBlockField.minutes.splice(indexOfTask, 1);
+    let files = oldBlockField.files.splice(indexOfTask, 1);
+
+    let selectorOfNewBoard = taskAfterBoard.split("d")[1] - 1;
+    let newBlockField = fullBlockField[selectorOfNewBoard];
+    let selectorOfTaskIndex
+    if(taskAfter) {
+      selectorOfTaskIndex = Number(taskAfter.split("task")[1] ) + 1;
+    } else {
+      selectorOfTaskIndex = newBlockField.tasks.length;
+    }
+
+    newBlockField.tasks.splice(selectorOfTaskIndex, 0, task);
+    newBlockField.colors.splice(selectorOfTaskIndex, 0, color);
+    newBlockField.description.splice(selectorOfTaskIndex, 0, desc);
+    newBlockField.hours.splice(selectorOfTaskIndex, 0, hours);
+    newBlockField.minutes.splice(selectorOfTaskIndex, 0, minutes);
+    newBlockField.files.splice(selectorOfTaskIndex, 0, files);
+
+    fullBlockField[idOfBoardOfTask] = oldBlockField;
+    fullBlockField[selectorOfNewBoard] = newBlockField;
+    containTask = false;
+    taskAfter = "";
     setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
   }
   function handleKeyPress(event) {
@@ -1006,11 +1038,11 @@ function ChooseBar() {
             {
               boardDetails.titlesOfMiniBoards.map ((titleItem, id) => {
                 return (
-                  <div key = {id}  style={{display: boardDetails.displayOfLists[id]}} id={"board" + (id + 1)} className="planner__board">
+                  <div onMouseUp={containNewTask} key = {id}  style={{display: boardDetails.displayOfLists[id]}} id={"board" + (id + 1)} className="planner__board">
                     <BlockTitle index={id} changeTitle={changeTitleOfList} titleName= {titleItem}></BlockTitle>
                     {
                       boardDetails.blockField[id].tasks.map ((item,index) => {
-                        return (<Block realParent={"board" + (index + 1)} backColor={boardDetails.blockField[id].colors[index]} idOfBlock={id} onKeyPressFunction={handleKeyPress} files={boardDetails.blockField[id].files[index]} descriptionValue={boardDetails.blockField[id].description[index]} hours={boardDetails.blockField[id].hours[index]} minutes={boardDetails.blockField[id].minutes[index]} key = {index} colorFunction={changeColorOfBlock} deleteFunction={deleteBlock} updateFunction={updateTextInBlock} index= {index} taskName= {item}></Block>)
+                        return (<Block realParent={"board" + (id + 1)} id={"board" + (id + 1) + "task" + index} backColor={boardDetails.blockField[id].colors[index]} idOfBlock={id} onKeyPressFunction={handleKeyPress} files={boardDetails.blockField[id].files[index]} descriptionValue={boardDetails.blockField[id].description[index]} hours={boardDetails.blockField[id].hours[index]} minutes={boardDetails.blockField[id].minutes[index]} key = {index} colorFunction={changeColorOfBlock} deleteFunction={deleteBlock} updateFunction={updateTextInBlock} index= {index} taskName= {item}></Block>)
                       })
                     }
                     <button onClick={() => addBlock("Task name", "#fcfafbda", "", "0", "0", "", id)} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
@@ -1045,6 +1077,11 @@ ReactDOM.render(
 let plannerContainer = document.getElementsByClassName("planner")[0];
 let isDragging = false;
 let deleteTask = false;
+let containTask = false;
+let indexOfTask;
+let idOfBoardOfTask;
+let taskAfter;
+let taskAfterBoard;
 plannerContainer.addEventListener('mousedown', function(event) {
 
   if(document.documentElement.clientWidth <= 843) return
@@ -1148,6 +1185,11 @@ plannerContainer.addEventListener('mousedown', function(event) {
       return;
     }
 
+    gsap.to(dragElement, {duration: 0, top: 0, left: 0, zIndex: "auto", position: "relative"})
+
+    plannerContainer.removeEventListener('mousemove', onMouseMove);
+    dragElement.removeEventListener('mouseup', onMouseUp);
+
     dragElement.style.display = "none"
     let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
     dragElement.style.display = "inline-block"
@@ -1157,7 +1199,7 @@ plannerContainer.addEventListener('mousedown', function(event) {
     let droppableBucketImage = document.getElementsByClassName("planner__delete-image")[0];
 
     if (elemBelow === droppableBucket || elemBelow === droppableBucketImage){
-      deleteTask = true;
+       deleteTask = true;
     }
     let droppableBelow = elemBelow.closest('.planner__board');
 
@@ -1166,20 +1208,18 @@ plannerContainer.addEventListener('mousedown', function(event) {
       let nearestTask = elemBelow.closest('.planner__task');
       
       if(nearestTask){
-        nearestTask.after(dragElement)
+        containTask = true;
+        taskAfter = nearestTask.id;
+        taskAfterBoard = nearestTask.closest(".planner__board").id;
       } else {
         let bottom = droppableBelow.getElementsByClassName("planner__button")[0];
         if(bottom) {
-          bottom.before(dragElement);
+          containTask = true;
+          taskAfterBoard = bottom.closest(".planner__board").id;
         }
       }
       gsap.to(droppableBelow, { backgroundColor: "#f9f0fa", boxShadow: "none"})
     }
-
-    gsap.to(dragElement, {duration: 0, top: 0, left: 0, zIndex: "auto", position: "relative"})
-
-    plannerContainer.removeEventListener('mousemove', onMouseMove);
-    dragElement.removeEventListener('mouseup', onMouseUp);
   }
 
   function moveAt(clientX, clientY) {
