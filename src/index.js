@@ -17,7 +17,7 @@ function PopupBlock(props) {
   }
 
   function hidePopup(){
-    props.saveFunction( taskName.current.innerText, props.taskIndex, description.current.value, hours.current.value, minutes.current.value, files.current.innerHTML)
+    props.saveFunction( props.blockId, taskName.current.innerText, props.taskIndex, description.current.value, hours.current.value, minutes.current.value, files.current.innerHTML)
     setFloated(true)
   }
 
@@ -147,7 +147,7 @@ function Block(props) {
     let newValue = textarea.current.value;
     setEdited(true) 
     if(!newValue) newValue = textarea.current.placeholder
-    props.updateFunction(newValue, props.index)
+    props.updateFunction(props.idOfBlock, newValue, props.index)
   }
   function textareaKeyPress(event) {
     if (event.key === 'Enter') {
@@ -212,7 +212,7 @@ function BlockTitle(props) {
     let newValue = textarea.current.value;
     if(!textarea.current.value) newValue = props.titleName
     setEdited(false)
-    props.changeTitle(newValue, props.index)
+    props.changeTitle( newValue, props.index)
   }
   function textareaKeyPress(event) {
     if (event.key === 'Enter') {
@@ -498,19 +498,17 @@ function ChooseBar() {
     fullBlockField[id] = newBlockField;
     setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
   }
-  function updateTextInBlock( text, index, desc, hours, minutes, files, id) {
-    // let arrayOfTasks = boardDetails.tasks;
-    // let arrayOfColors = boardDetails.colors;
-    // let arrayOfDescriptions = boardDetails.description;
-    // let arrayOfHours = boardDetails.hours;
-    // let arrayOfMinutes = boardDetails.minutes;
-    // let arrayOfFiles = boardDetails.files;
-    // arrayOfTasks[index] = text;
-    // if(desc === "" || desc) arrayOfDescriptions[index] = desc; 
-    // if(hours === "" || hours) arrayOfHours[index] = hours; 
-    // if(minutes === "" || minutes) arrayOfMinutes[index] = minutes; 
-    // if(files === "" || files) arrayOfFiles[index] = files; 
-    // setBoardDetails ({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.mainColor, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, tasks: arrayOfTasks, colors: arrayOfColors, description: arrayOfDescriptions, hours: arrayOfHours, minutes: arrayOfMinutes, files: arrayOfFiles})
+  function updateTextInBlock( id, text, index, desc, hours, minutes, files) {
+    let fullBlockField = boardDetails.blockField;
+    let newBlockField = boardDetails.blockField[id];
+    alert(id)
+    newBlockField.tasks[index] = text;
+    if(desc === "" || desc) newBlockField.description[index] = desc;
+    if(hours === "" || hours) newBlockField.hours[index] = hours;
+    if(minutes === "" || minutes) newBlockField.minutes[index] = minutes;
+    if(files === "" || files) newBlockField.files[index] = files;
+    fullBlockField[id] = newBlockField;
+    setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: fullBlockField})
   }
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
