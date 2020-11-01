@@ -11,15 +11,21 @@ body {
 }
 
 *::selection {
-  background: #68546b;
+  background: #6c5f91;
   color: #ffffff;
 }
 
 .header {
-  background: url(backgroundImages/gradientlight.jpg) top no-repeat fixed;
-  background-size: cover;
-  height: 200px;
+  background: url(backgroundImages/header.webp) right no-repeat;
+  background-size: contain;
+  color: #6f6196;
+  height: 500px;
   text-align: center;
+}
+
+.header__container {
+  min-width: 750px;
+  width: 70%;
 }
 
 .header__menu {
@@ -54,22 +60,19 @@ body {
   color: #000;
 }
 
-.header__logo {
-  margin-top: 16px;
-  width:180px;
-}
-
 .header__title {
-  font-size: 30px;
-  font-weight: 400;
+  font-size: 50px;
+  font-weight: 600;
   margin: 0;
-  padding: 15px;
+  padding: 5px;
   transform: rotateY(0deg);
+  text-transform: uppercase;
+  text-shadow: 3px 2px 1px #f4f4ff;
 }
 
-.header__autor-name {
+.header__small-text {
+  font-size: 30px;
   margin: 0;
-  padding-bottom: 20px;
 }
 
 .planner {
@@ -244,8 +247,9 @@ body {
 }
 
 .planner-bar__add-button--only:hover {
-  background: linear-gradient(90deg, #f9eaff, #d2c8df);
+  background-color: #685a8f;
   border:2px solid #e3dbe9;
+  color: #ffffff;
 }
 
 .planner__board {
@@ -746,7 +750,7 @@ body {
 }
 
 .popup__prompt {
-  background: linear-gradient(90deg, #f9eaff, #d2c8df);
+  background: linear-gradient(90deg, #fdf8ff, #cbbce0);
   box-shadow: -3px 3px 4px #807a9e;
   font-size: 18px;
   margin: 10px 0;
