@@ -453,7 +453,7 @@ function ChooseBar() {
   const colorSpace = useRef(null);
   const colorIndexes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   let styleForColor = {}
-  let arrayOfColors = ["linear-gradient(180deg, #fc9db5, #ffedf7)", "linear-gradient(180deg, #ffcfda, #e1deff)", "linear-gradient(180deg, #ddc6f5, #e0f0ff)", "linear-gradient(180deg, #c2d7fd, #dafff1)", "linear-gradient(180deg, #b3f6f8, #fbffda)", "linear-gradient(180deg, #fff0cc, #ffe6ff)", "linear-gradient(180deg, #c45a7a, #cf8fd8)", "linear-gradient(180deg, #e498d5, #79639b)", "linear-gradient(180deg, #8b6ba5, #78adeb)", "linear-gradient(180deg, #686ebb, #7dfdfd)", "linear-gradient(180deg, #699fb4, #9dffc9)", "#ffffff"];
+  let arrayOfColors = ["linear-gradient(180deg, #fc9db5, #ffedf7)", "linear-gradient(180deg, #ffcfda, #e1deff)", "linear-gradient(180deg, #ddc6f5, #e0f0ff)", "linear-gradient(180deg, #c2d7fd, #a4c2ee)", "linear-gradient(180deg, #8dd4c9, #ccffca)", "linear-gradient(180deg, #fff0cc, #ffe6ff)", "linear-gradient(180deg, #c45a7a, #cf8fd8)", "linear-gradient(180deg, #e498d5, #79639b)", "linear-gradient(180deg, #8b6ba5, #78adeb)", "linear-gradient(180deg, #686ebb, #7dfdfd)", "linear-gradient(180deg, #699fb4, #9dffc9)", "#ffffff"];
   
   let colorOfDeskText = "#000000";
   let colorAddToDetails = "#ffffff";
