@@ -1045,7 +1045,7 @@ function ChooseBar() {
                         return (<Block realParent={"board" + (id + 1)} id={"board" + (id + 1) + "task" + index} backColor={boardDetails.blockField[id].colors[index]} idOfBlock={id} onKeyPressFunction={handleKeyPress} files={boardDetails.blockField[id].files[index]} descriptionValue={boardDetails.blockField[id].description[index]} hours={boardDetails.blockField[id].hours[index]} minutes={boardDetails.blockField[id].minutes[index]} key = {index} colorFunction={changeColorOfBlock} deleteFunction={deleteBlock} updateFunction={updateTextInBlock} index= {index} taskName= {item}></Block>)
                       })
                     }
-                    <button onClick={() => addBlock("Task name", "#fcfafbda", "", "0", "0", "", id)} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
+                    <button onClick={() => addBlock("Task name", "#fbfeffde", "", "0", "0", "", id)} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
                 </div>
                 )
               })
