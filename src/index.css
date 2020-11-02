@@ -86,6 +86,7 @@ body {
 
 .header__title--big {
   font-size: 76px;
+  text-decoration: underline;
 }
 
 .header__small-text {
@@ -1025,12 +1026,7 @@ body {
   font-size: 20px;
   padding: 20px 30px 20px;
   text-decoration: none;
-  transition-duration: 0.3s;
   text-transform: uppercase;
-}
-
-.footer__link:hover {
-  color: #364475;
 }
 
 @media screen and (max-width: 1100px) {
