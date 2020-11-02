@@ -453,7 +453,7 @@ function ChooseBar() {
   const colorSpace = useRef(null);
   const colorIndexes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   let styleForColor = {}
-  let arrayOfColors = ["linear-gradient(180deg, #fc9db5, #ffedf7)", "linear-gradient(180deg, #ffcfda, #e1deff)", "linear-gradient(180deg, #ddc6f5, #e0f0ff)", "linear-gradient(180deg, #c2d7fd, #a4c2ee)", "linear-gradient(180deg, #8dd4c9, #ccffca)", "linear-gradient(180deg, #fff0cc, #ffe6ff)", "linear-gradient(180deg, #c45a7a, #cf8fd8)", "linear-gradient(180deg, #e498d5, #79639b)", "linear-gradient(180deg, #8b6ba5, #78adeb)", "linear-gradient(180deg, #686ebb, #7dfdfd)", "linear-gradient(180deg, #699fb4, #9dffc9)", "#ffffff"];
+  let arrayOfColors = ["linear-gradient(180deg, #fc9db5, #ffedf7)", "linear-gradient(180deg, #ffcfda, #e1deff)", "linear-gradient(180deg, #ddc6f5, #e0f0ff)", "linear-gradient(180deg, #c2d7fd, #eff8fc)", "linear-gradient(180deg, #8dd4c9, #ccffca)", "linear-gradient(180deg, #fff0cc, #ffe6ff)", "linear-gradient(180deg, #c45a7a, #cf8fd8)", "linear-gradient(180deg, #e498d5, #79639b)", "linear-gradient(180deg, #8b6ba5, #78adeb)", "linear-gradient(180deg, #686ebb, #7dfdfd)", "linear-gradient(180deg, #699fb4, #9dffc9)", "#ffffff"];
   
   let colorOfDeskText = "#000000";
   let colorAddToDetails = "#ffffff";
@@ -1308,9 +1308,6 @@ window.addEventListener("scroll", function(event) {
       gsap.to(".features-block:last-child .features-block__image", {duration: 2, opacity: 1, delay: 1, rotateY: 360, rotateX: -180});
       gsap.to(".features-block:last-child .features-block__title", {duration: 2, opacity: 1, delay: 1, rotateY: 0});
     }
-    if (document.documentElement.scrollTop > 2200) {
-      gsap.to(".footer__link", {duration: 1, backgroundColor: "#fcfafb83"});
-    }
   }
   if(document.documentElement.clientWidth < 845 && document.documentElement.clientWidth >= 384 ) {
     if (document.documentElement.scrollTop > 400 && document.documentElement.scrollTop < 900) {
@@ -1342,9 +1339,6 @@ window.addEventListener("scroll", function(event) {
       gsap.to(".features-block--middle .features-block__title", {duration: 2, opacity: 1, delay: 0.5, rotateY: 0});
       gsap.to(".features-block:last-child .features-block__image", {duration: 2, opacity: 1, delay: 1, rotateY: 360, rotateX: -180});
       gsap.to(".features-block:last-child .features-block__title", {duration: 2, opacity: 1, delay: 1, rotateY: 0});
-    }
-    if (document.documentElement.scrollTop > 2400) {
-      gsap.to(".footer__link", {duration: 1, backgroundColor: "#fcfafb83"});
     }
   }  
   if(document.documentElement.clientWidth < 384) {
@@ -1381,9 +1375,6 @@ window.addEventListener("scroll", function(event) {
     if (document.documentElement.scrollTop > 2870) {  
       gsap.to(".features-block:last-child .features-block__image", {duration: 2, opacity: 1, rotateY: 360, rotateX: -180});
       gsap.to(".features-block:last-child .features-block__title", {duration: 2, opacity: 1, rotateY: 0});
-    }
-    if (document.documentElement.scrollTop > 2800) {
-      gsap.to(".footer__link", {duration: 1, backgroundColor: "#fcfafb83"});
     }
   }  
 })
