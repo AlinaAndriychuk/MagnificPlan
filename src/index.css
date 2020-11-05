@@ -25,19 +25,20 @@ body {
 }
 
 .header {
-  background: url(backgroundImages/header.png) right top no-repeat;
-  background-size: contain;
-  background-color: #eff8fc;
+  background: url(backgroundImages/header.jpg) top left no-repeat;
+  background-size: cover;
   color: #364475;
   height: 100%;
   text-align: center;
+  width: 100%;
 }
 
 .header__container {
   box-sizing: border-box;
-  height: 500px;
+  height: 550px;
   min-width: 750px;
-  padding-top: 70px;
+  margin-left: auto;
+  padding-top: 100px;
   width: 60%;
 }
 
@@ -55,8 +56,8 @@ body {
 }
 
 .header__link-item {
-  background: linear-gradient(125deg,#f4c5f7, #d389e2);
-  border: 2px solid #766e92;
+  background: linear-gradient(125deg,#86fcad, #009f8d);
+  border: 2px solid #037d80;
   color: #eff8fc;
   display: inline-block;
   font-size: 18px;
@@ -66,13 +67,12 @@ body {
 }
 
 .header__link-item:hover, .footer__link:hover {
-  background: #9baed3;
-  border: 2px solid #9baed3;
+  background: #8ecac5;
+  border: 2px solid #8ecac5;
   color: #eff8fc;
 }
 
 .header__title {
-  background-color: #eff8fcb4;
   border-radius: 20%;
   font-size: 50px;
   font-weight: 600;
@@ -155,11 +155,11 @@ body {
 }
 .planner-bar__menu:hover {
   background-clip: border-box;
-  background-color: #9baed3;
+  background-color: #a4d3db;
 }
 
 .planner-bar__menu:focus{
-  border: 1px solid #9baed3;
+  border: 1px solid #6b8896;
   background-color: #eff8fc;
   outline: none;
 }
@@ -225,7 +225,7 @@ body {
   border-bottom-right-radius: 20%;
   border: 1px solid transparent;
   cursor: pointer;
-  color: #766e92 ;
+  color: #6b8896 ;
   font-family: 'Inter', sans-serif;
   font-size: 34px;
   font-weight: 200;
@@ -238,22 +238,22 @@ body {
 
 .planner-bar__add-button:hover {
   background-clip: border-box;
-  background-color: #9baed3;
+  background-color: #a4d3db;
   color: #eff8fc;
 }
 
 .planner-bar__add-button:focus,  .popup__description:focus, .popup__file:focus, .popup__task:focus, .popup__time:focus {
-  border: 1px solid #9baed3;
+  border: 1px solid #6b8896;
   background-color: #eff8fc;
-  color: #766e92;
+  color: #6b8896;
   outline: none;
 }
 
 .planner-bar__add-button--only {
   background-color: #eff8fc;
   border-radius: 10%;
-  border: 2px dashed #766e92;
-  color: #766e92 ;
+  border: 2px dashed #6b8896;
+  color: #6b8896 ;
   display: block;
   font-size: 50px;
   height: 100px;
@@ -264,14 +264,14 @@ body {
 }
 
 .planner-bar__add-button--only:hover {
-  background-color: #9baed3;
-  border:2px solid #9baed3;
+  background-color: #a4d3db;
+  border:2px solid #a4d3db;
   color: #eff8fc;
 }
 
 .planner__board {
   box-sizing: border-box;
-  border: 1px solid #766e92 ;
+  border: 1px solid #6b8896 ;
   background-color: #eff8fc;
   height: 100%;
   padding: 4px;
@@ -330,7 +330,7 @@ body {
 }
 
 .planner__task:hover {
-  box-shadow: 1px 3px 5px #766e92;
+  box-shadow: 1px 3px 5px #6b8896;
 }
 
 .planner__task:hover .planner__task-button, .planner__task:hover .planner__task-button--edit, .planner__title-container:hover .planner__task-button--edit {
@@ -424,7 +424,7 @@ body {
 
 .planner__palette-button {
   border: solid 1px transparent;
-  background:#364475;
+  background:#365375;
   box-shadow: -3px 3px 4px #807a9e;
   height: 45px;
   margin-left: 71px;
