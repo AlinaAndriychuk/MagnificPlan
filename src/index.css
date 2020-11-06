@@ -86,7 +86,6 @@ body {
 
 .header__title--big {
   font-size: 76px;
-  text-decoration: underline;
 }
 
 .header__small-text {
@@ -334,6 +333,8 @@ body {
 }
 
 .planner__task:hover .planner__task-button, .planner__task:hover .planner__task-button--edit, .planner__title-container:hover .planner__task-button--edit {
+  border-radius: 40%;
+  background-color: #f8fdff;
   opacity: 1;
 }
 
@@ -419,13 +420,13 @@ body {
 
 .planner__textarea:focus,.popup__file-text:focus, .planner__title:focus, .planner__button:focus {
   border: none;
-  outline: solid 1px #9baed3;
+  outline: solid 1px #6b8896;
 }
 
 .planner__palette-button {
   border: solid 1px transparent;
   background:#365375;
-  box-shadow: -3px 3px 4px #807a9e;
+  box-shadow: -3px 3px 4px #6b8896;
   height: 45px;
   margin-left: 71px;
   margin-top: 10px;
@@ -435,7 +436,7 @@ body {
 }
 
 .planner__palette {
-  border: 1px solid #9baed3;
+  border: 1px solid #6b8896;
   border-radius: 50%;
   cursor: pointer;
   float: left;
@@ -497,7 +498,7 @@ body {
 
 .planner__column-options {
   background-color: #fbfeffde;
-  border: solid 1px #766e92 ;
+  border: solid 1px #6b8896 ;
   cursor: pointer;
   margin-top: -40px;
   right: -120px;
@@ -509,7 +510,7 @@ body {
 
 .planner__column-options .planner__button {
   margin-top: 5px;
-  outline: 1px solid #9baed3;
+  outline: 1px solid #6b8896;
   transition-duration: 0.1s;
 }
 
@@ -593,7 +594,7 @@ body {
 
 .popup {
   background: #eff8fc left top;
-  box-shadow: 7px 7px 5px #3f3563 ;
+  box-shadow: 7px 7px 5px #354963 ;
   background-size: cover;
   height: min-content;
   margin: auto;
@@ -608,7 +609,7 @@ body {
 }
 
 .popup .planner-bar__desk {
-  border: 1px solid #766e92 ;
+  border: 1px solid #6b8896 ;
   max-width: 300px;
   margin: 10px 0;
   width: 100%;
@@ -624,7 +625,7 @@ body {
 
 .popup__task {    
   box-sizing: border-box;
-  border: 1px solid #9baed3 ;
+  border: 1px solid #6b8896 ;
   font-size: 26px;
   font-family: 'Inter', sans-serif;
   line-height: 40px;
@@ -638,7 +639,7 @@ body {
 }
 
 .popup__task:focus {
-  box-shadow: -3px 3px 4px #766e92;
+  box-shadow: -3px 3px 4px #6b8896;
 }
 
 .popup__cancel {
@@ -666,7 +667,7 @@ body {
 }
 
 .popup__description, .popup__time {
-  border: #9baed3 solid 1px;
+  border: #6b8896 solid 1px;
 }
 
 .popup__time {
@@ -693,7 +694,7 @@ body {
 
 .popup__file-label {
   background-color: #dbeaf3;
-  border: 2px dashed #766e92 ;
+  border: 2px dashed #6b8896 ;
   border-radius: 5px;
   cursor:pointer;
   display:block;
@@ -706,8 +707,8 @@ body {
 
 .popup__file-label:hover, .popup__button:hover {
   background: linear-gradient( 90deg,#fdddff, #e3a3f0);
-  border:2px solid #766e92 ;
-  box-shadow: -3px 3px 4px #766e92 ;
+  border:2px solid #6b8896 ;
+  box-shadow: -3px 3px 4px #6b8896 ;
 }
 
 .popup__file-label input[type=file] {
@@ -733,7 +734,7 @@ body {
 }
 
 .popup__button {
-  border: 2px #766e92 solid;
+  border: 2px #6b8896 solid;
   background-color:#ffffff;
   cursor: pointer;
   float: right;
@@ -770,7 +771,7 @@ body {
 
 .popup__prompt {
   background: linear-gradient(125deg,#fcdbff, #de98f0);
-  box-shadow: -3px 3px 4px #766e92 ;
+  box-shadow: -3px 3px 4px #6b8896 ;
   font-size: 18px;
   margin: 10px 0;
   padding: 10px;
@@ -814,7 +815,7 @@ body {
 
 .popup__textarea-board:focus {
   outline: none;
-  border: 1px solid #766e92 ;
+  border: 1px solid #6b8896 ;
 }
 
 .popup__input {
@@ -858,7 +859,7 @@ body {
 
 .popup__colorSpace {
   background-color: #ffffff;
-  box-shadow: -3px 3px 4px #766e92 ;
+  box-shadow: -3px 3px 4px #6b8896 ;
   border-radius: 20%;
   display: inline-block;
   height: 60px;
@@ -884,7 +885,7 @@ body {
 
 .desk-popup .planner__palette-button {
   background-color: #ffffffaf;
-  box-shadow: -3px 3px 4px #766e92 ;
+  box-shadow: -3px 3px 4px #6b8896 ;
   border-color: #c2c6df;
   height: 80px;
   margin: 0 0 10px;
@@ -966,8 +967,9 @@ body {
 }
 
 .quote-block {
-  background: url(../src/backgroundImages/gradientlight.jpg) center no-repeat fixed;
+  background: url(../src/backgroundImages/gradientlight.jpg) #deffd5 center no-repeat fixed;
   background-size: cover;
+  background-blend-mode: darken;
   color: #364475;
   text-align: center;
 }
@@ -1012,16 +1014,17 @@ body {
 }
 
 .footer {
-  background: url(../src/backgroundImages/gradientlight.jpg) center no-repeat fixed;
+  background: url(../src/backgroundImages/gradientlight.jpg) #deffd5 center no-repeat fixed;
   background-size: cover;
+  background-blend-mode: darken;
   height: 140px;
   padding-top: 110px;
   text-align: center;
 }
 
 .footer__link {
-  background: linear-gradient(125deg,#f4c5f7, #d389e2);
-  border: 2px solid #766e92;
+  background: linear-gradient(125deg,#86fcad, #009f8d);
+  border: 2px solid #037d80;
   color: #eff8fc;
   font-size: 20px;
   padding: 20px 30px 20px;
@@ -1081,7 +1084,7 @@ body {
     height: 40px;
   }
   .planner-bar__desk {
-    border-left: 1px solid #5f5175 ;
+    border-left: 1px solid #6b8896 ;
     float: none;
   }
   .planner-bar__add-button, .planner-bar__menu{
@@ -1275,11 +1278,11 @@ body {
     margin-bottom: 2px;
   }
   .planner__title-container:hover {
-    background-color: #f9f0fa;
+    background-color: #ffffff;
   }
   .planner__title-container .planner__task-button--edit {
-    background-color: #f9f0fa;
-    box-shadow: -5px 0px 10px #f9f0fa;
+    background-color: #ffffff;
+    box-shadow: -5px 0px 10px #ffffff;
     margin-top: 0;
     margin-left: -14%;
   }
