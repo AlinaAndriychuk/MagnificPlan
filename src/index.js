@@ -721,7 +721,7 @@ function ChooseBar() {
   
   function showPopup(){
     if(document.documentElement.clientWidth >= 845){
-      document.body.style.paddingRight = "16px";
+      document.documentElement.style.paddingRight = "16px";
     } 
     gsap.to(document.documentElement, {overflow: "hidden"})
     setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [true], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: boardDetails.numberOfLists, colorOfMainDesk: boardDetails.colorOfMainDesk, displayOfLists: boardDetails.displayOfLists, currentDesk: boardDetails.currentDesk, blockField: boardDetails.blockField})
@@ -790,8 +790,8 @@ function ChooseBar() {
       document.querySelector(".planner").style.marginTop = ""
     }
     colored = false;
-    
-    document.body.style.paddingRight = "0px";
+
+    document.documentElement.style.paddingRight = "0px";
     document.documentElement.style.overflow = ""; 
     gsap.to(mainDesk.current, {background : mainColor[0]});
     setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: currentBoard, blockField: boardDetails.blockField})
