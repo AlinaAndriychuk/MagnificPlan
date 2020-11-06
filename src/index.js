@@ -332,10 +332,12 @@ function MenuBar(props) {
   const [showBar, setShowBar] = useState(false);
 
   function showBarFunction(){
+    document.getElementsByClassName("planner-bar-small")[0].style.paddingLeft = "37px";
     setShowBar(true)
   }
 
   function hidePopup(){
+    document.getElementsByClassName("planner-bar-small")[0].style.paddingLeft = "0px";
     setShowBar(false)
   }
 
@@ -1218,7 +1220,7 @@ plannerContainer.addEventListener('mousedown', function(event) {
           taskAfterBoard = bottom.closest(".planner__board").id;
         }
       }
-      gsap.to(droppableBelow, { backgroundColor: "#f9f0fa", boxShadow: "none"})
+      gsap.to(droppableBelow, { boxShadow: "none"})
     }
   }
 
