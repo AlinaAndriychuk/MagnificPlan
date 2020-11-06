@@ -706,7 +706,7 @@ body {
 }
 
 .popup__file-label:hover, .popup__button:hover {
-  background: linear-gradient( 90deg,#fdddff, #e3a3f0);
+  background: linear-gradient( 90deg,#d0e6f5, #86c1d3);
   border:2px solid #6b8896 ;
   box-shadow: -3px 3px 4px #6b8896 ;
 }
@@ -770,26 +770,15 @@ body {
 }
 
 .popup__prompt {
-  background: linear-gradient(125deg,#fcdbff, #de98f0);
+  box-sizing: border-box;
   box-shadow: -3px 3px 4px #6b8896 ;
+  background-color: #cae1f0;
   font-size: 18px;
   margin: 10px 0;
-  padding: 10px;
+  padding: 10px 0 10px 15px;
   vertical-align: top;
-  width: 60%;
+  width: 30%;
 } 
-
-.popup__prompt--top {
-  width: 80%;
-}
-
-.popup__prompt--middle {
-  width: 40%;
-}
-
-.popup__prompt--bottom {
-  width: 60%;
-}
 
 .popup__prompt-image {
   height: 18px;
@@ -867,6 +856,11 @@ body {
   width: 60px;
 }
 
+.deskName-popup .popup__title {
+  margin: 10px auto 20px;
+  width: 70%;
+}
+
 .desk-popup .popup {
   padding: 20px;
   width: 300px;
@@ -880,7 +874,7 @@ body {
 
 .desk-popup .popup__prompt {
   margin: 20px 0;
-  width: 280px;
+  width: 100%;
 }
 
 .desk-popup .planner__palette-button {
@@ -1092,7 +1086,7 @@ body {
   }
   .planner-bar-small .planner-bar__add-button--only {
     display: block;
-    border-radius: 0 0 30% 30%;
+    border-radius: 10%;
   }
   .planner-full-board {
     width: 100%;
@@ -1187,16 +1181,7 @@ body {
     max-width: 400px;
   }
   .popup__prompt{
-    min-width:180px
-  }
-  .popup__prompt--top {
-    width: 85%;
-  }
-  .popup__prompt--middle {
-    width: 40%;
-  }
-  .popup__prompt--bottom {
-    width: 70%;
+    width: 210px
   }
   .popup__button, .popup__button-change {
     margin-top: 14px;
@@ -1209,7 +1194,7 @@ body {
   }
   .desk-popup .popup__prompt{
     font-size: 14px;
-    width: 91.5%;
+    width: 100%;
   }
   .desk-popup .planner__palette-button {
     display: block;
@@ -1340,14 +1325,17 @@ body {
     margin-left:0px;
   }
   .popup {
-    padding: 8px;
+    padding: 20px 8px;
   }
   .popup__task {
     font-size: 20px;
+    height: 44px;
+    line-height: 25px;
     padding-top: 10px;
   }
   .popup__prompt{
-    width:180px;
+    padding: 10px;
+    width: 186px;
   }
   .popup__button {
     padding: 10px 24px;
@@ -1368,8 +1356,11 @@ body {
   .popup__textarea-board {
     font-size: 18px;
   }
+  .popup__container {
+    width: 100%;
+  }
   .desk-popup .popup {
-    padding: 8px;
+    padding: 20px 8px;
   }
   .advantages__heading {
     font-size: 24px;
