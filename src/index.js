@@ -39,14 +39,14 @@ function PopupBlock(props) {
         <div className="popup">
           <img onClick={()=> setFloated(true)} className="popup__cancel" src="img/cancel.png" alt="cancel"/>
           <div contentEditable="" onKeyPress={props.onKey} ref={taskName} style={props.styleOfBlock} className="popup__task">{props.taskName}</div>
-          <p className="popup__prompt popup__prompt--top"><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Description</p>
+          <p className="popup__prompt "><img className="popup__prompt-image" src="img/ellipsis.png" alt="description"/>Description</p>
           <textarea className="popup__description" placeholder="Write description to your task" ref={description} defaultValue={props.descValue}></textarea>
           <p className="popup__prompt popup__prompt--middle"><img className="popup__prompt-image" src="img/time.png" alt="time"/>Time estimation</p>
           <textarea className="popup__time" ref={hours} maxLength="3" defaultValue={props.hoursValue}></textarea> 
           <p className="popup__marker">h</p>
           <textarea className="popup__time" ref={minutes} maxLength="2" defaultValue={props.minutesValue}></textarea>
           <p className="popup__marker">m</p>
-          <p className="popup__prompt popup__prompt--bottom"><img className="popup__prompt-image" src="img/attachment.png" alt="attachment"/>Attachments</p>
+          <p className="popup__prompt"><img className="popup__prompt-image" src="img/attachment.png" alt="attachment"/>Attachments</p>
           <label className="popup__file-label">
               <img className="popup__file-image" src="img/paperclip.png" alt="attachment"/>
               <span className="popup__file-title">Add files</span>
@@ -351,14 +351,15 @@ function MenuBar(props) {
 
   function openAnotherDesk(id) {
     props.changeDesk(id)
-    setShowBar(false)
+     hidePopup()
   }
 
   function deleteTheDesk(id) {
     if(id === 0) {
-      setShowBar(false)
+      hidePopup()
     }
     props.deleteDesk(id)
+    
   }
 
   function showFullBar() {
@@ -671,9 +672,13 @@ function ChooseBar() {
         every.classList.add("planner-bar__add-button--only")
       }
       document.querySelector(".planner").style.marginTop = "40px"
-      document.querySelector(".planner-full-board").style.background = "#ffffff"
-      document.querySelector(".planner__column-menu").style.display = "none"
-      document.querySelector(".planner-bar__menu").classList.add("planner-bar__menu-hide")
+      document.querySelector(".planner-full-board").style.background = "#ffffff";
+      if(document.documentElement.clientWidth > 843) {
+        document.querySelector(".planner-bar__menu").classList.add("planner-bar__menu-hide");
+      }
+      document.querySelector(".planner__column-menu").style.display = "none";
+      gsap.to(".planner__slider-button-container", {duration: 0, display: "none"})
+
     } else {
       for(let every of Array.from(document.getElementsByClassName("planner-bar__add-button"))) {
         gsap.to(every, {display: "inline-block"});
@@ -903,8 +908,13 @@ function ChooseBar() {
       if(nextLists[1]) gsap.to(nextLists[1], {duration : 1, delay: 1.2, opacity: 1});
       if(nextLists[2]) gsap.to(nextLists[2], {duration : 1, delay: 1, opacity: 1});
     }
-
+    
     setTimeout(()=> {
+      if(sideOfSliding === "right") {
+        document.querySelector(".planner-bar__container").scrollTo(0, currentBoard[0] * 40);
+      } else {
+        document.querySelector(".planner-bar__container").scrollTo(0, currentBoard[0] * -40);
+      }
       setBoardDetails({boardFullNames: boardDetails.boardFullNames, showPopup: [], titlesOfMiniBoards: boardDetails.titlesOfMiniBoards, colorsOfBoard: boardDetails.colorsOfBoard, colorOfText: boardDetails.colorOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: currentBoard, blockField: boardDetails.blockField})
     }, 1000)
   }
