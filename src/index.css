@@ -1378,6 +1378,9 @@ body {
   .desk-popup .popup {
     padding: 20px 8px;
   }
+  .quote-block, .footer {
+    background-attachment: scroll;
+  }
   .advantages__heading {
     font-size: 24px;
     letter-spacing: 5px;
