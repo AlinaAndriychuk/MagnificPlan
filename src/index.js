@@ -242,92 +242,6 @@ function BlockTitle(props) {
 }
 
 
-class Blockfield extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      tasks: [],
-      colors: [],
-      description: [],
-      hours: [], 
-      minutes: [],
-      files: [],
-    }
-  }
-  addBlock (context, text, color, desc, hours, minutes, files) {
-    alert ()
-    let arrayOfTasks = context.state.tasks;
-    let arrayOfColors = context.state.colors;
-    let arrayOfDescriptions = context.state.description;
-    let arrayOfHours = context.state.hours;
-    let arrayOfMinutes = context.state.minutes;
-    let arrayOfFiles = context.state.files;
-    arrayOfTasks.push(text);
-    arrayOfColors.push(color);
-    arrayOfDescriptions.push(desc);
-    arrayOfHours.push(hours);
-    arrayOfMinutes.push(minutes);
-    arrayOfFiles.push(files);
-    context.setState ({tasks: arrayOfTasks, colors: arrayOfColors, description: arrayOfDescriptions, hours: arrayOfHours, minutes: arrayOfMinutes, files: arrayOfFiles})
-  }
-  changeColorOfBlock(context, color, index){
-    let arrayOfTasks = context.state.tasks;
-    let arrayOfColors = context.state.colors;
-    arrayOfColors[index] = color;
-    context.setState ({tasks: arrayOfTasks, colors: arrayOfColors})
-  }
-  deleteBlock(context, index) {
-    let arrayOfTasks = context.state.tasks;
-    let arrayOfColors = context.state.colors;
-    let arrayOfDescriptions = context.state.description;
-    let arrayOfHours = context.state.hours;
-    let arrayOfMinutes = context.state.minutes;
-    let arrayOfFiles = context.state.files;
-    arrayOfTasks.splice(index, 1);
-    arrayOfColors.splice(index, 1);
-    arrayOfDescriptions.splice(index, 1);
-    arrayOfHours.splice(index, 1);
-    arrayOfMinutes.splice(index, 1);
-    arrayOfFiles.splice(index, 1);
-    context.setState ({task: arrayOfTasks, colors: arrayOfColors, description: arrayOfDescriptions, hours: arrayOfHours, minutes: arrayOfMinutes, files: arrayOfFiles})
-  }
-  updateTextInBlock(context, text, index, desc, hours, minutes, files) {
-    let arrayOfTasks = context.state.tasks;
-    let arrayOfColors = context.state.colors;
-    let arrayOfDescriptions = context.state.description;
-    let arrayOfHours = context.state.hours;
-    let arrayOfMinutes = context.state.minutes;
-    let arrayOfFiles = context.state.files;
-    arrayOfTasks[index] = text;
-    if(desc === "" || desc) arrayOfDescriptions[index] = desc; 
-    if(hours === "" || hours) arrayOfHours[index] = hours; 
-    if(minutes === "" || minutes) arrayOfMinutes[index] = minutes; 
-    if(files === "" || files) arrayOfFiles[index] = files; 
-    context.setState ({task: arrayOfTasks, colors: arrayOfColors, description: arrayOfDescriptions, hours: arrayOfHours, minutes: arrayOfMinutes, files: arrayOfFiles})
-  }
-  saveTitleOfList(context, title, index){
-    context.props.changeTitle(title, index);
-  }
-  handleKeyPress(event) {
-    if (event.key === 'Enter') {
-      event.target.blur()
-    }
-  }
-  render(){
-    return (
-      <div style={this.props.style} id={this.props.idName} className="planner__board">
-          <BlockTitle context={this} index={this.props.index} changeTitle={this.saveTitleOfList} titleName= {this.props.titleName}></BlockTitle>
-          {
-            this.state.tasks.map ((item,id) => {
-              return (<Block realParent={this.props.idName} backColor={this.state.colors[id]} onKeyPressFunction={this.handleKeyPress} files={this.state.files[id]} descriptionValue={this.state.description[id]} hours={this.state.hours[id]} minutes={this.state.minutes[id]} key = {id} context={this} colorFunction={this.changeColorOfBlock} deleteFunction={this.deleteBlock} updateFunction={this.updateTextInBlock} index= {id} taskName= {item}></Block>)
-            })
-          }
-          <button onClick={this.addBlock.bind(null, this, "Task name", "#fcfafbda", "", "0", "0", "")} className="planner__button"><span className="planner__large-element">+</span> Add new task</button>
-      </div>
-    )
-  }
-}
-
 function MenuBar(props) {
   const [showBar, setShowBar] = useState(false);
 
@@ -343,7 +257,7 @@ function MenuBar(props) {
 
   function showButton(){
     return (
-      <button className="planner-bar__menu" onClick={showBarFunction}>
+      <button className="planner-bar__menu" onClick={showBarFunction} style={{display: deisplayOfSmallMenu}}>
         <img className="planner-bar__menu-image" alt="menu" src="img/menubar.png"/>
       </button>
     )
@@ -398,6 +312,8 @@ function MenuBar(props) {
     return showButton()
   }
 }
+
+let deisplayOfSmallMenu = "";
 
 function ColumnMenu(props) {
 
@@ -673,9 +589,7 @@ function ChooseBar() {
       }
       document.querySelector(".planner").style.marginTop = "40px"
       document.querySelector(".planner-full-board").style.background = "#ffffff";
-      if(document.documentElement.clientWidth > 843) {
-        document.querySelector(".planner-bar__menu").classList.add("planner-bar__menu-hide");
-      }
+      deisplayOfSmallMenu = "none"
       document.querySelector(".planner__column-menu").style.display = "none";
       gsap.to(".planner__slider-button-container", {duration: 0, display: "none"})
 
@@ -796,6 +710,7 @@ function ChooseBar() {
     }
     colored = false;
 
+    deisplayOfSmallMenu = ""
     document.documentElement.style.paddingRight = "0px";
     document.documentElement.style.overflow = ""; 
     gsap.to(mainDesk.current, {background : mainColor[0]});
