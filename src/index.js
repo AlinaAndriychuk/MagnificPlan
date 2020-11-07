@@ -1163,29 +1163,14 @@ plannerContainer.addEventListener('mousedown', function(event) {
 });
 
 serviceWorker.unregister();
-gsap.from(".header__logo", {duration: 2, y: 270});
 gsap.from(".header__title", {duration: 2, rotationY: 90, opacity:0});
 
 if(document.documentElement.clientWidth >= 845) {
-  gsap.from(".header__item:first-child", {duration: 2, y: -100});
-  gsap.from(".header__item:last-child", {duration: 2, delay: 1, y: -100});
-
-  gsap.from("#board1", {duration: 0.8, marginTop: 380, opacity: 0});
-  gsap.from(" #board1 .planner__title, #board1 .planner__button", {duration: 0.8, delay: 0.8, opacity: 0});
-  gsap.from("#board2", {duration: 0.8, delay: 0.7, marginTop: 380, opacity: 0});
-  gsap.from(" #board2 .planner__title, #board2 .planner__button", {duration: 0.8, delay: 1.5, opacity: 0});
-  gsap.from("#board3", {duration: 0.8, delay: 1.5, marginTop: 380, opacity: 0});
-  gsap.from(" #board3 .planner__title, #board3 .planner__button", {duration: 0.8, delay: 2.3, opacity: 0});
+  gsap.from(".header__item:first-child", {duration: 2, y: 100, opacity: 0});
+  gsap.from(".header__item:last-child", {duration: 2, delay: 1, y: 100, opacity: 0});
 } else {
-  gsap.from(".header__item:first-child", {duration: 2, y: 200});
-  gsap.from(".header__item:last-child", {duration: 2, y: -200});
-
-  gsap.from("#board1", {duration: 0.8, opacity: 0});
-  gsap.from(" #board1 .planner__title, #board1 .planner__button", {duration: 0.8, delay: 0.8, opacity: 0});
-  gsap.from("#board2", {duration: 0.8, delay: 0.7, opacity: 0});
-  gsap.from(" #board2 .planner__title, #board2 .planner__button", {duration: 0.8, delay: 1.5, opacity: 0});
-  gsap.from("#board3", {duration: 0.8, delay: 1.5, opacity: 0});
-  gsap.from(" #board3 .planner__title, #board3 .planner__button", {duration: 0.8, delay: 2.3, opacity: 0});
+  gsap.from(".header__item:first-child", {duration: 2, y: 50});
+  gsap.from(".header__item:last-child", {duration: 2, y: -50});
 }
 
 const anchors = document.querySelectorAll('a[href*="#"]')
@@ -1205,29 +1190,28 @@ for (let anchor of anchors) {
 
 window.addEventListener("scroll", function(event) {
   if(document.documentElement.clientWidth >= 845) {
-    if (document.documentElement.scrollTop > 200 && document.documentElement.scrollTop < 750) {
+    if (document.documentElement.scrollTop > 600 && document.documentElement.scrollTop < 1250) {
       gsap.to(" .advantages__heading", {duration: 2, opacity: 1, rotationX: 0});
-      gsap.to(" .advantages__line", {duration: 3, rotationY: 0});
     }  
-    if (document.documentElement.scrollTop > 400 && document.documentElement.scrollTop < 950) {
+    if (document.documentElement.scrollTop > 900 && document.documentElement.scrollTop < 1450) {
       gsap.to(" #advantages__image--first", {duration: 2, rotationY: 0, opacity: 1});
       gsap.to(".advantages-block--first .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--first .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
     } 
-    if (document.documentElement.scrollTop > 700 && document.documentElement.scrollTop < 1300) {
+    if (document.documentElement.scrollTop > 1200 && document.documentElement.scrollTop < 1800) {
       gsap.to(" #advantages__image--second", {duration: 2, rotationY: 0, opacity: 1});
       gsap.to(".advantages-block--middle .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--middle .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
     } 
-    if (document.documentElement.scrollTop > 1100 && document.documentElement.scrollTop < 1700) {
+    if (document.documentElement.scrollTop > 1600 && document.documentElement.scrollTop < 2200) {
       gsap.to(" #advantages__image--third", {duration: 2, rotationY: 0, opacity: 1});
       gsap.to(".advantages-block--last .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--last .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
     } 
-    if (document.documentElement.scrollTop > 1450 && document.documentElement.scrollTop < 2200) {
+    if (document.documentElement.scrollTop > 1950 && document.documentElement.scrollTop < 2700) {
       gsap.to(".quote-block__title", {duration: 2, opacity: 1, rotateX: 0});
     } 
-    if (document.documentElement.scrollTop > 1900) {
+    if (document.documentElement.scrollTop > 2300) {
       gsap.to(".features-block:first-child .features-block__image", {duration: 2, opacity: 1, rotateY: -0, rotateX: 180});
       gsap.to(".features-block:first-child .features-block__title", {duration: 2, opacity: 1, rotateY: 0});
       gsap.to(".features-block--middle .features-block__image", {duration: 2, opacity: 1, delay: 0.5, rotateY: -180, rotateX: -180});
@@ -1237,29 +1221,28 @@ window.addEventListener("scroll", function(event) {
     }
   }
   if(document.documentElement.clientWidth < 845 && document.documentElement.clientWidth >= 384 ) {
-    if (document.documentElement.scrollTop > 400 && document.documentElement.scrollTop < 900) {
+    if (document.documentElement.scrollTop > 700 && document.documentElement.scrollTop < 1200) {
       gsap.to(" .advantages__heading", {duration: 2, opacity: 1, rotationX: 0});
-      gsap.to(" .advantages__line", {duration: 3, rotationY: 0});
     }  
-    if (document.documentElement.scrollTop > 700 && document.documentElement.scrollTop < 1250) {
+    if (document.documentElement.scrollTop > 1000 && document.documentElement.scrollTop < 1550) {
       gsap.to(" #advantages__image--first", {duration: 2, rotationY: 0, opacity: 1});
       gsap.to(".advantages-block--first .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--first .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
     } 
-    if (document.documentElement.scrollTop > 1100 && document.documentElement.scrollTop < 1700) {
+    if (document.documentElement.scrollTop > 1400 && document.documentElement.scrollTop < 2000) {
       gsap.to(" #advantages__image--second", {duration: 2, rotationY: 0, opacity: 1});
       gsap.to(".advantages-block--middle .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--middle .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
     } 
-    if (document.documentElement.scrollTop > 1500 && document.documentElement.scrollTop < 2150) {
+    if (document.documentElement.scrollTop > 1800 && document.documentElement.scrollTop < 2450) {
       gsap.to(" #advantages__image--third", {duration: 2, rotationY: 0, opacity: 1});
       gsap.to(".advantages-block--last .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--last .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
     } 
-    if (document.documentElement.scrollTop > 1900 && document.documentElement.scrollTop < 2450) {
+    if (document.documentElement.scrollTop > 2200 && document.documentElement.scrollTop < 2750) {
       gsap.to(".quote-block__title", {duration: 2, opacity: 1, rotateX: 0});
     } 
-    if (document.documentElement.scrollTop > 2400) {
+    if (document.documentElement.scrollTop > 2600) {
       gsap.to(".features-block:first-child .features-block__image", {duration: 2, opacity: 1, rotateY: -0, rotateX: 180});
       gsap.to(".features-block:first-child .features-block__title", {duration: 2, opacity: 1, rotateY: 0});
       gsap.to(".features-block--middle .features-block__image", {duration: 2, opacity: 1, delay: 0.5, rotateY: -180, rotateX: -180});
@@ -1271,7 +1254,6 @@ window.addEventListener("scroll", function(event) {
   if(document.documentElement.clientWidth < 384) {
     if (document.documentElement.scrollTop > 600 && document.documentElement.scrollTop < 1000) {
       gsap.to(" .advantages__heading", {duration: 2, opacity: 1, rotationX: 0});
-      gsap.to(" .advantages__line", {duration: 3, rotationY: 0});
     }  
     if (document.documentElement.scrollTop > 800 && document.documentElement.scrollTop < 1450) {
       gsap.to(" #advantages__image--first", {duration: 2, rotationY: 0, opacity: 1});
