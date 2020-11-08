@@ -420,7 +420,7 @@ body {
   width: 330px;
 }
 .planner__textarea:hover {
-  background-color: #f8f9ff;
+  background-color: #f8fdff;
   transition-duration: 0.3s;
 }
 
