@@ -1237,19 +1237,19 @@ window.addEventListener("scroll", function() {
       gsap.to(" .advantages__heading", {duration: 2, opacity: 1, rotationX: 0});
     };
 
-    if (document.documentElement.scrollTop > 900 && document.documentElement.scrollTop < 1450) {
+    if (document.documentElement.scrollTop > 800 && document.documentElement.scrollTop < 1450) {
       gsap.to(" #advantages__image--first", {duration: 2, rotationY: 0, opacity: 1});
       gsap.to(".advantages-block--first .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--first .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
     }; 
 
-    if (document.documentElement.scrollTop > 1200 && document.documentElement.scrollTop < 1800) {
+    if (document.documentElement.scrollTop > 1100 && document.documentElement.scrollTop < 1800) {
       gsap.to(" #advantages__image--second", {duration: 2, rotationY: 0, opacity: 1});
       gsap.to(".advantages-block--middle .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--middle .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
     }; 
 
-    if (document.documentElement.scrollTop > 1600 && document.documentElement.scrollTop < 2200) {
+    if (document.documentElement.scrollTop > 1500 && document.documentElement.scrollTop < 2200) {
       gsap.to(" #advantages__image--third", {duration: 2, rotationY: 0, opacity: 1});
       gsap.to(".advantages-block--last .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--last .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
@@ -1274,19 +1274,19 @@ window.addEventListener("scroll", function() {
       gsap.to(" .advantages__heading", {duration: 2, opacity: 1, rotationX: 0});
     };
 
-    if (document.documentElement.scrollTop > 1000 && document.documentElement.scrollTop < 1550) {
+    if (document.documentElement.scrollTop > 800 && document.documentElement.scrollTop < 1550) {
       gsap.to(" #advantages__image--first", {duration: 2, rotationY: 0, opacity: 1});
       gsap.to(".advantages-block--first .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--first .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
     };
 
-    if (document.documentElement.scrollTop > 1400 && document.documentElement.scrollTop < 2000) {
+    if (document.documentElement.scrollTop > 1200 && document.documentElement.scrollTop < 2000) {
       gsap.to(" #advantages__image--second", {duration: 2, rotationY: 0, opacity: 1});
       gsap.to(".advantages-block--middle .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--middle .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
     };
 
-    if (document.documentElement.scrollTop > 1800 && document.documentElement.scrollTop < 2450) {
+    if (document.documentElement.scrollTop > 1600 && document.documentElement.scrollTop < 2450) {
       gsap.to(" #advantages__image--third", {duration: 2, rotationY: 0, opacity: 1});
       gsap.to(".advantages-block--last .advantages__title", {duration: 2, opacity: 1, rotationY: 0});
       gsap.to(".advantages-block--last .advantages__text", {duration: 2, opacity: 1, rotationY: 0});
