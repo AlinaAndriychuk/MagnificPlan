@@ -16,8 +16,8 @@ body {
 }
 
 .section__line {
-  border: none;
   background-color: #364475;
+  border: none;
   bottom: 0;
   height: 0.5px;
   margin: 0;
@@ -36,8 +36,8 @@ body {
 .header__container {
   box-sizing: border-box;
   height: 550px;
-  min-width: 750px;
   margin-left: auto;
+  min-width: 750px;
   padding-top: 100px;
   width: 60%;
 }
@@ -79,8 +79,8 @@ body {
   height: min-content;
   margin: 0 auto;
   padding: 5px;
-  transform: rotateY(0deg);
   text-transform: uppercase;
+  transform: rotateY(0deg);
   width: fit-content
 }
 
@@ -131,8 +131,8 @@ body {
 }
 
 .planner-bar-small .planner-bar__desk {
-  width: 100%;
   float: none;
+  width: 100%;
 }
 
 .planner-bar-small .planner-bar__add-button--only {
@@ -142,9 +142,9 @@ body {
 
 .planner-bar__menu {
   background-color: transparent;
-  border-top-left-radius: 20%;
-  border-bottom-left-radius: 20%;
   border: 1px solid transparent;
+  border-bottom-left-radius: 20%;
+  border-top-left-radius: 20%;
   display: inline-block;
   cursor: pointer;
   height: 40px;
@@ -152,6 +152,7 @@ body {
   transition-duration: 0.3s;
   width: 40px;
 }
+
 .planner-bar__menu:hover {
   background-clip: border-box;
   background-color: #a4d3db;
@@ -162,16 +163,18 @@ body {
   background-color: #eff8fc;
   outline: none;
 }
+
 .planner-bar__menu-image {
   width: 24px;
 }
+
 .planner-bar__menu-hide {
   display: none;
 }
 
 .planner-bar__desk {
-  box-sizing: border-box;
   border-right: 1px solid #364475;
+  box-sizing: border-box;
   cursor: pointer;
   float: left;
   display: flex;
@@ -183,10 +186,10 @@ body {
 
 .planner-bar__name {
   box-sizing: border-box;
-  margin-right: 1px;
   line-height: 40px;
-  min-width: 129px;
+  margin-right: 1px;
   max-height: 40px;
+  min-width: 129px;
   overflow: hidden;
   padding-left: 8%;
   width: 89%;
@@ -220,9 +223,9 @@ body {
 
 .planner-bar__add-button {
   background-color: transparent;
-  border-top-right-radius: 20%;
-  border-bottom-right-radius: 20%;
   border: 1px solid transparent;
+  border-bottom-right-radius: 20%;
+  border-top-right-radius: 20%;
   cursor: pointer;
   color: #6b8896;
   font-family: 'Inter', sans-serif;
@@ -246,16 +249,16 @@ body {
 .popup__file:focus, 
 .popup__task:focus, 
 .popup__time:focus {
-  border: 1px solid #6b8896;
   background-color: #eff8fc;
+  border: 1px solid #6b8896;
   color: #6b8896;
   outline: none;
 }
 
 .planner-bar__add-button--only {
   background-color: #eff8fc;
-  border-radius: 10%;
   border: 2px dashed #6b8896;
+  border-radius: 10%;
   color: #6b8896 ;
   display: block;
   font-size: 50px;
@@ -273,9 +276,9 @@ body {
 }
 
 .planner__board {
+  background-color: #eff8fc;
   box-sizing: border-box;
   border: 1px solid #6b8896 ;
-  background-color: #eff8fc;
   height: 100%;
   padding: 4px;
   width: 358px; 
@@ -296,8 +299,8 @@ body {
   float: left;
   font-size: 20px;
   height: 27px;
-  line-height: 30px;
   letter-spacing: 4px;
+  line-height: 30px;
   overflow: hidden;
   padding: 3% 1%;
   text-align: center;
@@ -311,12 +314,12 @@ body {
 }
 
 .planner__button {
-  border: none;
   background-color: #eff8fc;
+  border: none;
   cursor: pointer;
-  font-weight: 100;
-  font-size: 16px;
   font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 100;
   padding: 2% 6%;
   text-align: left;
   width: 100%;
@@ -340,14 +343,14 @@ body {
 .planner__task:hover .planner__task-button, 
 .planner__task:hover .planner__task-button--edit, 
 .planner__title-container:hover .planner__task-button--edit {
-  border-radius: 40%;
   background-color: #f8fdff;
+  border-radius: 40%;
   opacity: 1;
 }
 
 .planner__task-button {
-  border: none;
   background-color: transparent;
+  border: none;
   cursor: pointer;
   height: 36px;
   margin: 4px -34px;
@@ -373,8 +376,8 @@ body {
 }
 
 .planner__task-button--edit {
-  border: none;
   background-color: transparent;
+  border: none;
   cursor: pointer;
   height: 36px;
   margin: 4px -70px;
@@ -390,8 +393,8 @@ body {
   cursor: pointer;
   float: left;
   line-height: 20px;
-  min-height: 22px;
   margin: 0px;
+  min-height: 22px;
   padding: 12px 6px 10px;
   text-align: center;
   width: 336px;
@@ -406,8 +409,8 @@ body {
 }
 
 .planner__textarea {
-  border: none;
   background-color: #fefeff;
+  border: none;
   float: left;
   font-size: 16px;
   font-family: 'Inter', sans-serif;
@@ -433,8 +436,8 @@ body {
 }
 
 .planner__palette-button {
-  border: solid 1px transparent;
   background: #365375;
+  border: solid 1px transparent;
   box-shadow: -3px 3px 4px #6b8896;
   height: 45px;
   margin-left: 71px;
@@ -455,8 +458,8 @@ body {
 }
 
 .planner__delete-button {
-  border: none;
   background-color: transparent;
+  border: none;
   bottom: 50px;
   display: none;
   position: fixed;
@@ -474,9 +477,9 @@ body {
 }
 
 .planner__image {
+  margin-top: 10%;
   max-height: 99%;
   max-width: 100%;
-  margin-top: 10%;
   padding-top: 0;
   transition-duration: 0.3s;
 }
@@ -487,8 +490,8 @@ body {
 }
 
 .planner__column-menu {
-  border: none;
   background-color: transparent;
+  border: none;
   cursor: pointer;
   height: 35px;
   margin-top: -36px;
@@ -511,8 +514,8 @@ body {
   cursor: pointer;
   margin-top: -40px;
   right: -120px;
-  position: absolute;
   padding: 5px;
+  position: absolute;
   width: 90px;
   z-index: 1000;
 }
@@ -594,8 +597,8 @@ body {
   left: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  position: fixed;
   padding: 50px 8px;
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 50;
@@ -603,8 +606,8 @@ body {
 
 .popup {
   background: #eff8fc left top;
-  box-shadow: 7px 7px 5px #354963;
   background-size: cover;
+  box-shadow: 7px 7px 5px #354963;
   height: min-content;
   margin: auto;
   padding: 20px;
@@ -619,8 +622,8 @@ body {
 
 .popup .planner-bar__desk {
   border: 1px solid #6b8896;
-  max-width: 300px;
   margin: 10px 0;
+  max-width: 300px;
   width: 100%;
 }
 
@@ -628,18 +631,18 @@ body {
   font-size: 24px;
   letter-spacing: 5px;
   margin-top: 0;
-  text-transform: uppercase;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .popup__task {    
-  box-sizing: border-box;
   border: 1px solid #6b8896;
-  font-size: 26px;
+  box-sizing: border-box;
   font-family: 'Inter', sans-serif;
+  font-size: 26px;
   line-height: 40px;
-  min-height: 44px;
   margin: 0;
+  min-height: 44px;
   padding: 5px;
   resize: none;
   text-align: center;
@@ -667,8 +670,8 @@ body {
 
 .popup__description {
   box-sizing: border-box;
-  font-size: 16px;
   font-family: 'Inter', sans-serif;
+  font-size: 16px;
   min-height: 170px;
   padding: 10px;
   resize: none;
@@ -681,8 +684,8 @@ body {
 }
 
 .popup__time {
-  font-size: 22px;
   font-family: 'Inter', sans-serif;
+  font-size: 22px;
   line-height: 30px;
   height: 30px;
   resize: none;
@@ -723,15 +726,15 @@ body {
 }
 
 .popup__file-label input[type=file] {
-  outline: 0;
   opacity: 0;
+  outline: 0;
   pointer-events: none;
   user-select: none
 }
 
 .popup__file-image {
-  margin: 0 auto 10px;
   height: 40px;
+  margin: 0 auto 10px;
   display: block;
 }
 
@@ -745,12 +748,12 @@ body {
 }
 
 .popup__button {
-  border: 2px #6b8896 solid;
   background-color: #ffffff;
+  border: 2px #6b8896 solid;
   cursor: pointer;
   float: right;
-  font-size: 18px;
   font-family: 'Inter', sans-serif;
+  font-size: 18px;
   letter-spacing: 3px;
   margin: 10px 0 0;
   min-width: 100px;
@@ -766,8 +769,8 @@ body {
 }
 
 .popup__button-change {
-  border: 1px transparent solid;
   background-color: transparent;
+  border: 1px transparent solid;
   cursor: pointer;
   float: left;
   height: 45px;
@@ -780,9 +783,9 @@ body {
 }
 
 .popup__prompt {
-  box-sizing: border-box;
-  box-shadow: -3px 3px 4px #6b8896 ;
   background-color: #cae1f0;
+  box-shadow: -3px 3px 4px #6b8896 ;
+  box-sizing: border-box;
   font-size: 18px;
   margin: 10px 0;
   padding: 10px 0 10px 15px;
@@ -796,11 +799,11 @@ body {
 }
 
 .popup__textarea-board {
+  background-color: transparent;
   border-color: transparent;
   box-sizing: border-box;
-  background-color: transparent;
-  font-size: 26px;
   font-family: 'Inter', sans-serif;
+  font-size: 26px;
   height: 46px;
   line-height: 35px;
   margin: 0;
@@ -813,53 +816,53 @@ body {
 }
 
 .popup__textarea-board:focus {
-  outline: none;
   border: 1px solid #6b8896;
+  outline: none;
 }
 
 .popup__input {
   position: absolute;
-  z-index: -1;
   opacity: 0;
+  z-index: -1;
 }
 
 .popup__input + .popup__label {
-  display: inline-flex;
   align-items: center;
+  display: inline-flex;
   user-select: none;
 }
 
 .popup__input + .popup__label::before {
-  content: '';
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  flex-shrink: 0;
-  flex-grow: 0;
-  border: 1px solid #364475;
-  border-radius: 50%;
-  margin-right: 0.5em;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50%;
+  border: 1px solid #364475;
+  border-radius: 50%;
+  content: '';
+  display: inline-block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 1em;
+  margin-right: 0.5em;
+  width: 1em;
 }
 
 .popup__input:not(:disabled):not(:checked) + .popup__label:hover::before {
   border-color: #ffffff;
 }
  
-
 .popup__input:checked + .popup__label::before {
-  border-color: #364475;
   background-color: #364475;
   background-image: url(backgroundImages/check.png);
   background-size: 65%;
+  border-color: #364475;
+  
 }
 
 .popup__colorSpace {
   background-color: #ffffff;
-  box-shadow: -3px 3px 4px #6b8896;
   border-radius: 20%;
+  box-shadow: -3px 3px 4px #6b8896;
   display: inline-block;
   height: 60px;
   margin: 0px 0 8px 10px;
@@ -889,8 +892,8 @@ body {
 
 .desk-popup .planner__palette-button {
   background-color: #ffffffaf;
-  box-shadow: -3px 3px 4px #6b8896 ;
   border-color: #c2c6df;
+  box-shadow: -3px 3px 4px #6b8896;
   height: 80px;
   margin: 0 0 10px;
   padding-left: 6px;
@@ -946,9 +949,9 @@ body {
 .advantages__image {
   float: right;
   height: 300px;
+  opacity: 0;
   position: absolute;
   transform: rotateY(90deg);
-  opacity: 0;
   width: 50%;
 }
 
@@ -991,9 +994,9 @@ body {
 }
 
 .features {
-  content: "";
   clear: both;
   color: #364475;
+  content: "";
   display: table;
   width: 100%;
 }
@@ -1019,8 +1022,8 @@ body {
 
 .footer {
   background: url(../src/backgroundImages/gradientlight.jpg) #deffd5 center no-repeat fixed;
-  background-size: cover;
   background-blend-mode: darken;
+  background-size: cover;
   height: 140px;
   padding-top: 110px;
   text-align: center;
@@ -1134,8 +1137,8 @@ body {
   }
 
   .planner-bar-small .planner-bar__add-button--only {
-    display: block;
     border-radius: 10%;
+    display: block;
   }
 
   .planner-full-board {
@@ -1214,8 +1217,8 @@ body {
   }
 
   .planner__textarea-container {
-    margin-top: 0;
     margin-bottom: 2px;
+    margin-top: 0;
   }
 
   .planner__textarea {
@@ -1317,8 +1320,8 @@ body {
   #advantages__image--second, 
   #advantages__image--third {
     background-position: center;
-    position: relative;;
     margin: 0;
+    position: relative;
     width: 100%;
   }
 
@@ -1344,8 +1347,8 @@ body {
   .planner__board {
     box-sizing: border-box;
     margin: 0 0 0 1.9%;
-    padding: 1% 2%;
     min-width: 98%;
+    padding: 1% 2%;
   }
 
   .planner__slider-button-container {
@@ -1354,8 +1357,8 @@ body {
 
   .planner__title-container {
     height: 44px;
-    margin-top: 2px;
     margin-bottom: 2px;
+    margin-top: 2px;
   }
 
   .planner__title-container:hover {
@@ -1365,8 +1368,8 @@ body {
   .planner__title-container .planner__task-button--edit {
     background-color: #ffffff;
     box-shadow: -5px 0px 10px #ffffff;
-    margin-top: 0;
     margin-left: -14%;
+    margin-top: 0;
   }
 
   .planner__title {
@@ -1385,8 +1388,8 @@ body {
   } 
 
   .planner__task-text {
-    min-height: 22px;
     margin: 0;
+    min-height: 22px;
     padding: 18px 2.85%;
     width: 64%;
   }
@@ -1401,8 +1404,8 @@ body {
 
   .planner__textarea-container {
     height: 44px;
-    margin-top: 2px;
     margin-bottom: 2px;
+    margin-top: 2px;
   }
 
   .planner__textarea-container .planner__textarea{
@@ -1425,8 +1428,8 @@ body {
   }
 
   .planner__image {
-    max-width: 36px;
     margin: 2% auto;
+    max-width: 36px;
     width: 80%;
   }
 
@@ -1549,11 +1552,3 @@ body {
   }
   
 }
-
-
-
-
-
-
-
-
