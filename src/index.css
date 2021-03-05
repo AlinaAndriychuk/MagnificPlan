@@ -1,6 +1,6 @@
 html {
   max-width: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
   padding-right: 16px;
 }
 
@@ -8,7 +8,8 @@ body {
   font-family: 'Inter', sans-serif;
   letter-spacing: 1px;
   margin: 0;
-  overflow-x: hidden;
+  overflow: hidden;
+  height: 100vh;
 }
 
 *::selection {
@@ -116,7 +117,7 @@ body {
   background: url(backgroundImages/header.jpg) top left no-repeat;
   background-size: cover;
   color: #364475;
-  height: 100%;
+  height: fit-content;
   text-align: center;
   width: 100%;
 }

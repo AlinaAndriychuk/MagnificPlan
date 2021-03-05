@@ -17,7 +17,8 @@ window.onload = () => {
     duration:1,
     display: 'none',
     onComplete: ()=> {
-      document.documentElement.style.overflowY = 'visible';
+      document.body.style.overflowY = 'visible';
+      document.body.style.height = '100%';
       document.documentElement.style.paddingRight = 0;
     }
   })
@@ -100,7 +101,7 @@ function PopupBlock(props) {
   };
 
   if (floated) {
-    document.documentElement.style.overflow = "";
+    document.documentElement.style.overflowY = "visible";
     document.body.style.paddingRight = "0";
 
     return renderButton();
@@ -354,7 +355,7 @@ function MenuBar(props) {
     document.documentElement.style.overflow = "hidden"; 
     return showFullBar();
   } else {
-    document.documentElement.style.overflow = ""; 
+    document.documentElement.style.overflowY = "visible"; 
     return showButton();
   };
 };
@@ -761,7 +762,7 @@ function ChooseBar() {
     colored = false;
     deisplayOfSmallMenu = "";
     document.documentElement.style.paddingRight = "0px";
-    document.documentElement.style.overflow = ""; 
+    document.documentElement.style.overflowY = "visible"; 
     gsap.to(mainDesk.current, {background : mainColor[0]});
     setBoardDetails({boardFullNames: namesOfBoards, showPopup: [], titlesOfMiniBoards: titlesOfBoards, colorsOfBoard: colorsOfFullBoard,colorOfText: colorsOfText, numberOfLists: numberOfColumns, colorOfMainDesk: mainColor, displayOfLists: displays, currentDesk: currentBoard, blockField: boardDetails.blockField});
   };
