@@ -1,6 +1,7 @@
 html {
   max-width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
+  padding-right: 16px;
 }
 
 body {
@@ -13,6 +14,93 @@ body {
 *::selection {
   background: #364475;
   color: #eff8fc;
+}
+
+.preloader {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: #8ecac5;
+  z-index: 100
+}
+
+.loader-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  box-sizing: border-box;
+  height: 99px;
+  width: 70px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  border: 2px solid #ffffff;
+  overflow: hidden;
+  animation: slide 5s infinite alternate ease-in-out;
+}
+
+.loader {
+  position: relative;
+  top: 3px;
+  box-sizing: border-box;
+  height: 89px;
+  width: 58px;
+  margin: 0 auto;
+  padding: 2px;
+  background-color: #000000cb;
+  border: 1px solid #000000;
+  animation: color 5s linear infinite;
+}
+
+.loader__line {
+  margin: 10px 0.5%;
+  border-top: solid #deffd5 2px;
+  animation: line 1s infinite alternate ease-in-out;
+}
+
+.loader__line--dashed {
+  border-top-style: dashed;
+}
+
+.loader__line--second {
+  animation-delay: 0.2s;
+}
+
+.loader__line--third {
+  animation-delay: 0.6s;
+}
+
+.loader__line--forth {
+  animation-delay: 0.4s;
+}
+
+@keyframes line {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 99%
+  }
+}
+
+@keyframes color {
+  0% {
+    background-color: #000000ab;
+  }
+  50% {
+    background-color: #000000;
+  }
+  100% {
+    background-color: #000000ab;
+  }
+}
+
+@keyframes slide {
+  0% {
+    transform: translate(-200%, -50%) rotateY(-50deg) rotateX(20deg)
+  }
+  100% {
+    transform: translate(100%, -50%) rotateY(50deg) rotateX(20deg)
+  }
 }
 
 .section__line {

@@ -6,6 +6,23 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import gsap from 'gsap';
 
+window.onload = () => {
+  gsap.to(".loader-container", {
+    opacity: 0,
+    duration: 1,
+  });
+  gsap.to(".preloader", {
+    opacity: 0,
+    delay: 1,
+    duration:1,
+    display: 'none',
+    onComplete: ()=> {
+      document.documentElement.style.overflowY = 'visible';
+      document.documentElement.style.paddingRight = 0;
+    }
+  })
+}
+
 function PopupBlock(props) {
   const taskName = useRef(null);
   const description = useRef(null);
