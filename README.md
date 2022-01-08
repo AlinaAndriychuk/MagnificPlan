@@ -1,4 +1,4 @@
-# Magnific-plan
+# Magnific Plan
 
 Home page 
 [Link](https://magnific-plan.netlify.app/)
